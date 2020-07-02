@@ -44,7 +44,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IPInfo.cs" />
-    <Compile Include="Supports\ConsoleExtension.cs" />
     <Compile Include="Supports\ScannerArgumentAttribute.cs" />
     <Compile Include="Scanners\IScanner.cs" />
     <Compile Include="Scanners\PingScanner.cs" />
