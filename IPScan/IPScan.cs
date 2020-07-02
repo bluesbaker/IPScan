@@ -11,14 +11,14 @@ using System.Threading.Tasks;
 
 namespace IPScan
 {
-    public class ScannerWizard
+    public class IPScan
     {
-        public ScannerWizard()
+        public IPScan()
         {
             ScanCollection = new List<IScanner>();
         }
 
-        public void Init(Parameters parameters)
+        public void Init(IPScanParameters parameters)
         {
             Parameters = parameters;
         }
@@ -37,6 +37,6 @@ namespace IPScan
         }
 
         public List<IScanner> ScanCollection { get; set; }
-        public Parameters Parameters { get; private set; }
+        public IPScanParameters Parameters { get; private set; }
     }
 }
