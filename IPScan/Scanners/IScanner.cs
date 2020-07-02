@@ -10,7 +10,7 @@ namespace IPScan.Scanners
 {
     public interface IScanner
     {
-        void Init(Parameters parameters);
+        void Init(IPScanParameters parameters);
         Task<IPInfo> Run();
     }
 }

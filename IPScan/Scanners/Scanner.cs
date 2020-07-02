@@ -16,24 +16,24 @@ namespace IPScan.Scanners
             throw new Exception("Application error: Not overridden the scan method");
         }
 
-        public void Init(Parameters parameters)
+        public void Init(IPScanParameters parameters)
         {
             // clear!
-            Parameters.Clear();
+            ScanParameters.Clear();
 
             // default parameters by attribute
-            foreach (var attr in GetType().GetCustomAttributes<DeclarateKeyAttribute>())
+            foreach (var attr in GetType().GetCustomAttributes<ScannerArgumentAttribute>())
             {
-                Parameters[attr.Key] = attr.DefaultValue;
+                ScanParameters[attr.Argument] = attr.DefaultValue;
             }
 
             // init
             foreach(var param in parameters)
             {
-                Parameters[param.Key] = param.Value;
+                ScanParameters[param.Key] = param.Value;
             }
         }
 
-        protected Parameters Parameters { get; set; } = new Parameters();
+        protected IPScanParameters ScanParameters { get; set; } = new IPScanParameters();
     } 
 }
