@@ -11,8 +11,8 @@ using System.Threading.Tasks;
 
 namespace IPScan.Scanners
 {
-    [ScannerArgument("-ip", "Address", null, true)]
-    [ScannerArgument("-t", "Timeout", 1000)]
+    [ScannerKey("-ip", "Address", null, true)]
+    [ScannerKey("-t", "Timeout", 1000)]
     [ScannerResultHeaders("Address", "Status", "Ping")]
     public class PingScanner : Scanner
     {
@@ -21,7 +21,7 @@ namespace IPScan.Scanners
             var ping = new Ping();
 
             // async ping address
-            var reply = await ping.SendPingAsync(base.ScanParameters["-ip"], Int32.Parse(base.ScanParameters["-t"]));
+            var reply = await ping.SendPingAsync(base.ScannerParameters["-ip"].ToString(), Int32.Parse(base.ScannerParameters["-t"].ToString()));
 
             // set result
             var result = new IPInfo()
