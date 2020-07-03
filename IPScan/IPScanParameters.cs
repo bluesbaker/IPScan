@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace IPScan
 {
-    public class IPScanParameters : Dictionary<string, string>
+    public class IPScanParameters : Dictionary<string, object>
     {
         /// <summary>
         /// Parse args[] with keys to Parameters
@@ -15,8 +15,7 @@ namespace IPScan
         /// <param name="defaultKey">Default first key</param>
         /// <param name="defaultValue">Default key value</param>
         /// <returns>arguments collection</returns>
-        public static IPScanParameters Parse(
-            string[] args, string defaultKey = "", string defaultValue = "true")
+        public static IPScanParameters Parse(string[] args, string defaultKey = "", object defaultValue = null)
         {
             var scanParameters = new IPScanParameters();
             string lastKey = defaultKey;
