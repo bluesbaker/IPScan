@@ -36,7 +36,7 @@ namespace IPScan
 
                 LoadingPreview("Scanning " + ipParameters["-ip"], (() => !task.IsCompleted));
 
-                //task.Wait();
+                task.Wait();
                 
                 foreach(var prop in task.Result)
                 {
