@@ -19,21 +19,21 @@ namespace IPScan.Scanners
         public void Init(IPScanParameters parameters)
         {
             // clear!
-            ScanParameters.Clear();
+            ScannerParameters.Clear();
 
             // default parameters by attribute
-            foreach (var attr in GetType().GetCustomAttributes<ScannerArgumentAttribute>())
+            foreach (var scannerKey in GetType().GetCustomAttributes<ScannerKeyAttribute>())
             {
-                ScanParameters[attr.Argument] = attr.DefaultValue;
+                ScannerParameters[scannerKey.TextKey] = scannerKey.DefaultValue?.ToString();
             }
 
             // init
-            foreach(var param in parameters)
+            foreach (var param in parameters)
             {
-                ScanParameters[param.Key] = param.Value;
+                ScannerParameters[param.Key] = param.Value;
             }
         }
 
-        protected IPScanParameters ScanParameters { get; set; } = new IPScanParameters();
+        protected IPScanParameters ScannerParameters { get; private set; } = new IPScanParameters();
     } 
 }
