@@ -17,18 +17,28 @@ namespace IPScan.Scanners
     public class PingScanner : Scanner
     {
         public override async Task<IPInfo> Run()
-        {
-            var ping = new Ping();
+        {           
+            var result = new IPInfo();
 
-            // async ping address
-            var reply = await ping.SendPingAsync(base.ScannerParameters["-ip"].ToString(), Int32.Parse(base.ScannerParameters["-t"].ToString()));
-
-            // set result
-            var result = new IPInfo()
+            try
             {
-                ["Address"] = reply.Address.ToString(),
-                ["Status"] = reply.Status.ToString()
-            };
+                var ping = new Ping();
+                var address = ScannerParameters["-ip"].ToString();
+                var timeout = int.Parse(ScannerParameters["-t"].ToString());
+
+                // request
+                var reply = await ping.SendPingAsync(address, timeout);
+
+                // response
+                result["Address"] = reply.Address.ToString();
+                result["Status"] = reply.Status.ToString();
+                result["Ping"] = reply.RoundtripTime.ToString();
+            }
+            catch(PingException ex)
+            {
+                throw new ScannerException(ex.Message, ex);
+            }
+
             return result;
         }
 
