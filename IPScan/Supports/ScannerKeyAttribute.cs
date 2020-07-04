@@ -21,13 +21,13 @@ namespace IPScan.Supports
         /// <param name="defaultValue">Default value</param>
         public ScannerKeyAttribute(string key, string description, object defaultValue, bool isRequired = false)
         {
-            TextKey = key;
+            Key = key;
             Description = description;
             DefaultValue = defaultValue;
             IsRequired = isRequired;
         }
 
-        public string TextKey { get; private set; }
+        public string Key { get; private set; }
         public string Description { get; private set; }
         public object DefaultValue { get; private set; }
         public bool IsRequired { get; private set; }
