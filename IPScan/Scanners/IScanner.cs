@@ -11,6 +11,7 @@ namespace IPScan.Scanners
     public interface IScanner
     {
         void Init(IPScanParameters parameters);
+        string Help(string key = "");
         Task<IPInfo> Run();
     }
 }
