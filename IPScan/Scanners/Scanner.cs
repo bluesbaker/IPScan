@@ -13,27 +13,64 @@ namespace IPScan.Scanners
     {
         public virtual Task<IPInfo> Run()
         {
-            throw new Exception("Application error: Not overridden the scan method");
+            throw new Exception("Not overridden the scan method");
         }
 
         public void Init(IPScanParameters parameters)
         {
-            // clear!
+            var filtredParams = from p in parameters
+                                where GetKeyAttribute(p.Key) != null
+                                where p.Value != null
+                                select p;
+
+            // initialization
             ScannerParameters.Clear();
-
-            // default parameters by attribute
-            foreach (var scannerKey in GetType().GetCustomAttributes<ScannerKeyAttribute>())
+            foreach (var attr in GetKeyAttributes())
             {
-                ScannerParameters[scannerKey.TextKey] = scannerKey.DefaultValue?.ToString();
-            }
-
-            // init
-            foreach (var param in parameters)
-            {
-                ScannerParameters[param.Key] = param.Value;
+                // external param or default
+                var param =
+                    filtredParams.FirstOrDefault(p => p.Key == attr.Key).Value ?? attr.DefaultValue;
+                
+                // param or exception
+                ScannerParameters[attr.Key] =
+                    param ?? throw new ScannerException($"Not exist '{attr.Key}' key in required parameters");    
             }
         }
 
+        public string Help(string key = "")
+        {
+            if (key != String.Empty)
+            {
+                return GetKeyAttribute(key).Description;
+            }
+            else
+            {
+                string result = String.Empty;
+                foreach(var attr in GetKeyAttributes())
+                {
+                    result += $"\t{attr.Key}\t- {attr.Description}\n";
+                }
+
+                return result;
+            }
+        }
+
+        private ScannerKeyAttribute GetKeyAttribute(string key)
+        {
+            var attributes = GetType().GetCustomAttributes<ScannerKeyAttribute>();
+            return attributes.FirstOrDefault(a => a.Key == key);
+        }
+
+        private IEnumerable<ScannerKeyAttribute> GetKeyAttributes() => GetType().GetCustomAttributes<ScannerKeyAttribute>();
+
         protected IPScanParameters ScannerParameters { get; private set; } = new IPScanParameters();
-    } 
+    }
+    
+    public class ScannerException : Exception
+    {
+        public ScannerException(string message, Exception innerException = null) : base(message, innerException)
+        {
+            // your advertisement could be here...
+        }
+    }
 }
