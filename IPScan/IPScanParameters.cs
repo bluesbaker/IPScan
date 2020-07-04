@@ -20,7 +20,12 @@ namespace IPScan
             var scanParameters = new IPScanParameters();
             string lastKey = defaultKey;
 
-            foreach (string arg in args)
+            // filter
+            var arguments = from a in args
+                            where a != String.Empty
+                            select a;
+
+            foreach (string arg in arguments)
             {
                 // arg is key
                 if (arg[0] == '-')
