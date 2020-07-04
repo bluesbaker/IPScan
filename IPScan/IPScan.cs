@@ -15,13 +15,13 @@ namespace IPScan
     {
         public IPScan()
         {
-            ScanCollection = new List<IScanner>();
+            ScannerCollection = new List<IScanner>();
         }
 
         public void Init(IPScanParameters parameters)
         {
             ScanParameters = parameters;
-            foreach(var scan in ScanCollection)
+            foreach(var scan in ScannerCollection)
             {
                 scan.Init(parameters);
             }
@@ -30,17 +30,16 @@ namespace IPScan
         public async Task<IPInfo> Run()
         { 
             IPInfo result = new IPInfo();
-            foreach (IScanner scan in ScanCollection)
+            foreach (IScanner scanner in ScannerCollection)
             {
-                scan.Init(ScanParameters);
-                result = await scan.Run();
-                Thread.Sleep(1000);
-                //Console.WriteLine("\n" + result["Status"]);                
+                scanner.Init(ScanParameters);
+                var scanResult = await scanner.Run();
+                result.Merge(scanResult);               
             }
             return result;
         }
 
-        public List<IScanner> ScanCollection { get; set; }
+        public List<IScanner> ScannerCollection { get; set; }
         public IPScanParameters ScanParameters { get; private set; }
     }
 }
