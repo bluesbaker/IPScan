@@ -46,6 +46,7 @@ namespace IPScan.Scanners
             else
             {
                 string result = String.Empty;
+
                 foreach(var attr in GetKeyAttributes())
                 {
                     result += $"\t{attr.Key}\t- {attr.Description}\n";
