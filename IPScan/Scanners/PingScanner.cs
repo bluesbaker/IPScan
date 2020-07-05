@@ -36,7 +36,7 @@ namespace IPScan.Scanners
             }
             catch(PingException ex)
             {
-                throw new ScannerException(ex.Message, ex);
+                throw new ScannerException($"{ex.Message} -> {ex.InnerException.Message}", ex);
             }
 
             return result;
