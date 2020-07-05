@@ -35,7 +35,7 @@ namespace IPScan
 
                     task = ipScan.Run();
 
-                    ViewLoading("Scanning " + ipParameters["-ip"], (() => !task.IsCompleted));
+                    RenderLoading("Scanning " + ipParameters["-ip"], (() => !task.IsCompleted));
 
                     task.Wait();
 
@@ -46,30 +46,9 @@ namespace IPScan
 
                     Console.WriteLine();
                 }                
-                catch
+                catch(AggregateException exc)
                 {
-                    foreach(var exception in task.Exception.InnerExceptions)
-                    {
-                        try
-                        {
-                            throw exception;
-                        }
-                        catch (ScannerException exc)
-                        {
-                            ViewError("Scanner error", exc.InnerException.Message);
-                            // view help
-                            Console.Write("Help:");
-                            foreach (var scan in ipScan.ScannerCollection)
-                            {
-                                Console.WriteLine(scan.Help());
-                            }
-                        }
-                        catch (Exception exc)
-                        {
-                            ViewError("System error", exc.Message);
-                        }
-                    }
-                    //ViewError("System error", ex.InnerException.Message);
+                    ErrorViewer(exc.InnerExceptions);
                 }
             }           
             
@@ -78,7 +57,42 @@ namespace IPScan
         }
 
         #region Private Methods
-        private static void ViewError(string title, string message)
+        private static void ErrorViewer(ICollection<Exception> exceptions)
+        {
+            foreach (var exception in exceptions)
+            {
+                try
+                {
+                    throw exception;
+                }
+                catch (ScannerException exc)
+                {
+                    RenderError("Scanner error", exc.Message);
+                    // TODO: view help
+                }
+                catch (Exception exc)
+                {
+                    RenderError("System error", exc.Message);
+                }
+            }
+        }
+
+        private static void RenderHelp()
+        {
+            throw new Exception("Method is not implemented");
+        }
+
+        private static void RenderResponse(IPInfo ipInfo)
+        {
+
+        }
+
+        private static void RenderResponseHeaders(IPInfo ipInfo)
+        {
+
+        }
+
+        private static void RenderError(string title, string message)
         {
             Console.BackgroundColor = ConsoleColor.DarkRed;
             Console.ForegroundColor = ConsoleColor.White;
@@ -87,7 +101,7 @@ namespace IPScan
             Console.WriteLine($" {message} ");
         }
 
-        private static void ViewLoading(string title, Func<bool> predicate, int pause = 100, int dotCount = 3)
+        private static void RenderLoading(string title, Func<bool> predicate, int pause = 100, int dotCount = 3)
         {
             int dots = 0;
 
