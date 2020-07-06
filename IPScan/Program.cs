@@ -39,6 +39,7 @@ namespace IPScan
 
                     task.Wait();
 
+                    RenderResponseHeaders(task.Result);
                     RenderResponse(task.Result);
 
                     Console.WriteLine();
@@ -83,14 +84,21 @@ namespace IPScan
         {
             foreach(var field in ipInfo)
             {
-                Console.Write($"{field.Value}\t");
+                Console.Write($"{field.Value}\t          ");
             }
             Console.WriteLine();
         }
 
         private static void RenderResponseHeaders(IPInfo ipInfo)
         {
-
+            Console.BackgroundColor = ConsoleColor.DarkBlue;
+            Console.ForegroundColor = ConsoleColor.White;
+            foreach (var field in ipInfo)
+            {
+                Console.Write($"{field.Key}\t          ");
+            }
+            Console.ResetColor();
+            Console.WriteLine();
         }
 
         private static void RenderError(string title, string message)
