@@ -84,7 +84,11 @@ namespace IPScan
 
         private static void RenderResponse(IPInfo ipInfo)
         {
-
+            foreach(var field in ipInfo)
+            {
+                Console.Write($"{field.Value}\t");
+            }
+            Console.WriteLine();
         }
 
         private static void RenderResponseHeaders(IPInfo ipInfo)
