@@ -39,10 +39,7 @@ namespace IPScan
 
                     task.Wait();
 
-                    foreach (var prop in task.Result)
-                    {
-                        Console.Write(prop.Value + "\t\t|");
-                    }
+                    RenderResponse(task.Result);
 
                     Console.WriteLine();
                 }                
