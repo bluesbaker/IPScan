@@ -17,9 +17,19 @@ namespace IPScan
         static void Main(string[] args)
         {
             Console.WriteLine(welcomeMessage);
+
+            TerminalStream();
+            
+            Console.Write("Press any key to exit...");
+            Console.ReadLine();
+        }
+
+        #region Private Methods
+        private static void TerminalStream()
+        {
             string parametersLine = String.Empty;
 
-            while(parametersLine.ToLower().Trim() != "q")
+            while (parametersLine.ToLower().Trim() != "q")
             {
                 Task<IPInfo> task = null;
                 IPScan ipScan = new IPScan();
@@ -38,25 +48,16 @@ namespace IPScan
                     RenderLoading("Scanning " + ipParameters["-ip"], (() => !task.IsCompleted));
 
                     task.Wait();
-                    
+
                     ResultViewer(task.Result);
 
                     Console.WriteLine();
-                }                
-                catch(AggregateException exc)
+                }
+                catch (AggregateException exc)
                 {
                     ErrorViewer(exc.InnerExceptions);
                 }
-            }           
-            
-            Console.Write("Press any key to exit...");
-            Console.ReadLine();
-        }
-
-        #region Private Methods
-        private static void TerminalStream()
-        {
-
+            }
         }
 
         private static void ResultViewer(IPInfo ipInfo)
