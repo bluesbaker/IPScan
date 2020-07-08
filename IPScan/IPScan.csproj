@@ -54,6 +54,7 @@
     <Compile Include="Supports\IPAddressExtension.cs" />
     <Compile Include="IPScanParameters.cs" />
     <Compile Include="Supports\ScannerResultHeadersAttribute.cs" />
+    <Compile Include="TerminalStream.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
