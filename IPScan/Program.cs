@@ -16,6 +16,7 @@ namespace IPScan
     {
         static void Main(string[] args)
         {
+            Console.Title = "IPScan";
             Console.WriteLine(welcomeMessage);
 
             TerminalStream.Run();
