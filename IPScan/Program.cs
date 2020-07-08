@@ -39,8 +39,8 @@ namespace IPScan
 
                     task.Wait();
 
-                    RenderResponseHeaders(task.Result);
-                    RenderResponse(task.Result);
+                    
+                    ResultViewer(task.Result);
 
                     Console.WriteLine();
                 }                
@@ -57,7 +57,8 @@ namespace IPScan
         #region Private Methods
         private static void ResultViewer(IPInfo ipInfo)
         {
-
+            RenderResponseHeaders(ipInfo);
+            RenderResponse(ipInfo);
         }
 
         private static void ErrorViewer(ICollection<Exception> exceptions)
