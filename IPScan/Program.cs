@@ -38,7 +38,6 @@ namespace IPScan
                     RenderLoading("Scanning " + ipParameters["-ip"], (() => !task.IsCompleted));
 
                     task.Wait();
-
                     
                     ResultViewer(task.Result);
 
