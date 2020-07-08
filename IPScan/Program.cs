@@ -55,6 +55,11 @@ namespace IPScan
         }
 
         #region Private Methods
+        private static void ResultViewer(IPInfo ipInfo)
+        {
+
+        }
+
         private static void ErrorViewer(ICollection<Exception> exceptions)
         {
             foreach (var exception in exceptions)
@@ -80,22 +85,32 @@ namespace IPScan
             throw new Exception("Method is not implemented");
         }
 
-        private static void RenderResponse(IPInfo ipInfo)
+        private static void RenderResponse(IPInfo ipInfo, int fieldWidth = 20)
         {
             foreach(var field in ipInfo)
             {
-                Console.Write($"{field.Value}\t          ");
+                Console.Write($"{field.Value}");
+
+                for(int i = 0; i < fieldWidth-field.Value.Length; i++)
+                {
+                    Console.Write(" ");
+                }
             }
             Console.WriteLine();
         }
 
-        private static void RenderResponseHeaders(IPInfo ipInfo)
+        private static void RenderResponseHeaders(IPInfo ipInfo, int fieldWidth = 20)
         {
             Console.BackgroundColor = ConsoleColor.DarkBlue;
             Console.ForegroundColor = ConsoleColor.White;
             foreach (var field in ipInfo)
             {
-                Console.Write($"{field.Key}\t          ");
+                Console.Write($"{field.Key}");
+
+                for (int i = 0; i < fieldWidth - field.Key.Length; i++)
+                {
+                    Console.Write(" ");
+                }
             }
             Console.ResetColor();
             Console.WriteLine();
