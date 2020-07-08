@@ -54,6 +54,11 @@ namespace IPScan
         }
 
         #region Private Methods
+        private static void TerminalStream()
+        {
+
+        }
+
         private static void ResultViewer(IPInfo ipInfo)
         {
             RenderResponseHeaders(ipInfo);
