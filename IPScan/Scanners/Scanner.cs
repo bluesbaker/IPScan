@@ -18,7 +18,7 @@ namespace IPScan.Scanners
 
         public void Init(IPScanParameters parameters)
         {
-            var filtredParams = from p in parameters
+            var filtredParameters = from p in parameters
                                 where GetKeyAttribute(p.Key) != null
                                 where p.Value != null
                                 select p;
@@ -29,7 +29,7 @@ namespace IPScan.Scanners
             {
                 // external param or default
                 var param =
-                    filtredParams.FirstOrDefault(p => p.Key == attr.Key).Value ?? attr.DefaultValue;
+                    filtredParameters.FirstOrDefault(p => p.Key == attr.Key).Value ?? attr.DefaultValue;
                 
                 // param or exception
                 ScannerParameters[attr.Key] =
