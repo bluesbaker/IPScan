@@ -31,7 +31,7 @@ namespace IPScan
                 if (arg[0] == '-')
                 {
                     lastKey = arg;
-                    scanParameters[lastKey] = defaultValue;  // set default value
+                    scanParameters[lastKey] = defaultValue;
                 }
                 // or value
                 else if (lastKey != String.Empty)
