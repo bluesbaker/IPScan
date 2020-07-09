@@ -157,5 +157,10 @@ namespace IPScan
             // clear title
             WriteBackspace(title.Length);
         }
+
+        private static void RenderAbout()
+        {
+            throw new Exception("Not implemented method");
+        }
     }
 }
