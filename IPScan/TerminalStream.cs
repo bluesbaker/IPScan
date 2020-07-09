@@ -62,7 +62,7 @@ namespace IPScan
                 catch (ScannerException exc)
                 {
                     RenderError("Scanner error", exc.Message);
-                    // TODO: view help
+                    RenderHelp();
                 }
                 catch (Exception exc)
                 {
@@ -74,9 +74,9 @@ namespace IPScan
         private static void RenderHelp()
         {
             string helpString =
-                "Usage:\t-help or --help\n" +
-                "\t\t-ip address\n" +
-                "\t\t-t timeout";
+                "Usage:\t--help\t- FAQ\n" +
+                "\t-ip\t- address or range\n" +
+                "\t-t\t- timeout";
             Console.WriteLine(helpString);
         }
 
