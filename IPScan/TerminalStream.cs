@@ -73,7 +73,11 @@ namespace IPScan
 
         private static void RenderHelp()
         {
-            throw new Exception("Method is not implemented");
+            string helpString =
+                "Usage:\t-help or --help\n" +
+                "\t\t-ip address\n" +
+                "\t\t-t timeout";
+            Console.WriteLine(helpString);
         }
 
         private static void RenderResponse(IPInfo ipInfo, int fieldWidth = 20)
