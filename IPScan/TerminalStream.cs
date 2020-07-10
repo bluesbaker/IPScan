@@ -10,38 +10,68 @@ namespace IPScan
 {
     public static class TerminalStream
     {
+        static IPScan ipScan;
+
         public static void Run()
         {
+            // Init
+            ipScan = new IPScan();
+            ipScan.ScannerCollection.Add(new PingScanner());
+
             string parametersLine = String.Empty;
 
-            while (parametersLine.ToLower().Trim() != "q")
+            while (TryCommand(parametersLine))
             {
-                Task<IPInfo> task = null;
-                IPScan ipScan = new IPScan();
-                ipScan.ScannerCollection.Add(new PingScanner());
-
                 Console.Write("> ");
                 parametersLine = Console.ReadLine();
+            }
+        }
 
-                try
+        private static bool TryCommand(string commandLine)
+        {
+            var parameters = IPScanParameters.Parse(commandLine.Split(' '), "-ip");
+
+            foreach(var param in parameters)
+            {
+                switch (param.Key)
                 {
-                    var ipParameters = IPScanParameters.Parse(parametersLine.Split(' '), "-ip");
-                    ipScan.Init(ipParameters);
-
-                    task = ipScan.Run();
-
-                    RenderLoading("Scanning " + ipParameters["-ip"], (() => !task.IsCompleted));
-
-                    task.Wait();
-
-                    ResultViewer(task.Result);
-
-                    Console.WriteLine();
+                    case "--help":
+                        RenderHelp();
+                        return true;
+                    case "--about":
+                        RenderAbout();
+                        return true;
+                    case "-quit":
+                        return false;
+                    default:
+                        RenderScan(parameters);
+                        return true;
                 }
-                catch (AggregateException exc)
-                {
-                    ErrorViewer(exc.InnerExceptions);
-                }
+            }           
+
+            return true;
+        }
+
+        private static void RenderScan(IPScanParameters parameters)
+        {
+            try
+            {
+                Task<IPInfo> task = null;
+
+                ipScan.Init(parameters);
+                task = ipScan.Run();
+
+                RenderLoading("Scanning " + parameters["-ip"], (() => !task.IsCompleted));
+
+                task.Wait();
+
+                ResultViewer(task.Result);
+
+                Console.WriteLine();
+            }
+            catch (AggregateException exc)
+            {
+                ErrorViewer(exc.InnerExceptions);
             }
         }
 
@@ -74,10 +104,23 @@ namespace IPScan
         private static void RenderHelp()
         {
             string helpString =
-                "Usage:\t--help\t- FAQ\n" +
-                "\t-ip\t- address or range\n" +
-                "\t-t\t- timeout";
-            Console.WriteLine(helpString);
+                "IPScan:\n" +
+                "\t--help\t- FAQ\n" +
+                "\t--clear\t- clear terminal\n\n";
+
+            foreach (var scanner in ipScan.ScannerCollection)
+            {
+                helpString += $"{scanner}:\n";
+                foreach(var attr in scanner.GetKeyAttributes())
+                {
+                    helpString += $"\t{attr.Key}\t- {attr.Description}\n";
+                }
+                helpString += "\n";
+            }
+            
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.Write(helpString);
+            Console.ResetColor();
         }
 
         private static void RenderResponse(IPInfo ipInfo, int fieldWidth = 20)
@@ -160,7 +203,11 @@ namespace IPScan
 
         private static void RenderAbout()
         {
-            throw new Exception("Not implemented method");
+            Console.BackgroundColor = ConsoleColor.DarkBlue;
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write("Author");
+            Console.ResetColor();
+            Console.WriteLine(" github.com/bluesbaker\n");
         }
     }
 }
