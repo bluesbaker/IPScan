@@ -29,6 +29,6 @@ namespace IPScan
             $"IPScan – scanning ip-address\n" +
             $"----------------------------\n" +
             "Usage:\t192.168.0.1-192.168.0.255\n" +
-            "Help:\t--help or -help\n";       
+            "Help:\t--help\n";       
     }
 }
