@@ -12,6 +12,8 @@ namespace IPScan.Scanners
     {
         void Init(IPScanParameters parameters);
         string Help(string key = "");
+        ScannerKeyAttribute GetKeyAttribute(string key);
+        IEnumerable<ScannerKeyAttribute> GetKeyAttributes();
         Task<IPInfo> Run();
     }
 }

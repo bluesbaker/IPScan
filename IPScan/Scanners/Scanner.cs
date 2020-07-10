@@ -56,13 +56,13 @@ namespace IPScan.Scanners
             }
         }
 
-        private ScannerKeyAttribute GetKeyAttribute(string key)
+        public ScannerKeyAttribute GetKeyAttribute(string key)
         {
             var attributes = GetType().GetCustomAttributes<ScannerKeyAttribute>();
             return attributes.FirstOrDefault(a => a.Key == key);
         }
 
-        private IEnumerable<ScannerKeyAttribute> GetKeyAttributes() => GetType().GetCustomAttributes<ScannerKeyAttribute>();
+        public IEnumerable<ScannerKeyAttribute> GetKeyAttributes() => GetType().GetCustomAttributes<ScannerKeyAttribute>();
 
         protected IPScanParameters ScannerParameters { get; private set; } = new IPScanParameters();
     }
