@@ -13,7 +13,7 @@ namespace IPScan.Scanners
 {
     [ScannerKey("-ip", "Address", null, true)]
     [ScannerKey("-t", "Timeout", 1000)]
-    [ScannerResultHeaders("Address", "Status", "Ping")]
+    [ScannerResultHeaders("PingScanner", new[]{"Address", "Status", "Ping"})]
     public class PingScanner : Scanner
     {
         public override async Task<IPInfo> Run()
