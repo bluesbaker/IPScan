@@ -71,7 +71,11 @@ namespace IPScan
             }
             catch (AggregateException exc)
             {
-                ErrorViewer(exc.InnerExceptions);
+                ErrorViewer(exc.InnerExceptions.ToArray());
+            }
+            catch (Exception exc)
+            {
+                ErrorViewer(exc);
             }
         }
 
@@ -81,7 +85,7 @@ namespace IPScan
             RenderResponse(ipInfo);
         }
 
-        private static void ErrorViewer(ICollection<Exception> exceptions)
+        private static void ErrorViewer(params Exception[] exceptions)
         {
             foreach (var exception in exceptions)
             {
@@ -91,12 +95,12 @@ namespace IPScan
                 }
                 catch (ScannerException exc)
                 {
-                    RenderError("Scanner error", exc.Message);
+                    RenderError("Scanner error", exc);
                     RenderHelp();
                 }
                 catch (Exception exc)
                 {
-                    RenderError("System error", exc.Message);
+                    RenderError("System error", exc);
                 }
             }
         }
@@ -154,13 +158,13 @@ namespace IPScan
             Console.WriteLine();
         }
 
-        private static void RenderError(string title, string message)
+        private static void RenderError(string title, Exception exc)
         {
             Console.BackgroundColor = ConsoleColor.DarkRed;
             Console.ForegroundColor = ConsoleColor.White;
             Console.Write(title);
             Console.ResetColor();
-            Console.WriteLine($" {message} ");
+            Console.WriteLine($" {exc.Message} ");
         }
 
         private static void RenderLoading(string title, Func<bool> predicate, int pause = 100, int dotCount = 3)

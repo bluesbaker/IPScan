@@ -9,7 +9,7 @@ namespace IPScan.Supports
 {
     public static class IPAddressExtension
     {
-        public static List<IPAddress> Range(this IPAddress startRange, IPAddress endRange)
+        public static IEnumerable<IPAddress> Range(this IPAddress startRange, IPAddress endRange)
         {
             var result = new List<IPAddress>();
 
