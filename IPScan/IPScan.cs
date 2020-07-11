@@ -20,7 +20,6 @@ namespace IPScan
 
         public void Init(IPScanParameters parameters)
         {
-            ScanParameters = parameters;
             foreach(var scan in ScannerCollection)
             {
                 scan.Init(parameters);
@@ -28,17 +27,18 @@ namespace IPScan
         }
 
         public async Task<IPInfo> Run()
-        { 
+        {
             IPInfo result = new IPInfo();
             foreach (IScanner scanner in ScannerCollection)
             {
                 var scanResult = await scanner.Run();
-                result.Merge(scanResult);               
+                result.Merge(scanResult);
             }
             return result;
         }
 
         public List<IScanner> ScannerCollection { get; set; }
-        public IPScanParameters ScanParameters { get; private set; }
+
+        public event Action<IPInfo> ResultAccepted;
     }
 }
