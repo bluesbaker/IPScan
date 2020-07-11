@@ -32,7 +32,6 @@ namespace IPScan
             IPInfo result = new IPInfo();
             foreach (IScanner scanner in ScannerCollection)
             {
-                scanner.Init(ScanParameters);
                 var scanResult = await scanner.Run();
                 result.Merge(scanResult);               
             }
