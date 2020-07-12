@@ -23,11 +23,11 @@ namespace IPScan.Scanners
             try
             {
                 var ping = new Ping();
-                var address = ScannerParameters["-ip"].ToString();
+                var host = ScannerParameters["-ip"].ToString();
                 var timeout = int.Parse(ScannerParameters["-t"].ToString());
 
-                // request
-                var reply = await ping.SendPingAsync(address, timeout);
+                // request                
+                var reply = await ping.SendPingAsync(host, timeout);               
 
                 // response
                 result["Address"] = reply.Address.ToString();

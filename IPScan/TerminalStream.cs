@@ -1,7 +1,9 @@
 ﻿using IPScan.Scanners;
+using IPScan.Supports;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -44,7 +46,7 @@ namespace IPScan
                     case "-quit":
                         return false;
                     default:
-                        RenderScan(parameters);
+                        TryScan(parameters);
                         return true;
                 }
             }           
@@ -52,20 +54,38 @@ namespace IPScan
             return true;
         }
 
-        private static void RenderScan(IPScanParameters parameters)
+        private static void TryScan(IPScanParameters parameters)
         {
             try
             {
-                Task<IPInfo> task = null;
+                var hosts = parameters["-ip"].ToString().Split('-');
+                var fromIp = IPAddress.Parse(hosts[0]);
+                var toIp = IPAddress.Parse(hosts[hosts.Length - 1]);
+                var range = fromIp.Range(toIp);
 
-                ipScan.Init(parameters);
-                task = ipScan.Run();
+                var resultCount = 0;
 
-                RenderLoading("Scanning " + parameters["-ip"], (() => !task.IsCompleted));
+                foreach(var ip in range)
+                {
+                    // copy parameters to local parameters with single ip
+                    var localParameters = parameters.Copy(new[] { "-ip", ip.ToString() });
 
-                task.Wait();
+                    ipScan.Init(localParameters);
+                    Task<IPInfo> task = ipScan.Run();
 
-                ResultViewer(task.Result);
+                    RenderLoading("Scanning " + localParameters["-ip"], (() => !task.IsCompleted));
+
+                    task.Wait();
+
+                    var result = task.Result;
+
+                    if (result["Status"] == "Success")
+                    {
+                        resultCount++;
+                        var isFirstResult = resultCount == 1 ? true : false;
+                        ResultViewer(result, isFirstResult);
+                    }
+                }
 
                 Console.WriteLine();
             }
@@ -79,10 +99,13 @@ namespace IPScan
             }
         }
 
-        private static void ResultViewer(IPInfo ipInfo)
+        private static void ResultViewer(IPInfo ipInfo, bool hasHeadersInfo = false)
         {
-            RenderResponseHeaders(ipInfo);
-            RenderResponse(ipInfo);
+            if (hasHeadersInfo)
+            {
+                RenderResponseHeaders(ipInfo);
+            }
+            RenderResponse(ipInfo);       
         }
 
         private static void ErrorViewer(params Exception[] exceptions)
@@ -100,7 +123,7 @@ namespace IPScan
                 }
                 catch (Exception exc)
                 {
-                    RenderError("System error", exc);
+                    RenderError("System error`", exc);
                 }
             }
         }

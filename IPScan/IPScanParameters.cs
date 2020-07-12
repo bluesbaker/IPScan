@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace IPScan
 {
-    public class IPScanParameters : Dictionary<string, object>
+    public class IPScanParameters : Dictionary<string, object>, ICloneable
     {
         /// <summary>
         /// Parse args[] with keys to Parameters
@@ -42,5 +42,25 @@ namespace IPScan
 
             return scanParameters;
         } 
+
+        public IPScanParameters Copy(params string[][] changes)
+        {
+            var parametersClone = (IPScanParameters)this.Clone();
+            foreach(var field in changes)
+            {
+                parametersClone[field[0]] = field[1];
+            }
+            return parametersClone;
+        }
+
+        public object Clone()
+        {
+            var scanParameters = new IPScanParameters();
+            foreach (var field in this)
+            {
+                scanParameters[field.Key] = field.Value;
+            }
+            return scanParameters;
+        }
     }
 }
