@@ -1,5 +1,4 @@
-﻿using IPScan.Scanners;
-using IPScan.Supports;
+﻿using IPScan.Supports;
 using System;
 using System.Collections.Generic;
 using System.Linq;
