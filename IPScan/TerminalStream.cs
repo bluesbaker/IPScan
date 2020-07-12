@@ -1,9 +1,9 @@
-﻿using IPScan.Scanners;
-using IPScan.Supports;
+﻿using IPScan.Supports;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,36 +12,31 @@ namespace IPScan
 {
     public static class TerminalStream
     {
-        static IPScan ipScan;
-
-        public static void Run()
+        public static void Run(TerminalParameters beginParameters)
         {
-            // Init
-            ipScan = new IPScan();
-            ipScan.ScannerCollection.Add(new PingScanner());
+            var parameters = beginParameters;
 
-            string parametersLine = String.Empty;
-
-            while (TryCommand(parametersLine))
+            while (TryCommand(parameters))
             {
                 Console.Write("> ");
-                parametersLine = Console.ReadLine();
+
+                var commandLine = Console.ReadLine().Split(' ');
+                parameters = TerminalParameters.Parse(commandLine, "-ip");
             }
         }
 
-        private static bool TryCommand(string commandLine)
+        #region Controls
+        private static bool TryCommand(TerminalParameters parameters)
         {
-            var parameters = IPScanParameters.Parse(commandLine.Split(' '), "-ip");
-
             foreach(var param in parameters)
             {
                 switch (param.Key)
                 {
                     case "--help":
-                        RenderHelp();
+                        HelpViewer();
                         return true;
                     case "--about":
-                        RenderAbout();
+                        AboutViewer();
                         return true;
                     case "-quit":
                         return false;
@@ -54,40 +49,45 @@ namespace IPScan
             return true;
         }
 
-        private static void TryScan(IPScanParameters parameters)
+        private static void TryScan(TerminalParameters commandParams)
         {
             try
             {
-                var hosts = parameters["-ip"].ToString().Split('-');
-                var fromIp = IPAddress.Parse(hosts[0]);
-                var toIp = IPAddress.Parse(hosts[hosts.Length - 1]);
-                var range = fromIp.Range(toIp);
+                // parse one or more ip adresses to collection
+                var addresses = commandParams["-ip"].Split('-');
+                var ipCollection = IPAddressRange.Get(addresses[0], addresses[addresses.Length - 1]);
 
                 var resultCount = 0;
 
-                foreach(var ip in range)
+                // scanning the collection
+                foreach(var ip in ipCollection)
                 {
-                    // copy parameters to local parameters with single ip
-                    var localParameters = parameters.Copy(new[] { "-ip", ip.ToString() });
+                    var ipScanParameters = new IPScanParameters()
+                    {
+                        Address = ip,
+                        Timeout = 1000
+                    };
+                    var ipScan = new IPScan(ipScanParameters);
 
-                    ipScan.Init(localParameters);
-                    Task<IPInfo> task = ipScan.Run();
+                    // request
+                    Task<PingReply> task = ipScan.GetPingReplyAsync();
 
-                    RenderLoading("Scanning " + localParameters["-ip"], (() => !task.IsCompleted));
-
+                    RenderLoading("Scanning " + ipScanParameters.Address, (() => !task.IsCompleted));
                     task.Wait();
 
+                    // response
                     var result = task.Result;
 
-                    if (result["Status"] == "Success")
+                    // view ping reply
+                    if (result.Status == IPStatus.Success)
                     {
+                        // also view hearders if first result
+                        PingReplyViewer(result, resultCount == 0);
                         resultCount++;
-                        var isFirstResult = resultCount == 1 ? true : false;
-                        ResultViewer(result, isFirstResult);
                     }
                 }
 
-                Console.WriteLine();
+                Console.WriteLine($"\nTotal results: {resultCount}");
             }
             catch (AggregateException exc)
             {
@@ -98,14 +98,36 @@ namespace IPScan
                 ErrorViewer(exc);
             }
         }
+        #endregion
 
-        private static void ResultViewer(IPInfo ipInfo, bool hasHeadersInfo = false)
+
+        #region Viewers
+        private static void PingReplyViewer(PingReply pingReply, bool hasHeaders = false)
         {
-            if (hasHeadersInfo)
+            // data
+            var address = pingReply.Address.ToString();
+            var status = pingReply.Status.ToString();
+            var roundtripTime = pingReply.RoundtripTime.ToString();
+
+            var statusColor = 
+                pingReply.Status == IPStatus.Success ? ConsoleColor.Green : ConsoleColor.White;
+
+            if (hasHeaders)
             {
-                RenderResponseHeaders(ipInfo);
+                // view headers
+                RenderField("Address", ConsoleColor.DarkBlue, fieldWidth: 20);
+                RenderField("Status", ConsoleColor.DarkBlue, fieldWidth: 20);
+                RenderField("Roundtrip time", ConsoleColor.DarkBlue, fieldWidth: 20);
+
+                Console.WriteLine();
             }
-            RenderResponse(ipInfo);       
+
+            // view address, status and ping*
+            RenderField(address, fieldWidth: 20);
+            RenderField(status, fgColor: statusColor, fieldWidth: 20);
+            RenderField(roundtripTime, fieldWidth: 20);
+
+            Console.WriteLine();
         }
 
         private static void ErrorViewer(params Exception[] exceptions)
@@ -116,97 +138,64 @@ namespace IPScan
                 {
                     throw exception;
                 }
-                catch (ScannerException exc)
-                {
-                    RenderError("Scanner error", exc);
-                    RenderHelp();
-                }
+                //catch (ScannerException exc)
+                //{
+                //    RenderError("Scanner error", exc);
+                //    RenderHelp();
+                //}
                 catch (Exception exc)
                 {
-                    RenderError("System error`", exc);
+                    RenderField("System error", bgColor: ConsoleColor.DarkRed);
+                    Console.WriteLine($" {exc.Message} ");
+
+                    HelpViewer();
                 }
             }
         }
 
-        private static void RenderHelp()
+        private static void HelpViewer()
         {
             string helpString =
                 "IPScan:\n" +
                 "\t--help\t- FAQ\n" +
                 "\t--clear\t- clear terminal\n\n";
 
-            foreach (var scanner in ipScan.ScannerCollection)
-            {
-                helpString += $"{scanner}:\n";
-                foreach(var attr in scanner.GetKeyAttributes())
-                {
-                    helpString += $"\t{attr.Key}\t- {attr.Description}\n";
-                }
-                helpString += "\n";
-            }
-            
             Console.ForegroundColor = ConsoleColor.DarkGray;
             Console.Write(helpString);
             Console.ResetColor();
         }
 
-        private static void RenderResponse(IPInfo ipInfo, int fieldWidth = 20)
+        private static void AboutViewer()
         {
-            foreach (var field in ipInfo)
-            {
-                Console.Write($"{field.Value}");
+            RenderField("Author", fieldWidth: 20);
+            Console.WriteLine("github.com/bluesbaker");
 
-                for (int i = 0; i < fieldWidth - field.Value.Length; i++)
-                {
-                    Console.Write(" ");
-                }
-            }
-            Console.WriteLine();
+            RenderField("Copyright", fieldWidth: 20);
+            Console.WriteLine("...-2020");
         }
+        #endregion
 
-        private static void RenderResponseHeaders(IPInfo ipInfo, int fieldWidth = 20)
-        {
-            Console.BackgroundColor = ConsoleColor.DarkBlue;
-            Console.ForegroundColor = ConsoleColor.White;
-            foreach (var field in ipInfo)
-            {
-                Console.Write($"{field.Key}");
 
-                for (int i = 0; i < fieldWidth - field.Key.Length; i++)
-                {
-                    Console.Write(" ");
-                }
-            }
-            Console.ResetColor();
-            Console.WriteLine();
-        }
-
-        private static void RenderError(string title, Exception exc)
-        {
-            Console.BackgroundColor = ConsoleColor.DarkRed;
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.Write(title);
-            Console.ResetColor();
-            Console.WriteLine($" {exc.Message} ");
-        }
-
+        #region Optional rendering tools
+        /// <summary>
+        /// Rendering text of loading for example "Please wait..."
+        /// </summary>
         private static void RenderLoading(string title, Func<bool> predicate, int pause = 100, int dotCount = 3)
         {
             int dots = 0;
 
-            // -> delete last symbol at terminal
+            // -> delete last symbols at terminal
             void WriteBackspace(int count)
             {
-                int c = count;
-                while (c != 0)
+                for (int c = 0; c < count; c++)
                 {
                     Console.Write("\b \b");
-                    c--;
                 }
             }
 
-            // view
             Console.Write(title);
+
+            // render dots
             while (predicate.Invoke())
             {
                 dots++;
@@ -228,13 +217,25 @@ namespace IPScan
             WriteBackspace(title.Length);
         }
 
-        private static void RenderAbout()
+        /// <summary>
+        /// Rendering a color field in terminal
+        /// </summary>
+        private static void RenderField(string textField, ConsoleColor bgColor = ConsoleColor.Black, ConsoleColor fgColor = ConsoleColor.White, int fieldWidth = 0)
         {
-            Console.BackgroundColor = ConsoleColor.DarkBlue;
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.Write("Author");
+            Console.BackgroundColor = bgColor;
+            Console.ForegroundColor = fgColor;
+
+            Console.Write(textField);
+
+            if (fieldWidth >= textField.Length)
+            {
+                // add remaining spaces
+                var spaces = new String(' ', fieldWidth - textField.Length);
+                Console.Write(spaces);
+            }
+
             Console.ResetColor();
-            Console.WriteLine(" github.com/bluesbaker\n");
         }
+        #endregion
     }
 }

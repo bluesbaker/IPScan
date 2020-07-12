@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -7,15 +8,15 @@ using System.Threading.Tasks;
 
 namespace IPScan.Supports
 {
-    public static class IPAddressExtension
+    public static class IPAddressRange
     {
-        public static IEnumerable<IPAddress> Range(this IPAddress startRange, IPAddress endRange)
+        public static IEnumerable<IPAddress> Get(IPAddress startAddress, IPAddress endAddress)
         {
-            var result = new List<IPAddress>();
+            var result = new Collection<IPAddress>();
 
             // convert IPAdresses to bytes
-            var fromAsBytes = startRange.GetAddressBytes();
-            var toAsBytes = endRange.GetAddressBytes();
+            var fromAsBytes = startAddress.GetAddressBytes();
+            var toAsBytes = endAddress.GetAddressBytes();
 
             // reverse the from-to bytes 
             // for a correct calculate of range
@@ -28,7 +29,7 @@ namespace IPScan.Supports
 
             if (fromAsInt > toAsInt)
             {
-                throw new Exception($"Input error: {startRange.ToString()} less {endRange.ToString()}");
+                throw new Exception($"Input error: {startAddress.ToString()} less {endAddress.ToString()}");
             }
 
             // calculate the range
@@ -42,6 +43,14 @@ namespace IPScan.Supports
             }
 
             return result;
+        }
+
+        public static IEnumerable<IPAddress> Get(string startAddress, string endAddress)
+        {
+            var start = IPAddress.Parse(startAddress);
+            var end = IPAddress.Parse(endAddress);
+
+            return Get(start, end);
         }
     }
 }

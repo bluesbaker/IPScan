@@ -1,5 +1,4 @@
-﻿using IPScan.Scanners;
-using IPScan.Supports;
+﻿using IPScan.Supports;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,32 +12,24 @@ namespace IPScan
 {
     public class IPScan
     {
-        public IPScan()
+        public IPScan(IPScanParameters scanParameters)
         {
-            ScannerCollection = new List<IScanner>();
+            _scanParameters = scanParameters;
         }
 
-        public void Init(IPScanParameters parameters)
+        public async Task<PingReply> GetPingReplyAsync()
         {
-            foreach(var scan in ScannerCollection)
-            {
-                scan.Init(parameters);
-            }
+            var ping = new Ping();
+
+            var address = _scanParameters.Address;
+            var timeout = _scanParameters.Timeout;
+
+            // request                
+            var reply = await ping.SendPingAsync(address, timeout);
+
+            return reply;
         }
 
-        public async Task<IPInfo> Run()
-        {
-            IPInfo result = new IPInfo();
-            foreach (IScanner scanner in ScannerCollection)
-            {
-                var scanResult = await scanner.Run();
-                result.Merge(scanResult);
-            }
-            return result;
-        }
-
-        public List<IScanner> ScannerCollection { get; set; }
-
-        public event Action<IPInfo> ResultAccepted;
+        private IPScanParameters _scanParameters;
     }
 }

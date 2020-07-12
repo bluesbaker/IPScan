@@ -1,5 +1,4 @@
-﻿using IPScan.Scanners;
-using IPScan.Supports;
+﻿using IPScan.Supports;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +18,8 @@ namespace IPScan
             Console.Title = "IPScan";
             Console.WriteLine(welcomeMessage);
 
-            TerminalStream.Run();
+            var terminalParameters = TerminalParameters.Parse(args, "-ip");
+            TerminalStream.Run(terminalParameters);
             
             Console.Write("Press any key to exit...");
             Console.ReadLine();
