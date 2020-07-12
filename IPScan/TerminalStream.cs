@@ -12,21 +12,22 @@ namespace IPScan
 {
     public static class TerminalStream
     {
-        public static void Run()
+        public static void Run(TerminalParameters beginParameters)
         {
-            string parametersLine = String.Empty;
+            var parameters = beginParameters;
 
-            while (TryCommand(parametersLine))
+            while (TryCommand(parameters))
             {
                 Console.Write("> ");
-                parametersLine = Console.ReadLine();
+
+                var commandLine = Console.ReadLine().Split(' ');
+                parameters = TerminalParameters.Parse(commandLine, "-ip");
             }
         }
 
-        private static bool TryCommand(string commandLine)
+        #region Controls
+        private static bool TryCommand(TerminalParameters parameters)
         {
-            var parameters = Parameters.Parse(commandLine.Split(' '), "-ip");
-
             foreach(var param in parameters)
             {
                 switch (param.Key)
@@ -48,12 +49,12 @@ namespace IPScan
             return true;
         }
 
-        private static void TryScan(Parameters parameters)
+        private static void TryScan(TerminalParameters commandParams)
         {
             try
             {
                 // parse one or more ip adresses to collection
-                var addresses = parameters["-ip"].ToString().Split('-');
+                var addresses = commandParams["-ip"].Split('-');
                 var ipCollection = IPAddressRange.Get(addresses[0], addresses[addresses.Length - 1]);
 
                 var resultCount = 0;
@@ -97,6 +98,7 @@ namespace IPScan
                 ErrorViewer(exc);
             }
         }
+        #endregion
 
 
         #region Viewers

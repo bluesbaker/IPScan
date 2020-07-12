@@ -18,7 +18,8 @@ namespace IPScan
             Console.Title = "IPScan";
             Console.WriteLine(welcomeMessage);
 
-            TerminalStream.Run();
+            var terminalParameters = TerminalParameters.Parse(args, "-ip");
+            TerminalStream.Run(terminalParameters);
             
             Console.Write("Press any key to exit...");
             Console.ReadLine();

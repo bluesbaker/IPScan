@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace IPScan
 {
-    public class Parameters : Dictionary<string, object>, ICloneable
+    public class TerminalParameters : Dictionary<string, string>, ICloneable
     {
         /// <summary>
         /// Parse args[] with keys to Parameters
@@ -15,9 +15,9 @@ namespace IPScan
         /// <param name="defaultKey">Default first key</param>
         /// <param name="defaultValue">Default key value</param>
         /// <returns>arguments collection</returns>
-        public static Parameters Parse(string[] args, string defaultKey = "", object defaultValue = null)
+        public static TerminalParameters Parse(string[] args, string defaultKey = "", string defaultValue = "true")
         {
-            var scanParameters = new Parameters();
+            var parameters = new TerminalParameters();
             string lastKey = defaultKey;
 
             // filter
@@ -31,21 +31,21 @@ namespace IPScan
                 if (arg[0] == '-')
                 {
                     lastKey = arg;
-                    scanParameters[lastKey] = defaultValue;
+                    parameters[lastKey] = defaultValue;
                 }
                 // or value
                 else if (lastKey != String.Empty)
                 {
-                    scanParameters[lastKey] = arg;
+                    parameters[lastKey] = arg;
                 }
             }
 
-            return scanParameters;
+            return parameters;
         } 
 
-        public Parameters Copy(params string[][] changes)
+        public TerminalParameters Copy(params string[][] changes)
         {
-            var parametersClone = (Parameters)this.Clone();
+            var parametersClone = (TerminalParameters)this.Clone();
             foreach(var field in changes)
             {
                 parametersClone[field[0]] = field[1];
@@ -55,7 +55,7 @@ namespace IPScan
 
         public object Clone()
         {
-            var scanParameters = new Parameters();
+            var scanParameters = new TerminalParameters();
             foreach (var field in this)
             {
                 scanParameters[field.Key] = field.Value;
