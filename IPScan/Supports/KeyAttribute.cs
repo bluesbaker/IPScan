@@ -10,8 +10,8 @@ namespace IPScan.Supports
     /// Declaration an option key with an description
     /// and the default value
     /// </summary>
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
-    public class ScannerKeyAttribute : Attribute
+    [AttributeUsage(AttributeTargets.Property)]
+    public class KeyAttribute : Attribute
     {
         /// <summary>
         /// Declarate an option key
@@ -19,7 +19,7 @@ namespace IPScan.Supports
         /// <param name="key">For example '-k'</param>
         /// <param name="description">Key description</param>
         /// <param name="defaultValue">Default value</param>
-        public ScannerKeyAttribute(string key, string description, object defaultValue, bool isRequired = false)
+        public KeyAttribute(string key, string description, object defaultValue, bool isRequired = false)
         {
             Key = key;
             Description = description;
