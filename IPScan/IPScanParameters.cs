@@ -17,6 +17,9 @@ namespace IPScan
         [Key("-t", "Timeout")]
         public int Timeout { get; set; }
 
+        [Key("-p", "Port")]
+        public int Port { get; set; }
+
         public static IPScanParameters Parse(Dictionary<string, string> collection)
         {
             var parameters = new IPScanParameters();
