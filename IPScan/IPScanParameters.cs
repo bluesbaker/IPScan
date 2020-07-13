@@ -11,8 +11,10 @@ namespace IPScan
 {
     public class IPScanParameters
     {
-        //[KeyAttribute("-ip", "Address or range of addresses",)]
+        [Key("-ip", "Address or range", true)]
         public IPAddress Address { get; set; }
+
+        [Key("-t", "Timeout")]
         public int Timeout { get; set; }
 
         public static IPScanParameters Parse(Dictionary<string, string> collection)
