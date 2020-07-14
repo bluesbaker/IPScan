@@ -20,9 +20,6 @@ namespace IPScan
 
             var terminalParameters = TerminalParameters.Parse(args, "-ip");
             TerminalStream.Run(terminalParameters);
-            
-            Console.Write("Press any key to exit...");
-            Console.ReadLine();
         }
         
         static readonly string welcomeMessage =
