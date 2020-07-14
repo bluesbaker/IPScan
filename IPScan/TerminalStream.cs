@@ -38,7 +38,7 @@ namespace IPScan
                     case "--about":
                         AboutViewer();
                         return true;
-                    case "-quit":
+                    case "--quit":
                         return false;
                     default:
                         TryScan(parameters);
@@ -162,15 +162,17 @@ namespace IPScan
 
         private static void HelpViewer()
         {
-            string helpString =
-                "IPScan:\n" +
-                "--help\t\t- FAQ\n" +
-                "--clear\t\t- Clear terminal\n";
+            string helpString = "IPScan:\n";
 
             foreach(var setter in IPScanParameters.GetKeySetters())
             {
                 helpString += $"{setter.Key}\t\t- {setter.Description}\n";
             }
+
+            helpString += 
+                "--help\t\t- FAQ\n" +
+                "--about\t\t- About\n" +
+                "--quit\t\t- Quit\n";
 
             RenderField(helpString, fgColor: ConsoleColor.DarkGray);
             Console.WriteLine();
