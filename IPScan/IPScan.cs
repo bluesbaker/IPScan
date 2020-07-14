@@ -32,4 +32,9 @@ namespace IPScan
 
         private IPScanParameters _scanParameters;
     }
+
+    public class IPScanException : Exception
+    {
+        // your advertisement could be here...
+    }
 }
