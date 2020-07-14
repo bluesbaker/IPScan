@@ -10,15 +10,15 @@ namespace IPScan.Supports
     /// Declaration an option key with an description
     /// and the default value
     /// </summary>
-    [AttributeUsage(AttributeTargets.Property)]
-    public class KeyAttribute : Attribute
+    [AttributeUsage(AttributeTargets.Method)]
+    public class KeySetterAttribute : Attribute
     {
         /// <summary>
         /// Declarate an option key
         /// </summary>
         /// <param name="key">For example '-k'</param>
         /// <param name="description">Key description</param>
-        public KeyAttribute(string key, string description, bool isRequired = false)
+        public KeySetterAttribute(string key, string description, bool isRequired = false)
         {
             Key = key;
             Description = description;
