@@ -49,24 +49,29 @@ namespace IPScan
             return true;
         }
 
-        private static void TryScan(TerminalParameters commandParams)
+        private static void TryScan(TerminalParameters commandParameters)
         {
             try
             {
+                // check parameters
+                var isCheck = IPScanParameters.CheckingRequiredKeys(commandParameters);
+                if(isCheck == false)
+                {
+                    throw new Exception("One or more required parameters is missing");
+                }
+
                 // parse one or more ip adresses to collection
-                var addresses = commandParams["-ip"].Split('-');
+                var addresses = commandParameters["-ip"].Split('-');
                 var ipCollection = IPAddressRange.Get(addresses[0], addresses[addresses.Length - 1]);
 
                 var resultCount = 0;
 
-                // scanning the collection
                 foreach(var ip in ipCollection)
                 {
-                    var ipScanParameters = new IPScanParameters()
-                    {
-                        Address = ip,
-                        Timeout = 1000
-                    };
+                    // copying params with only one address(without range)
+                    var parameters = commandParameters.Copy(new[] { "-ip", ip.ToString() });
+
+                    var ipScanParameters = IPScanParameters.Parse(parameters);
                     var ipScan = new IPScan(ipScanParameters);
 
                     // request
@@ -78,7 +83,7 @@ namespace IPScan
                     // response
                     var result = task.Result;
 
-                    // view ping reply
+                    // view
                     if (result.Status == IPStatus.Success)
                     {
                         // also view hearders if first result
@@ -138,16 +143,18 @@ namespace IPScan
                 {
                     throw exception;
                 }
-                //catch (ScannerException exc)
-                //{
-                //    RenderError("Scanner error", exc);
-                //    RenderHelp();
-                //}
+                catch (IPScanException exc)
+                {
+                    RenderField("Scanner error", bgColor: ConsoleColor.DarkRed);
+                    Console.WriteLine($" {exc.Message} ");
+                }
                 catch (Exception exc)
                 {
                     RenderField("System error", bgColor: ConsoleColor.DarkRed);
                     Console.WriteLine($" {exc.Message} ");
-
+                }
+                finally
+                {
                     HelpViewer();
                 }
             }
@@ -157,12 +164,16 @@ namespace IPScan
         {
             string helpString =
                 "IPScan:\n" +
-                "\t--help\t- FAQ\n" +
-                "\t--clear\t- clear terminal\n\n";
+                "--help\t\t- FAQ\n" +
+                "--clear\t\t- Clear terminal\n";
 
-            Console.ForegroundColor = ConsoleColor.DarkGray;
-            Console.Write(helpString);
-            Console.ResetColor();
+            foreach(var setter in IPScanParameters.GetKeySetters())
+            {
+                helpString += $"{setter.Key}\t\t- {setter.Description}\n";
+            }
+
+            RenderField(helpString, fgColor: ConsoleColor.DarkGray);
+            Console.WriteLine();
         }
 
         private static void AboutViewer()
@@ -176,14 +187,12 @@ namespace IPScan
         #endregion
 
 
-        #region Optional rendering tools
+        #region Additional rendering tools
         /// <summary>
         /// Rendering text of loading for example "Please wait..."
         /// </summary>
         private static void RenderLoading(string title, Func<bool> predicate, int pause = 100, int dotCount = 3)
         {
-            int dots = 0;
-
             // -> delete last symbols at terminal
             void WriteBackspace(int count)
             {
@@ -196,6 +205,7 @@ namespace IPScan
             Console.Write(title);
 
             // render dots
+            int dots = 0;  
             while (predicate.Invoke())
             {
                 dots++;
