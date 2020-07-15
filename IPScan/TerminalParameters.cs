@@ -43,24 +43,29 @@ namespace IPScan
             return parameters;
         } 
 
-        public TerminalParameters Copy(params string[][] changes)
+        public TerminalParameters Copy(IDictionary<string, string> changes = null)
         {
             var parametersClone = (TerminalParameters)this.Clone();
-            foreach(var field in changes)
+
+            if(changes != null)
             {
-                parametersClone[field[0]] = field[1];
-            }
+                foreach (var field in changes)
+                {
+                    parametersClone[field.Key] = field.Value;
+                }
+            }           
+
             return parametersClone;
         }
 
         public object Clone()
         {
-            var scannerParameters = new TerminalParameters();
+            var parameters = new TerminalParameters();
             foreach (var field in this)
             {
-                scannerParameters[field.Key] = field.Value;
+                parameters[field.Key] = field.Value;
             }
-            return scannerParameters;
+            return parameters;
         }
     }
 }

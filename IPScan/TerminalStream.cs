@@ -69,7 +69,11 @@ namespace IPScan
                 foreach(var ip in ipCollection)
                 {
                     // copying params with only one address(without range)
-                    var parameters = commandParameters.Copy(new[] { "-ip", ip.ToString() });
+                    var injection = new Dictionary<string, string>()
+                    {
+                        ["-ip"] = ip.ToString()
+                    };
+                    var parameters = commandParameters.Copy(injection);
 
                     var scannerParameters = ScannerParameters.Parse(parameters);
                     var scanner = new Scanner(scannerParameters);
