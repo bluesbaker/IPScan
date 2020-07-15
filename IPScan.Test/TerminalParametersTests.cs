@@ -64,7 +64,7 @@ namespace Tests
 
         // Copy
         [Test]
-        public void Clone_ParametersRequired()
+        public void Copy_ParametersRequired()
         {
             var arguments = new[] { "-ip", "8.8.8.8", "-t", "1000", "-p", "27015" };
 
