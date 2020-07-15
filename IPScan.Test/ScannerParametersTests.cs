@@ -12,7 +12,7 @@ namespace Tests
     {
         // Parse static method
         [Test]
-        public void Parse_KeyDictionary_ParametersRequired()
+        public void Parse_ParamsDictionary_ParametersRequired()
         {
             var dictionary = new Dictionary<string, string>
             {
@@ -42,7 +42,7 @@ namespace Tests
         }
 
         [Test]
-        public void Parse_EmptyKeyDictionary_DefaultPropertiesRequired()
+        public void Parse_EmptyDictionary_DefaultPropertiesRequired()
         {
             var dictionary = new Dictionary<string, string>();
 
@@ -53,7 +53,7 @@ namespace Tests
         }
 
         [Test]
-        public void Parse_BadKey_DefaultPropertiesRequired()
+        public void Parse_WithBadKey_DefaultPropertiesRequired()
         {
             var dictionary = new Dictionary<string, string>()
             {
@@ -67,7 +67,7 @@ namespace Tests
         }
 
         [Test]
-        public void Parse_BadKeyValue_ExceptionRequired()
+        public void Parse_WithBadKeyValue_ExceptionRequired()
         {
             var dictionary = new Dictionary<string, string>()
             {

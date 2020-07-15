@@ -17,26 +17,36 @@ namespace Tests
         [SetUp]
         public void SetUp()
         {
-            var scannerParameters = new ScannerParameters()
-            {
-                Address = IPAddress.Parse("8.8.8.8")
-            };
-            _scanner = new Scanner(scannerParameters);
+            _scanner = new Scanner(new ScannerParameters());
         }
 
         [Test]
-        public void GetPingReplyAsync_GoogleAddress_SuccessResponse()
+        public void GetPingReplyAsync_GoogleDNSAddress_SuccessResponse()
         {
-            var task = _scanner.GetPingReplyAsync();
-            
+            _scanner.Parameters.Address = IPAddress.Parse("8.8.8.8");
+
+            var task = _scanner.GetPingReplyAsync();           
             task.Wait();
+
             Assert.That(task.Result.Status, Is.EqualTo(IPStatus.Success));
+        }
+
+        [Test]
+        public void GetPingReplyAsync_BadAddress_TimedOutResponse()
+        {
+            _scanner.Parameters.Address = IPAddress.Parse("44.44.44.44");
+
+            var task = _scanner.GetPingReplyAsync();
+            task.Wait();
+
+            Assert.That(task.Result.Status, Is.EqualTo(IPStatus.TimedOut));
         }
 
         [Test]
         public void GetPingReplyAsync_AddressIsNull_ExceptionRequired()
         {
             _scanner.Parameters.Address = null;
+
             var exc = Assert.Throws<System.AggregateException>(delegate
             {
                 Task<PingReply> reply = _scanner.GetPingReplyAsync();
