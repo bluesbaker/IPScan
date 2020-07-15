@@ -29,7 +29,7 @@ namespace IPScan.Supports
 
             if (fromAsInt > toAsInt)
             {
-                throw new Exception($"Input error: {startAddress.ToString()} less {endAddress.ToString()}");
+                throw new ArgumentException($"Beginning of the range must not be less than the end");
             }
 
             // calculate the range
