@@ -29,10 +29,17 @@ namespace IPScan
         {
             var parameters = new IPScanParameters();
 
-            foreach(var field in collection)
+            try
             {
-                var setter = parameters.GetSetter(field.Key);
-                setter?.Invoke(parameters, new[] { field.Value });
+                foreach (var field in collection)
+                {
+                    var setter = parameters.GetSetter(field.Key);
+                    setter?.Invoke(parameters, new[] { field.Value });
+                }
+            }
+            catch(Exception exc)
+            {
+                throw new IPScanException("Parsing exception", exc);
             }
 
             return parameters;
