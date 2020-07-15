@@ -55,12 +55,12 @@ namespace IPScan
 
         public object Clone()
         {
-            var scanParameters = new TerminalParameters();
+            var scannerParameters = new TerminalParameters();
             foreach (var field in this)
             {
-                scanParameters[field.Key] = field.Value;
+                scannerParameters[field.Key] = field.Value;
             }
-            return scanParameters;
+            return scannerParameters;
         }
     }
 }

@@ -54,7 +54,7 @@ namespace IPScan
             try
             {
                 // check parameters
-                var isCheck = IPScanParameters.CheckingRequiredKeys(commandParameters);
+                var isCheck = ScannerParameters.CheckingRequiredKeys(commandParameters);
                 if(isCheck == false)
                 {
                     throw new Exception("One or more required parameters is missing");
@@ -71,13 +71,13 @@ namespace IPScan
                     // copying params with only one address(without range)
                     var parameters = commandParameters.Copy(new[] { "-ip", ip.ToString() });
 
-                    var ipScanParameters = IPScanParameters.Parse(parameters);
-                    var ipScan = new IPScan(ipScanParameters);
+                    var scannerParameters = ScannerParameters.Parse(parameters);
+                    var scanner = new Scanner(scannerParameters);
 
                     // request
-                    Task<PingReply> task = ipScan.GetPingReplyAsync();
+                    Task<PingReply> task = scanner.GetPingReplyAsync();
 
-                    RenderLoading("Scanning " + ipScanParameters.Address, (() => !task.IsCompleted));
+                    RenderLoading("Scanning " + scannerParameters.Address, (() => !task.IsCompleted));
                     task.Wait();
 
                     // response
@@ -143,7 +143,7 @@ namespace IPScan
                 {
                     throw exception;
                 }
-                catch (IPScanException exc)
+                catch (ScannerException exc)
                 {
                     RenderField("Scanner error", bgColor: ConsoleColor.DarkRed);
                     Console.WriteLine($" {exc.Message} ");
@@ -164,7 +164,7 @@ namespace IPScan
         {
             string helpString = "IPScan:\n";
 
-            foreach(var setter in IPScanParameters.GetKeySetters())
+            foreach(var setter in ScannerParameters.GetKeySetters())
             {
                 helpString += $"{setter.Key}\t\t- {setter.Description}\n";
             }

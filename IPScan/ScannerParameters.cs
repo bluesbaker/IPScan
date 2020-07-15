@@ -10,7 +10,7 @@ using System.Collections.ObjectModel;
 
 namespace IPScan
 {
-    public class IPScanParameters
+    public class ScannerParameters
     {
         // required
         public IPAddress Address { get; set; }
@@ -21,44 +21,44 @@ namespace IPScan
 
 
         /// <summary>
-        /// Parsing a string dictionary to IPScanParameters with instance properties
+        /// Parsing a string dictionary to ScannerParameters with instance properties
         /// </summary>
-        /// <param name="collection">Key collection</param>
+        /// <param name="parameters">Key collection</param>
         /// <returns>IPScan parameters</returns>
-        public static IPScanParameters Parse(Dictionary<string, string> collection)
+        public static ScannerParameters Parse(Dictionary<string, string> parameters)
         {
-            var parameters = new IPScanParameters();
+            var scannerParameters = new ScannerParameters();
 
             try
             {
-                foreach (var field in collection)
+                foreach (var param in parameters)
                 {
-                    var setter = parameters.GetSetter(field.Key);
-                    setter?.Invoke(parameters, new[] { field.Value });
+                    var setter = scannerParameters.GetSetter(param.Key);
+                    setter?.Invoke(scannerParameters, new[] { param.Value });
                 }
             }
             catch(Exception exc)
             {
-                throw new IPScanException("Parsing exception", exc);
+                throw new ScannerException("Parsing exception", exc);
             }
 
-            return parameters;
+            return scannerParameters;
         }
 
         /// <summary>
         /// Checking required keys
         /// </summary>
-        /// <param name="collection">Key collection</param>
+        /// <param name="parameters">Key collection</param>
         /// <returns>Returns true if the required keys exists in the collection</returns>
-        public static bool CheckingRequiredKeys(Dictionary<string, string> collection)
+        public static bool CheckingRequiredKeys(Dictionary<string, string> parameters)
         {
             var isCheck = true;
 
             foreach(var keySetter in GetKeySetters())
             {
-                var field = collection.FirstOrDefault(f => f.Key == keySetter.Key);
+                var param = parameters.FirstOrDefault(p => p.Key == keySetter.Key);
 
-                if(keySetter.IsRequired == true && field.Value == null)
+                if(keySetter.IsRequired == true && param.Value == null)
                 {
                     isCheck = false;
                 }
@@ -75,7 +75,7 @@ namespace IPScan
         public static IEnumerable<KeySetterAttribute> GetKeySetters()
         {
             var keySetters = new Collection<KeySetterAttribute>();
-            var setters = new IPScanParameters().GetSetters();
+            var setters = new ScannerParameters().GetSetters();
 
             foreach(var setter in setters)
             {
