@@ -35,6 +35,9 @@ namespace IPScan
 
     public class IPScanException : Exception
     {
-        // your advertisement could be here...
+        public IPScanException(string message, Exception innerException) : base(message, innerException)
+        {
+            // your advertisement could be here...
+        }
     }
 }
