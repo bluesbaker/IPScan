@@ -43,13 +43,13 @@ namespace IPScan
             return parameters;
         } 
 
-        public TerminalParameters Copy(IDictionary<string, string> changes = null)
+        public TerminalParameters Copy(IDictionary<string, string> injection = null)
         {
             var parametersClone = (TerminalParameters)this.Clone();
 
-            if(changes != null)
+            if(injection != null)
             {
-                foreach (var field in changes)
+                foreach (var field in injection)
                 {
                     parametersClone[field.Key] = field.Value;
                 }

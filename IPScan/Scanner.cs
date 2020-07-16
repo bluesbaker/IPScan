@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,23 +13,23 @@ namespace IPScan
 {
     public class Scanner
     {
+        public ScannerParameters Parameters;
+
         public Scanner(ScannerParameters scannerParameters)
         {
             Parameters = scannerParameters;
         }
 
-        public async Task<PingReply> GetPingReplyAsync()
+        public async Task<PingReply> GetPingReplyAsync(Action<PingReply> action = null)
         {
             var ping = new Ping();
-
-            var address = Parameters.Address;
-            var timeout = Parameters.Timeout;
             PingReply reply = null;
 
             // request
             try
             {
-                reply = await ping.SendPingAsync(address, timeout);               
+                reply = await ping.SendPingAsync(Parameters.Address, Parameters.Timeout);
+                action?.Invoke(reply);
             }
             catch (Exception exc)
             {
@@ -38,7 +39,28 @@ namespace IPScan
             return reply;
         }
 
-        public ScannerParameters Parameters;
+        public async Task<bool> GetPortAccessAsync()
+        {
+            var tcpClient = new TcpClient
+            {
+                //SendTimeout = 5
+            };
+
+            try
+            {
+                await tcpClient.ConnectAsync(Parameters.Address, Parameters.Port);
+            }
+            catch (SocketException)
+            {
+                return false;
+            }
+            catch (Exception exc)
+            {
+                throw new ScannerException("Port exception", exc);
+            }
+
+            return true;
+        }
     }
 
     public class ScannerException : Exception
