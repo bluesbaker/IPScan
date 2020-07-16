@@ -1,6 +1,7 @@
 ﻿using IPScan.Supports;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
@@ -60,43 +61,54 @@ namespace IPScan
                     throw new Exception("One or more required parameters is missing");
                 }
 
-                // parse one or more ip adresses to collection
+                // split addresses to collection
                 var addresses = commandParameters["-ip"].Split('-');
-                var ipCollection = IPAddressRange.Get(addresses[0], addresses[addresses.Length - 1]);
+                var addressCollection = IPAddress.Parse(addresses[0]).Range(addresses[addresses.Length - 1]);         
 
-                var resultCount = 0;
+                var pingResultCount = 0;
 
-                foreach(var ip in ipCollection)
+                foreach(var address in addressCollection)
                 {
                     // copying params with only one address(without range)
                     var injection = new Dictionary<string, string>()
                     {
-                        ["-ip"] = ip.ToString()
-                    };
+                        ["-ip"] = address.ToString()
+                    };         
                     var parameters = commandParameters.Copy(injection);
+                    var scanner = new Scanner(ScannerParameters.Parse(parameters));
 
-                    var scannerParameters = ScannerParameters.Parse(parameters);
-                    var scanner = new Scanner(scannerParameters);
+                    // ping request
+                    Task<PingReply> pingTask = scanner.GetPingReplyAsync();
 
-                    // request
-                    Task<PingReply> task = scanner.GetPingReplyAsync();
+                    RenderLoading("Scanning " + address, (() => !pingTask.IsCompleted));
+                    pingTask.Wait();
 
-                    RenderLoading("Scanning " + scannerParameters.Address, (() => !task.IsCompleted));
-                    task.Wait();
-
-                    // response
-                    var result = task.Result;
-
-                    // view
-                    if (result.Status == IPStatus.Success)
+                    // ping response
+                    if (pingTask.Result.Status == IPStatus.Success)
                     {
-                        // also view hearders if first result
-                        PingReplyViewer(result, resultCount == 0);
-                        resultCount++;
+                        // view ping reply and also hearders if first result
+                        PingReplyViewer(pingTask.Result, pingResultCount == 0);
+                        pingResultCount++;
+                        
+                        if (scanner.Parameters.Port > 0)
+                        {
+                            // port request
+                            Task<bool> portTask = scanner.GetPortAccessAsync();
+                    
+                            RenderLoading("Scanning port " + scanner.Parameters.Port, (() => !portTask.IsCompleted));
+                            portTask.Wait();
+                    
+                            // port response
+                            var portAccess = portTask.Result;
+                    
+                            // view port status
+                            PortAccessViewer(scanner.Parameters.Port, portAccess);                            
+                        }
+                        
                     }
                 }
 
-                Console.WriteLine($"\nTotal results: {resultCount}");
+                Console.WriteLine($"\nTotal results: {pingResultCount}");
             }
             catch (AggregateException exc)
             {
@@ -135,6 +147,28 @@ namespace IPScan
             RenderField(address, fieldWidth: 20);
             RenderField(status, fgColor: statusColor, fieldWidth: 20);
             RenderField(roundtripTime, fieldWidth: 20);
+
+            Console.WriteLine();
+        }
+
+        private static void PortAccessViewer(int port, bool isAccessed, bool hasHeaders = false)
+        {
+            var statusColor =
+                isAccessed == true ? ConsoleColor.Green : ConsoleColor.Red;
+
+            if (hasHeaders)
+            {
+                // view headers
+                RenderField("Port", bgColor: ConsoleColor.DarkGray, fieldWidth: 20);
+                RenderField("Status", bgColor: ConsoleColor.DarkGray, fieldWidth: 20);
+
+                Console.WriteLine();
+            }
+
+            // view port and his status
+            RenderField($"Port:", fgColor: ConsoleColor.DarkGray, fieldWidth: 5);
+            RenderField(port.ToString(), fieldWidth: 15);
+            RenderField(isAccessed.ToString(), fgColor: statusColor, fieldWidth: 20);
 
             Console.WriteLine();
         }
