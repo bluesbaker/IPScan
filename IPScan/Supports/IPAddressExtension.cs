@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace IPScan.Supports
 {
-    public static class IPAddressRange
+    public static class IPAddressExtension
     {
-        public static IEnumerable<IPAddress> Get(IPAddress startAddress, IPAddress endAddress)
+        public static IEnumerable<IPAddress> Range(this IPAddress startAddress, IPAddress endAddress)
         {
             var result = new Collection<IPAddress>();
 
@@ -45,12 +45,10 @@ namespace IPScan.Supports
             return result;
         }
 
-        public static IEnumerable<IPAddress> Get(string startAddress, string endAddress)
+        public static IEnumerable<IPAddress> Range(this IPAddress startAddress, string endAddress)
         {
-            var start = IPAddress.Parse(startAddress);
             var end = IPAddress.Parse(endAddress);
-
-            return Get(start, end);
+            return Range(startAddress, end);
         }
     }
 }

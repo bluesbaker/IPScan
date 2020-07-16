@@ -48,7 +48,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scanner.cs" />
-    <Compile Include="Supports\IPAddressRange.cs" />
+    <Compile Include="Supports\IPAddressExtension.cs" />
     <Compile Include="TerminalParameters.cs" />
     <Compile Include="TerminalStream.cs" />
   </ItemGroup>
