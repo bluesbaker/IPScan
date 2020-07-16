@@ -20,28 +20,6 @@ namespace Tests
             CollectionAssert.AllItemsAreInstancesOfType(range, typeof(IPAddress));
         }
 
-        //[Test]
-        //public void Range_TwoIPStrings_RangeRequired()
-        //{
-        //    var start = "0.0.0.0";
-        //    var end = "0.0.0.5";
-        //
-        //    var range = start.Range(end);
-        //
-        //    CollectionAssert.AllItemsAreInstancesOfType(range, typeof(IPAddress));
-        //}
-
-        //[Test]
-        //public void Range_BadIPString_ExceptionRequired()
-        //{
-        //    var start = "0.0.0.x";
-        //    var end = "0.0.0.5";
-        //
-        //    var exc = Assert.Throws<FormatException>(() => IPAddressExtension.Get(start, end));
-        //
-        //    Assert.IsNotEmpty(exc.Message);
-        //}
-
         [Test]
         public void Range_RangeResult_UniqueItemsRequired()
         {
