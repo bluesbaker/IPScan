@@ -25,7 +25,7 @@ namespace IPScan
         static readonly string welcomeMessage =
             $"IPScan – scanning ip-address\n" +
             $"----------------------------\n" +
-            "Usage:\t192.168.0.1-192.168.0.255 -p 80\n" +
+            "Usage:\t-ip 192.168.0.1-192.168.0.255 -p 80\n" +
             "Help:\t--help\n";       
     }
 }
