@@ -43,7 +43,7 @@ namespace IPScan
         {
             var tcpClient = new TcpClient
             {
-                //SendTimeout = 5
+                SendTimeout = 5
             };
 
             try
