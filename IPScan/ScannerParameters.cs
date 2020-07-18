@@ -23,8 +23,8 @@ namespace IPScan
         /// <summary>
         /// Parsing a string dictionary to ScannerParameters with instance properties
         /// </summary>
-        /// <param name="parameters">Key collection</param>
-        /// <returns>IPScan parameters</returns>
+        /// <param name="parameters">Parameters</param>
+        /// <returns>Scanner parameters</returns>
         public static ScannerParameters Parse(Dictionary<string, string> parameters)
         {
             var scannerParameters = new ScannerParameters();
@@ -48,7 +48,7 @@ namespace IPScan
         /// <summary>
         /// Checking required keys
         /// </summary>
-        /// <param name="parameters">Key collection</param>
+        /// <param name="parameters">Parameters</param>
         /// <returns>Returns true if the required keys exists in the collection</returns>
         public static bool CheckingRequiredKeys(Dictionary<string, string> parameters)
         {
