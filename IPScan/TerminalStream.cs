@@ -69,7 +69,6 @@ namespace IPScan
 
                 foreach(var address in addressCollection)
                 {
-                    // copying params with only one address(without range)
                     var injection = new Dictionary<string, string>()
                     {
                         ["-ip"] = address.ToString()
