@@ -74,7 +74,10 @@ namespace Tests
                 ["-ip"] = "8.8.8.x"
             };
 
-            var exc = Assert.Throws<ScannerException>(() => ScannerParameters.Parse(dictionary));
+            var exc = Assert.Throws<ScannerException>(delegate
+            {
+                ScannerParameters.Parse(dictionary);
+            });
             Assert.That(exc, Is.Not.Null);
         }
 
