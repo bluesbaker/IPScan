@@ -16,7 +16,7 @@ namespace IPScan.Supports
         /// <param name="startAddress">Start of range</param>
         /// <param name="endAddress">End of range</param>
         /// <returns>IPAddresses collection</returns>
-        public static IEnumerable<IPAddress> Range(this IPAddress startAddress, IPAddress endAddress)
+        public static List<IPAddress> Range(this IPAddress startAddress, IPAddress endAddress)
         {
             var result = new List<IPAddress>();
 
@@ -51,7 +51,7 @@ namespace IPScan.Supports
             return result;
         }
 
-        public static IEnumerable<IPAddress> Range(this IPAddress startAddress, string endAddress)
+        public static List<IPAddress> Range(this IPAddress startAddress, string endAddress)
         {
             var end = IPAddress.Parse(endAddress);
             return Range(startAddress, end);
