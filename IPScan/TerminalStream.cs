@@ -80,6 +80,7 @@ namespace IPScan
                     // ping request
                     Task<PingReply> pingTask = scanner.GetPingReplyAsync();
 
+                    Console.Title = "Scanning " + address;
                     RenderLoading("Scanning " + address, (() => !pingTask.IsCompleted));
                     pingTask.Wait();
 
@@ -117,6 +118,10 @@ namespace IPScan
             catch (Exception exc)
             {
                 ErrorViewer(exc);
+            }
+            finally
+            {
+                Console.Title = "IPScan";
             }
         }
         #endregion
