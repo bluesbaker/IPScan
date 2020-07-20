@@ -10,9 +10,15 @@ namespace IPScan.Supports
 {
     public static class IPAddressExtension
     {
+        /// <summary>
+        /// Returns the list of IPAddresses 
+        /// </summary>
+        /// <param name="startAddress">Start of range</param>
+        /// <param name="endAddress">End of range</param>
+        /// <returns>IPAddresses collection</returns>
         public static IEnumerable<IPAddress> Range(this IPAddress startAddress, IPAddress endAddress)
         {
-            var result = new Collection<IPAddress>();
+            var result = new List<IPAddress>();
 
             // convert IPAdresses to bytes
             var fromAsBytes = startAddress.GetAddressBytes();
