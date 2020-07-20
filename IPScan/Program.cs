@@ -16,16 +16,21 @@ namespace IPScan
         static void Main(string[] args)
         {
             Console.Title = "IPScan";
-            Console.WriteLine(welcomeMessage);
+            StartupViewer();
 
             var terminalParameters = TerminalParameters.Parse(args, "-ip");
             TerminalStream.Run(terminalParameters);
         }
         
-        static readonly string welcomeMessage =
-            $"IPScan – scanning ip-address\n" +
-            $"----------------------------\n" +
-            "Usage:\t-ip 192.168.0.1-192.168.0.255 -p 80\n" +
-            "Help:\t--help\n";       
+        static void StartupViewer()
+        {
+            string startupMessage =
+                $"IPScan – scanning ip-address\n" +
+                $"----------------------------\n" +
+                "Usage:\t-ip 192.168.0.1-192.168.0.255 -p 80\n" +
+                "Help:\t--help\n";
+
+            Console.WriteLine(startupMessage);
+        }
     }
 }
