@@ -25,7 +25,7 @@ namespace IPScan
         static void StartupViewer()
         {
             string startupMessage =
-                $"IPScan – scanning ip-address\n" +
+                $"IPScan – scanning ip-addresses\n" +
                 $"----------------------------\n" +
                 "Usage:\t-ip 192.168.0.1-192.168.0.255 -p 80\n" +
                 "Help:\t--help\n";
