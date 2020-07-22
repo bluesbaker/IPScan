@@ -1,4 +1,4 @@
-# IPScan *(1.2.1.7)*
+# IPScan
 *Scanning IP addresses*
 ___
 
