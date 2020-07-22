@@ -2,6 +2,9 @@
 *Scanning IP addresses*
 ___
 
+> #### Description 
+> Scanning a range of ip addresses with\without a port.
+
 > #### Usage 
 > * `-ip 192.168.0.77`
 > * `-ip 192.168.0.77 -p 80`
