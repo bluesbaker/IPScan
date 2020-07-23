@@ -23,7 +23,7 @@ namespace IPScan
         public async Task<PingReply> GetPingReplyAsync(Action<PingReply> action = null)
         {
             var ping = new Ping();
-            PingReply reply = null;
+            PingReply reply;
 
             // request
             try
