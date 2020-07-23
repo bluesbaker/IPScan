@@ -50,11 +50,5 @@ namespace IPScan.Supports
 
             return result;
         }
-
-        public static List<IPAddress> Range(this IPAddress startAddress, string endAddress)
-        {
-            var end = IPAddress.Parse(endAddress);
-            return Range(startAddress, end);
-        }
     }
 }

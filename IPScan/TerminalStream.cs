@@ -61,9 +61,11 @@ namespace IPScan
                     throw new Exception("One or more required parameters is missing");
                 }
 
-                // split addresses to collection
+                // split addresses to a range* collection
                 var addresses = commandParameters["-ip"].Split('-');
-                var addressCollection = IPAddress.Parse(addresses[0]).Range(addresses[addresses.Length - 1]);         
+                var startAddress = IPAddress.Parse(addresses[0]);
+                var endAddress = IPAddress.Parse(addresses[addresses.Length - 1]);
+                var addressCollection = startAddress.Range(endAddress);         
 
                 var pingResultCount = 0;
 
