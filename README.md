@@ -9,3 +9,6 @@ ___
 > * `ipscan -ip 192.168.0.77`
 > * `ipscan -ip 192.168.0.77 -p 80`
 > * `ipscan -ip 192.168.0.1-192.168.88.255 -p 80`
+
+> #### Author
+> Konstantin S.G.(github.com/bluesbaker)
