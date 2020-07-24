@@ -86,7 +86,7 @@ namespace IPScan
         }
 
         #region Setters
-        [KeySetter("-ip", "Address or range", true)]
+        [KeySetter("-ip", "Address", true)]
         public void AddressSetter(string value)
         {
             Address = IPAddress.Parse(value);
