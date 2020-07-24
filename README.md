@@ -12,3 +12,6 @@ ___
 
 > #### Author
 > Konstantin S.G.([profile](http://github.com/bluesbaker))
+
+> #### License
+> "All questions to my girlfriend"
