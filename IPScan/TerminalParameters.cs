@@ -43,7 +43,7 @@ namespace IPScan
             return parameters;
         } 
 
-        // typed clone
+        // The typed clone
         public TerminalParameters Copy(IDictionary<string, string> injection = null)
         {
             var parametersClone = (TerminalParameters)this.Clone();
@@ -59,7 +59,7 @@ namespace IPScan
             return parametersClone;
         }
         
-        // implementation ICloneable
+        // Implementation ICloneable
         public object Clone()
         {
             var parameters = new TerminalParameters();
