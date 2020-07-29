@@ -57,7 +57,8 @@ namespace IPScan
 
             return parametersClone;
         }
-
+        
+        // Implementation ICloneable
         public object Clone()
         {
             var parameters = new TerminalParameters();
