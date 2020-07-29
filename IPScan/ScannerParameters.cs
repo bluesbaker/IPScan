@@ -21,7 +21,7 @@ namespace IPScan
 
 
         /// <summary>
-        /// Parsing a string dictionary to ScannerParameters with instance properties
+        /// Parsing the dictionary of string to ScannerParameters
         /// </summary>
         /// <param name="parameters">Parameters</param>
         /// <returns>Scanner parameters</returns>
@@ -69,7 +69,7 @@ namespace IPScan
 
 
         /// <summary>
-        /// Return key setters collection(*for help)
+        /// Return the key setters collection(*for help)
         /// </summary>
         /// <returns>KeySetter collection</returns>
         public static IEnumerable<KeySetterAttribute> GetKeySetters()
