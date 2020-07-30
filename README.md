@@ -11,7 +11,7 @@ ___
 > * `ipscan -ip 192.168.0.1-192.168.88.255 -p 80`
 
 ### Author
-> Konstantin S.G.([profile](http://github.com/bluesbaker))
+> [Konstantin S.G.](http://github.com/bluesbaker)
 
 ### License
 > "All questions to my girlfriend"
