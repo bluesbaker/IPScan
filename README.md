@@ -3,7 +3,7 @@
 ___
 
 ### Description 
-> Scanning a range of ip addresses with\without a port.
+> Scanning the range of ip addresses with\without the port.
 
 ### Usage 
 > * `ipscan -ip 192.168.0.77`
