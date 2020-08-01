@@ -69,7 +69,7 @@ namespace IPScan
 
 
         /// <summary>
-        /// Return the key setters collection(*for help)
+        /// Returns the key setters collection(*for help)
         /// </summary>
         /// <returns>KeySetter collection</returns>
         public static IEnumerable<KeySetterAttribute> GetKeySetters()
