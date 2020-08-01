@@ -46,7 +46,7 @@ namespace IPScan
         }
 
         /// <summary>
-        /// Checking required keys
+        /// Checking the required keys
         /// </summary>
         /// <param name="parameters">Parameters</param>
         /// <returns>Returns true if the required keys exists in the collection</returns>
