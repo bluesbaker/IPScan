@@ -14,7 +14,7 @@ namespace IPScan
         /// <param name="args">Argument array</param>
         /// <param name="defaultKey">Default first key</param>
         /// <param name="defaultValue">Default key value</param>
-        /// <returns>arguments collection</returns>
+        /// <returns>Arguments collection</returns>
         public static TerminalParameters Parse(string[] args, string defaultKey = "", string defaultValue = "true")
         {
             var parameters = new TerminalParameters();
@@ -41,16 +41,20 @@ namespace IPScan
             }
 
             return parameters;
-        } 
+        }
 
-        // The typed clone
-        public TerminalParameters Copy(IDictionary<string, string> injection = null)
+        /// <summary>
+        /// Returns the typed clone with\without replaced dictionary of params
+        /// </summary>
+        /// <param name="dictionary">Parameters dictionary</param>
+        /// <returns>Terminal parameters</returns>
+        public TerminalParameters Copy(IDictionary<string, string> dictionary = null)
         {
             var parametersClone = (TerminalParameters)this.Clone();
 
-            if(injection != null)
+            if(dictionary != null)
             {
-                foreach (var field in injection)
+                foreach (var field in dictionary)
                 {
                     parametersClone[field.Key] = field.Value;
                 }
@@ -59,7 +63,7 @@ namespace IPScan
             return parametersClone;
         }
         
-        // Implementation ICloneable
+        // implementation ICloneable
         public object Clone()
         {
             var parameters = new TerminalParameters();
