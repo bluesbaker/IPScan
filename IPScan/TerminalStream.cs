@@ -225,11 +225,14 @@ namespace IPScan
 
         private static void AboutViewer()
         {
-            RenderField("Author", fieldWidth: 20);
-            Console.WriteLine("github.com/bluesbaker");
+            // author
+            RenderField("Author ", fieldWidth: 15);
+            RenderField("github.com/");
+            RenderField("bluesbaker\n", fgColor: ConsoleColor.Blue);
 
-            RenderField("Copyright", fieldWidth: 20);
-            Console.WriteLine("...-2020");
+            // copyright
+            RenderField("Copyright ", fieldWidth: 15);
+            RenderField("2020\n");
         }
         #endregion
 
