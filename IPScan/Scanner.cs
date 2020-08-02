@@ -65,7 +65,7 @@ namespace IPScan
 
     public class ScannerException : Exception
     {
-        public ScannerException(string message, Exception innerException) : base(message, innerException)
+        public ScannerException(string message, Exception innerException = null) : base(message, innerException)
         {
             // your advertisement could be here...
         }
