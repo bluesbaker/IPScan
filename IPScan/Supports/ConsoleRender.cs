@@ -35,31 +35,28 @@ namespace IPScan.Supports
         /// <summary>
         /// Rendering text of loading for example "Please wait..."
         /// </summary>
-        public static void Loader(string title, Func<bool> predicate, int pause = 100, int dotCount = 3)
+        public static void Loader(string text, Func<bool> predicate, int pause = 100, int dotCount = 3)
         {
-            Console.Write(title);
+            var dots = 0;
+            var dynamicText = text;
 
-            // render dots
-            int dots = 0;
             while (predicate.Invoke())
             {
+                dynamicText += new String('.', dots);
                 dots++;
-                Console.Write(".");
+
+                Console.Write(dynamicText);
                 Thread.Sleep(pause);
 
                 // clear dots
                 if (dots >= dotCount)
                 {
-                    WriteBackspace(dots);
                     dots = 0;
                 }
-            }
 
-            // clear last dots
-            WriteBackspace(dots);
-
-            // clear title
-            WriteBackspace(title.Length);
+                WriteBackspace(dynamicText.Length);
+                dynamicText = text;
+            }           
         }
 
         #region Tools
