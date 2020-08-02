@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ScannerParameters.cs" />
+    <Compile Include="Supports\ConsoleRender.cs" />
     <Compile Include="Supports\KeySetterAttribute.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
