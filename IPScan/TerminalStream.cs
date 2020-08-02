@@ -83,7 +83,7 @@ namespace IPScan
                     Task<PingReply> pingTask = scanner.GetPingReplyAsync();
 
                     Console.Title = "Scanning " + address;
-                    RenderLoading("Scanning " + address, (() => !pingTask.IsCompleted));
+                    ConsoleRender.Loader("Scanning " + address, (() => !pingTask.IsCompleted));
                     pingTask.Wait();
 
                     // ping response
@@ -98,7 +98,7 @@ namespace IPScan
                             // port request
                             Task<bool> portTask = scanner.GetPortAccessAsync();
                     
-                            RenderLoading("Scanning port " + scanner.Parameters.Port, (() => !portTask.IsCompleted));
+                            ConsoleRender.Loader("Scanning port " + scanner.Parameters.Port, (() => !portTask.IsCompleted));
                             portTask.Wait();
                     
                             // port response
