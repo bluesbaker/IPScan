@@ -143,17 +143,17 @@ namespace IPScan
             if (hasHeaders)
             {
                 // view headers
-                RenderField("Address", ConsoleColor.DarkBlue, fieldWidth: 20);
-                RenderField("Status", ConsoleColor.DarkBlue, fieldWidth: 20);
-                RenderField("Roundtrip time", ConsoleColor.DarkBlue, fieldWidth: 20);
+                ConsoleRender.Field("Address", ConsoleColor.DarkBlue, fieldWidth: 20);
+                ConsoleRender.Field("Status", ConsoleColor.DarkBlue, fieldWidth: 20);
+                ConsoleRender.Field("Roundtrip time", ConsoleColor.DarkBlue, fieldWidth: 20);
 
                 Console.WriteLine();
             }
 
             // view address, status and ping*
-            RenderField(address, fieldWidth: 20);
-            RenderField(status, fgColor: statusColor, fieldWidth: 20);
-            RenderField(roundtripTime, fieldWidth: 20);
+            ConsoleRender.Field(address, fieldWidth: 20);
+            ConsoleRender.Field(status, fgColor: statusColor, fieldWidth: 20);
+            ConsoleRender.Field(roundtripTime, fieldWidth: 20);
 
             Console.WriteLine();
         }
@@ -166,16 +166,16 @@ namespace IPScan
             if (hasHeaders)
             {
                 // view headers
-                RenderField("Port", bgColor: ConsoleColor.DarkGray, fieldWidth: 20);
-                RenderField("Status", bgColor: ConsoleColor.DarkGray, fieldWidth: 20);
+                ConsoleRender.Field("Port", bgColor: ConsoleColor.DarkGray, fieldWidth: 20);
+                ConsoleRender.Field("Status", bgColor: ConsoleColor.DarkGray, fieldWidth: 20);
 
                 Console.WriteLine();
             }
 
             // view port and his status
-            RenderField($"Port:", fgColor: ConsoleColor.DarkGray, fieldWidth: 5);
-            RenderField(port.ToString(), fieldWidth: 15);
-            RenderField(isAccessed.ToString(), fgColor: statusColor, fieldWidth: 20);
+            ConsoleRender.Field($"Port:", fgColor: ConsoleColor.DarkGray, fieldWidth: 5);
+            ConsoleRender.Field(port.ToString(), fieldWidth: 15);
+            ConsoleRender.Field(isAccessed.ToString(), fgColor: statusColor, fieldWidth: 20);
 
             Console.WriteLine();
         }
@@ -190,12 +190,12 @@ namespace IPScan
                 }
                 catch (ScannerException exc)
                 {
-                    RenderField("Scanner error", bgColor: ConsoleColor.DarkRed);
+                    ConsoleRender.Field("Scanner error", bgColor: ConsoleColor.DarkRed);
                     Console.WriteLine($" {exc.Message} ");
                 }
                 catch (Exception exc)
                 {
-                    RenderField("System error", bgColor: ConsoleColor.DarkRed);
+                    ConsoleRender.Field("System error", bgColor: ConsoleColor.DarkRed);
                     Console.WriteLine($" {exc.Message} ");
                 }
                 finally
@@ -219,82 +219,20 @@ namespace IPScan
                 "--about\t\t- About\n" +
                 "--quit\t\t- Quit\n";
 
-            RenderField(helpString, fgColor: ConsoleColor.DarkGray);
+            ConsoleRender.Field(helpString, fgColor: ConsoleColor.DarkGray);
             Console.WriteLine();
         }
 
         private static void AboutViewer()
         {
             // author
-            RenderField("Author ", fieldWidth: 15);
-            RenderField("github.com/");
-            RenderField("bluesbaker\n", fgColor: ConsoleColor.Blue);
+            ConsoleRender.Field("Author ", fieldWidth: 15);
+            ConsoleRender.Field("github.com/");
+            ConsoleRender.Field("bluesbaker\n", fgColor: ConsoleColor.Blue);
 
             // copyright
-            RenderField("Copyright ", fieldWidth: 15);
-            RenderField("2020\n");
-        }
-        #endregion
-
-
-        #region Additional rendering tools
-        /// <summary>
-        /// Rendering text of loading for example "Please wait..."
-        /// </summary>
-        private static void RenderLoading(string title, Func<bool> predicate, int pause = 100, int dotCount = 3)
-        {
-            // -> delete last symbols at terminal
-            void WriteBackspace(int count)
-            {
-                for (int c = 0; c < count; c++)
-                {
-                    Console.Write("\b \b");
-                }
-            }
-
-            Console.Write(title);
-
-            // render dots
-            int dots = 0;  
-            while (predicate.Invoke())
-            {
-                dots++;
-                Console.Write(".");
-                Thread.Sleep(pause);
-
-                // clear dots
-                if (dots >= dotCount)
-                {
-                    WriteBackspace(dots);
-                    dots = 0;
-                }
-            }
-
-            // clear last dots
-            WriteBackspace(dots);
-
-            // clear title
-            WriteBackspace(title.Length);
-        }
-
-        /// <summary>
-        /// Rendering a color field in terminal
-        /// </summary>
-        private static void RenderField(string textField, ConsoleColor bgColor = ConsoleColor.Black, ConsoleColor fgColor = ConsoleColor.White, int fieldWidth = 0)
-        {
-            Console.BackgroundColor = bgColor;
-            Console.ForegroundColor = fgColor;
-
-            Console.Write(textField);
-
-            if (fieldWidth >= textField.Length)
-            {
-                // add remaining spaces
-                var spaces = new String(' ', fieldWidth - textField.Length);
-                Console.Write(spaces);
-            }
-
-            Console.ResetColor();
+            ConsoleRender.Field("Copyright ", fieldWidth: 15);
+            ConsoleRender.Field("2020\n");
         }
         #endregion
     }
