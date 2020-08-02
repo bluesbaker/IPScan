@@ -54,7 +54,7 @@ namespace IPScan
         {
             try
             {
-                // check parameters
+                // checking parameters
                 var isCheck = ScannerParameters.CheckingRequiredKeys(commandParameters);
                 if(isCheck == false)
                 {
@@ -89,7 +89,7 @@ namespace IPScan
                     // ping response
                     if (pingTask.Result.Status == IPStatus.Success)
                     {
-                        // view ping reply and also hearders if first result
+                        // view ping reply and also hearders if result is first
                         PingReplyViewer(pingTask.Result, pingResultCount == 0);
                         pingResultCount++;
                         
