@@ -18,12 +18,11 @@ namespace IPScan
         public static TerminalParameters Parse(string[] args, string defaultKey = "", string defaultValue = "true")
         {
             var parameters = new TerminalParameters();
-            string lastKey = defaultKey;
-
             // filter
             var arguments = from a in args
                             where a != String.Empty
                             select a;
+            string lastKey = defaultKey;
 
             foreach (string arg in arguments)
             {
