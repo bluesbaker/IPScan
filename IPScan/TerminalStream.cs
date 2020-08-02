@@ -58,7 +58,7 @@ namespace IPScan
                 var isCheck = ScannerParameters.CheckingRequiredKeys(commandParameters);
                 if(isCheck == false)
                 {
-                    throw new Exception("One or more required parameters is missing");
+                    throw new ScannerException("One or more required parameters is missing");
                 }
 
                 // split addresses to a range* collection
