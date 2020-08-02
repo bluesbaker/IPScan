@@ -42,7 +42,7 @@ namespace IPScan
                     case "--quit":
                         return false;
                     default:
-                        TryScan(parameters);
+                        Scanning(parameters);
                         return true;
                 }
             }           
@@ -50,7 +50,7 @@ namespace IPScan
             return true;
         }
 
-        private static void TryScan(TerminalParameters commandParameters)
+        private static void Scanning(TerminalParameters commandParameters)
         {
             try
             {
@@ -61,22 +61,20 @@ namespace IPScan
                     throw new ScannerException("One or more required parameters is missing");
                 }
 
-                // split addresses to a range* collection
+                // split addresses to the range* collection
                 var addresses = commandParameters["-ip"].Split('-');
                 var startAddress = IPAddress.Parse(addresses[0]);
                 var endAddress = IPAddress.Parse(addresses[addresses.Length - 1]);
-                var addressCollection = startAddress.Range(endAddress);         
+                var addressRange = startAddress.Range(endAddress);         
 
                 var pingResultCount = 0;
 
-                foreach(var address in addressCollection)
+                foreach(var address in addressRange)
                 {
                     // copying params with only one address(without range)
-                    var injection = new Dictionary<string, string>()
-                    {
-                        ["-ip"] = address.ToString()
-                    };         
-                    var parameters = commandParameters.Copy(injection);
+                    var parameters = commandParameters.Copy();
+                    parameters["-ip"] = address.ToString();
+
                     var scanner = new Scanner(ScannerParameters.Parse(parameters));
 
                     // ping request
