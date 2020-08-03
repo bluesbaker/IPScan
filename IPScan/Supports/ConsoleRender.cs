@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -13,29 +14,146 @@ namespace IPScan.Supports
     public static class ConsoleRender
     {
         /// <summary>
-        /// Rendering a color field
+        /// Rendering the color field
         /// </summary>
-        public static void Field(string textField, ConsoleColor bgColor = ConsoleColor.Black, ConsoleColor fgColor = ConsoleColor.White, int fieldWidth = 0)
+        /// <param name="text">Text of the field</param>
+        /// <param name="width">Width of the field</param>
+        /// <param name="colorSections">Color sections</param>
+        public static void Field(string text, int width = 0, params ColorSection[] colorSections)
         {
-            Console.BackgroundColor = bgColor;
-            Console.ForegroundColor = fgColor;
+            var commonText = text;
 
-            Console.Write(textField);
-
-            if (fieldWidth >= textField.Length)
+            // add remaining spaces
+            if (width >= text.Length)
             {
-                // add remaining spaces
-                var spaces = new String(' ', fieldWidth - textField.Length);
-                Console.Write(spaces);
+                commonText += new String(' ', width - text.Length);
+            }
+
+            Write(commonText, colorSections);
+        }
+
+        /// <summary>
+        /// Rendering the color field line
+        /// </summary>
+        /// <param name="text">Text of the field</param>
+        /// <param name="width">Width of the field</param>
+        /// <param name="colorSections">Color sections</param>
+        public static void FieldLine(string text, int width = 0, params ColorSection[] colorSections)
+        {
+            Field(text, width, colorSections);
+            Console.WriteLine();
+        }
+
+        /// <summary>
+        /// Rendering the color fields
+        /// </summary>
+        /// <param name="textCollection">Text collection</param>
+        /// <param name="width">Width of the fields</param>
+        /// <param name="colorSections">Color sections</param>
+        public static void Fields(ICollection<string> textCollection, int width = 0, params ColorSection[] colorSections)
+        {
+            foreach(var text in textCollection)
+            {
+                Field(text, width, colorSections);
+            }
+        }
+
+        /// <summary>
+        /// Rendering the color fields line
+        /// </summary>
+        /// <param name="textCollection">Text collection</param>
+        /// <param name="width">Width of the fields</param>
+        /// <param name="colorSections">Color sections</param>
+        public static void FieldsLine(ICollection<string> textCollection, int width = 0, params ColorSection[] colorSections)
+        {
+            Fields(textCollection, width, colorSections);
+            Console.WriteLine();
+        }
+
+        /// <summary>
+        /// Rendering the color text
+        /// </summary>
+        /// <param name="text">Text of the field</param>
+        /// <param name="colorSections">Color sections</param>
+        public static void Write(string text, params ColorSection[] colorSections)
+        {
+            // default colors
+            var foregroundColor = Console.ForegroundColor;
+            var backgroundColor = Console.BackgroundColor;
+
+            // result* sections
+            var commonSections = new List<ColorSection>();
+
+            // split textField into ColorSections
+            if (colorSections.Length != 0)
+            {
+                var sortedSections = colorSections.ToList();
+                sortedSections.Sort((s, p) => text.IndexOf(s.Text));
+
+                var lastIndexOfSection = 0;
+                foreach (var section in sortedSections)
+                {
+                    // set default colors by empty* section
+                    if (String.IsNullOrEmpty(section.Text))
+                    {
+                        foregroundColor = section.Foreground;
+                        backgroundColor = section.Background;
+                        continue;
+                    }
+
+                    var indexOfSection = text.IndexOf(section.Text);
+                    if (indexOfSection == -1) continue;
+
+                    // before section...
+                    var before = text.Substring(lastIndexOfSection, indexOfSection - lastIndexOfSection);
+                    var beforeSection = new ColorSection(backgroundColor, foregroundColor, before);
+
+                    commonSections.Add(beforeSection);
+                    commonSections.Add(section);
+
+                    lastIndexOfSection = indexOfSection + section.Text.Length;
+                }
+
+                // ...after section
+                var after = text.Substring(lastIndexOfSection);
+                var afterSection = new ColorSection(backgroundColor, foregroundColor, after);
+
+                commonSections.Add(afterSection);
+            }
+            // or create only one default ColorSection
+            else
+            {
+                var section = new ColorSection(backgroundColor, foregroundColor, text);
+                commonSections.Add(section);
+            }
+
+            // render
+            foreach (var section in commonSections)
+            {
+                Console.BackgroundColor = section.Background;
+                Console.ForegroundColor = section.Foreground;
+
+                Console.Write(section.Text);
             }
 
             Console.ResetColor();
         }
 
         /// <summary>
+        /// Rendering the color text line
+        /// </summary>
+        /// <param name="text">Text of the field</param>
+        /// <param name="colorSections">Color sections</param>
+        public static void WriteLine(string text, params ColorSection[] colorSections)
+        {
+            Write(text, colorSections);
+            Console.WriteLine();
+        }
+
+        /// <summary>
         /// Rendering text of loading for example "Please wait..."
         /// </summary>
-        public static void Loader(string text, Func<bool> predicate, int pause = 100, int dotCount = 3)
+        public static void Loader(string text, Func<bool> predicate, int pause = 100, int dotCount = 3, params ColorSection[] colorSections)
         {
             var dots = 0;
             var dynamicText = text;
@@ -45,7 +163,7 @@ namespace IPScan.Supports
                 dynamicText += new String('.', dots);
                 dots++;
 
-                Console.Write(dynamicText);
+                Write(dynamicText, colorSections);
                 Thread.Sleep(pause);
 
                 // clear dots
@@ -56,11 +174,13 @@ namespace IPScan.Supports
 
                 WriteBackspace(dynamicText.Length);
                 dynamicText = text;
-            }           
+            }
         }
 
-        #region Tools
-        // delete last symbols at terminal
+        /// <summary>
+        /// Deleting last symbols at terminal
+        /// </summary>
+        /// <param name="count">Count of symbols</param>
         private static void WriteBackspace(int count)
         {
             for (int c = 0; c < count; c++)
@@ -68,6 +188,20 @@ namespace IPScan.Supports
                 Console.Write("\b \b");
             }
         }
-        #endregion
+        
+    }
+
+    public class ColorSection
+    {
+        public string Text { get; set; }
+        public ConsoleColor Background { get; set; }
+        public ConsoleColor Foreground { get; set; }
+
+        public ColorSection(ConsoleColor background = ConsoleColor.Black, ConsoleColor foreground = ConsoleColor.White, string text = "")
+        {
+            Text = text;
+            Background = background;
+            Foreground = foreground;
+        }
     }
 }

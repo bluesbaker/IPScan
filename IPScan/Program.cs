@@ -24,13 +24,18 @@ namespace IPScan
         
         static void StartupViewer()
         {
-            string startupMessage =
-                $"IPScan – scanning ip-addresses\n" +
-                $"----------------------------\n" +
-                "Usage:\t-ip 192.168.0.1-192.168.0.255 -p 80\n" +
-                "Help:\t--help\n";
+            var appTitle = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyTitleAttribute>().Title;
+            var appDescription = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyDescriptionAttribute>().Description;
+            var appInfo = "Usage:\t-ip 192.168.0.1-192.168.0.255 -p 80\nHelp:\t--help\n";
 
-            Console.WriteLine(startupMessage);
+            var commonHeader = $"{appTitle} - {appDescription}";
+
+            // header
+            ConsoleRender.WriteLine(commonHeader, new ColorSection(foreground: ConsoleColor.Cyan, text: appTitle));
+            // splitter
+            ConsoleRender.WriteLine(new String('-', commonHeader.Length));
+            // additional info
+            ConsoleRender.WriteLine(appInfo, new ColorSection(foreground: ConsoleColor.DarkGray));
         }
     }
 }
