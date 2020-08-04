@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 
 namespace IPScan.BLL
 {
+    /// <summary>
+    /// Scanning ip-address
+    /// </summary>
     public class Scanner
     {
         public ScannerParameters Parameters;

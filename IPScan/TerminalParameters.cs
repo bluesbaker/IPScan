@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace IPScan
 {
+    /// <summary>
+    /// Parameters of TerminalStream
+    /// </summary>
     public class TerminalParameters : Dictionary<string, string>, ICloneable
     {
         /// <summary>

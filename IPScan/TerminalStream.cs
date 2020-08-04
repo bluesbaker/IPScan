@@ -12,6 +12,9 @@ using System.Threading.Tasks;
 
 namespace IPScan
 {
+    /// <summary>
+    /// User interface of the terminal
+    /// </summary>
     public static class TerminalStream
     {
         public static void Run(TerminalParameters beginParameters)

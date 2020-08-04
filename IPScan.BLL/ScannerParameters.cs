@@ -10,6 +10,9 @@ using IPScan.SUP;
 
 namespace IPScan.BLL
 {
+    /// <summary>
+    /// Parameters of Scanner
+    /// </summary>
     public class ScannerParameters
     {
         // required
