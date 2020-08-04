@@ -1,5 +1,4 @@
-﻿using IPScan;
-using IPScan.Supports;
+﻿using IPScan.BLL;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
