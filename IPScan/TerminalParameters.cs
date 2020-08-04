@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace IPScan
 {
@@ -54,17 +52,17 @@ namespace IPScan
         {
             var parametersClone = (TerminalParameters)this.Clone();
 
-            if(dictionary != null)
+            if (dictionary != null)
             {
                 foreach (var field in dictionary)
                 {
                     parametersClone[field.Key] = field.Value;
                 }
-            }           
+            }
 
             return parametersClone;
         }
-        
+
         // implementation ICloneable
         public object Clone()
         {

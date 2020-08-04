@@ -1,13 +1,9 @@
 ﻿using IPScan.BLL;
 using IPScan.SUP;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using static IPScan.TerminalViewers;
 
@@ -34,7 +30,7 @@ namespace IPScan
         #region Controls
         private static bool TryCommand(TerminalParameters parameters)
         {
-            foreach(var param in parameters)
+            foreach (var param in parameters)
             {
                 switch (param.Key)
                 {
@@ -50,7 +46,7 @@ namespace IPScan
                         Scanning(parameters);
                         return true;
                 }
-            }           
+            }
 
             return true;
         }
@@ -61,7 +57,7 @@ namespace IPScan
             {
                 // checking parameters
                 var isCheck = ScannerParameters.CheckingRequiredKeys(commandParameters);
-                if(isCheck == false)
+                if (isCheck == false)
                 {
                     throw new ScannerException("One or more required parameters is missing");
                 }
@@ -70,11 +66,11 @@ namespace IPScan
                 var addresses = commandParameters["-ip"].Split('-');
                 var startAddress = IPAddress.Parse(addresses[0]);
                 var endAddress = IPAddress.Parse(addresses[addresses.Length - 1]);
-                var addressRange = startAddress.Range(endAddress);         
+                var addressRange = startAddress.Range(endAddress);
 
                 var pingResultCount = 0;
 
-                foreach(var address in addressRange)
+                foreach (var address in addressRange)
                 {
                     // copying params with only one address(without range)
                     var parameters = commandParameters.Copy();
@@ -95,22 +91,19 @@ namespace IPScan
                         // view ping reply and also hearders if result is first
                         PingReplyViewer(pingTask.Result, pingResultCount == 0);
                         pingResultCount++;
-                        
+
                         if (scanner.Parameters.Port > 0)
                         {
                             // port request
-                            Task<bool> portTask = scanner.GetPortAccessAsync();
-                    
+                            Task<PortReply> portTask = scanner.GetPortAccessAsync();
+
                             ColorConsole.Loader("Scanning port " + scanner.Parameters.Port, (() => !portTask.IsCompleted));
                             portTask.Wait();
-                    
-                            // port response
-                            var portAccess = portTask.Result;
-                    
+
                             // view port status
-                            PortAccessViewer(scanner.Parameters.Port, portAccess);                            
+                            PortAccessViewer(portTask.Result);
                         }
-                        
+
                     }
                 }
 

@@ -1,13 +1,6 @@
 ﻿using IPScan.SUP;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.NetworkInformation;
 using System.Reflection;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace IPScan
 {
@@ -21,7 +14,7 @@ namespace IPScan
             var terminalParameters = TerminalParameters.Parse(args, "-ip");
             TerminalStream.Run(terminalParameters);
         }
-        
+
         static void StartupViewer()
         {
             var appTitle = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyTitleAttribute>().Title;

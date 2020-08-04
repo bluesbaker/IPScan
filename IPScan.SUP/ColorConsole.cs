@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace IPScan.SUP
 {
@@ -52,7 +49,7 @@ namespace IPScan.SUP
         /// <param name="colorSections">Color sections</param>
         public static void Fields(ICollection<string> textCollection, int width = 0, params ColorSection[] colorSections)
         {
-            foreach(var text in textCollection)
+            foreach (var text in textCollection)
             {
                 Field(text, width, colorSections);
             }
@@ -187,7 +184,7 @@ namespace IPScan.SUP
             {
                 Console.Write("\b \b");
             }
-        }      
+        }
     }
 
     public class ColorSection
