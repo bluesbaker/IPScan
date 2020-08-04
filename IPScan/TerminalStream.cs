@@ -1,4 +1,5 @@
-﻿using IPScan.Supports;
+﻿using IPScan.BLL;
+using IPScan.SUP;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,6 +12,9 @@ using System.Threading.Tasks;
 
 namespace IPScan
 {
+    /// <summary>
+    /// User interface of the terminal
+    /// </summary>
     public static class TerminalStream
     {
         public static void Run(TerminalParameters beginParameters)

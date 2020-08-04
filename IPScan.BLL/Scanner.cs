@@ -1,5 +1,4 @@
-﻿using IPScan.Supports;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -9,8 +8,11 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace IPScan
+namespace IPScan.BLL
 {
+    /// <summary>
+    /// Scanning ip-address
+    /// </summary>
     public class Scanner
     {
         public ScannerParameters Parameters;

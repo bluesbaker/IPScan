@@ -5,11 +5,14 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
-using IPScan.Supports;
 using System.Collections.ObjectModel;
+using IPScan.SUP;
 
-namespace IPScan
+namespace IPScan.BLL
 {
+    /// <summary>
+    /// Parameters of Scanner
+    /// </summary>
     public class ScannerParameters
     {
         // required

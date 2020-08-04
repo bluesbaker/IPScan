@@ -43,18 +43,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ScannerParameters.cs" />
-    <Compile Include="Supports\ColorConsole.cs" />
-    <Compile Include="Supports\KeySetterAttribute.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Scanner.cs" />
-    <Compile Include="Supports\IPAddressExtension.cs" />
     <Compile Include="TerminalParameters.cs" />
     <Compile Include="TerminalStream.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\IPScan.BLL\IPScan.BLL.csproj">
+      <Project>{0f0f62fb-425e-480f-a82c-31d81242fb3e}</Project>
+      <Name>IPScan.BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IPScan.SUP\IPScan.SUP.csproj">
+      <Project>{1eb7c73d-28b8-4bd0-afab-cb0b039aee26}</Project>
+      <Name>IPScan.SUP</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
