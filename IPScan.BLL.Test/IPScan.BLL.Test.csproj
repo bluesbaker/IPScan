@@ -13,7 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\IPScan.BLL\IPScan.BLL.csproj" />
+    <ProjectReference Include="..\IPScan.SUP\IPScan.SUP.csproj" />
+    <ProjectReference Include="..\IPScan\IPScan.csproj" />
   </ItemGroup>
 
 </Project>
