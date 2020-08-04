@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IPScan.Supports
+namespace IPScan.SUP
 {
     /// <summary>
     /// Declaration an option key with an description

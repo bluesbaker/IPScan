@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace IPScan.Supports
+namespace IPScan.SUP
 {
     /// <summary>
     /// Additional text rendering tool
