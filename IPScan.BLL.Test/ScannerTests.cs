@@ -1,8 +1,5 @@
 ﻿using IPScan.BLL;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Threading.Tasks;
@@ -24,7 +21,7 @@ namespace Tests
         {
             _scanner.Parameters.Address = IPAddress.Parse("8.8.8.8");
 
-            var task = _scanner.GetPingReplyAsync();           
+            var task = _scanner.GetPingReplyAsync();
             task.Wait();
 
             Assert.That(task.Result.Status, Is.EqualTo(IPStatus.Success));
@@ -51,7 +48,7 @@ namespace Tests
                 Task<PingReply> reply = _scanner.GetPingReplyAsync();
                 reply.Wait();
             });
-            
+
             Assert.That(exc.InnerException, Is.TypeOf<ScannerException>());
         }
     }

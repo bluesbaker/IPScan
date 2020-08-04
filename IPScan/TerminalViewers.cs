@@ -1,11 +1,7 @@
 ﻿using IPScan.BLL;
 using IPScan.SUP;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.NetworkInformation;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace IPScan
 {
@@ -33,9 +29,9 @@ namespace IPScan
             ColorConsole.FieldsLine(new[] { address, status, roundtripTime }, 20, new ColorSection(foreground: statusColor, section: status));
         }
 
-        public static void PortAccessViewer(int port, bool isAccessed, bool hasHeaders = false)
+        public static void PortAccessViewer(PortReply portReply, bool hasHeaders = false)
         {
-            var statusColor = isAccessed == true ? ConsoleColor.Green : ConsoleColor.Red;
+            var statusColor = portReply.Status == PortStatus.Opened ? ConsoleColor.Green : ConsoleColor.Red;
 
             if (hasHeaders)
             {
@@ -44,7 +40,7 @@ namespace IPScan
             }
 
             // view port and his status
-            ColorConsole.FieldsLine(new[] { $"Port:{port}", isAccessed.ToString() }, 20, new ColorSection(foreground: statusColor, section: isAccessed.ToString()));
+            ColorConsole.FieldsLine(new[] { $"Port:{portReply.Port}", portReply.Status.ToString() }, 20, new ColorSection(foreground: statusColor, section: portReply.Status.ToString()));
         }
 
         public static void ErrorViewer(params Exception[] exceptions)

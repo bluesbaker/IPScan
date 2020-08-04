@@ -1,12 +1,10 @@
-﻿using System;
+﻿using IPScan.SUP;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using System.Reflection;
-using System.Collections.ObjectModel;
-using IPScan.SUP;
 
 namespace IPScan.BLL
 {
@@ -40,7 +38,7 @@ namespace IPScan.BLL
                     setter?.Invoke(scannerParameters, new[] { param.Value });
                 }
             }
-            catch(Exception exc)
+            catch (Exception exc)
             {
                 throw new ScannerException("Parsing exception", exc);
             }
@@ -57,11 +55,11 @@ namespace IPScan.BLL
         {
             var isCheck = true;
 
-            foreach(var keySetter in GetKeySetters())
+            foreach (var keySetter in GetKeySetters())
             {
                 var param = parameters.FirstOrDefault(p => p.Key == keySetter.Key);
 
-                if(keySetter.IsRequired == true && param.Value == null)
+                if (keySetter.IsRequired == true && param.Value == null)
                 {
                     isCheck = false;
                 }
@@ -80,7 +78,7 @@ namespace IPScan.BLL
             var keySetters = new Collection<KeySetterAttribute>();
             var setters = new ScannerParameters().GetSetters();
 
-            foreach(var setter in setters)
+            foreach (var setter in setters)
             {
                 keySetters.Add(setter.GetCustomAttribute<KeySetterAttribute>());
             }
@@ -110,10 +108,10 @@ namespace IPScan.BLL
 
 
         #region Tools
-        private MethodInfo GetSetter(string key) => 
+        private MethodInfo GetSetter(string key) =>
             GetSetters().FirstOrDefault(s => s.GetCustomAttribute<KeySetterAttribute>().Key == key);
 
-        private IEnumerable<MethodInfo> GetSetters() => 
+        private IEnumerable<MethodInfo> GetSetters() =>
             GetType().GetMethods().Where(m => m.GetCustomAttribute<KeySetterAttribute>() != null);
         #endregion
     }

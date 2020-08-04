@@ -2,7 +2,6 @@ using IPScan.SUP;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 
 namespace Tests
@@ -65,6 +64,6 @@ namespace Tests
 
             CollectionAssert.AreEqual(range, mockRange);
         }
-        
+
     }
 }

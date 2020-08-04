@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace IPScan.BLL
@@ -41,8 +36,10 @@ namespace IPScan.BLL
             return reply;
         }
 
-        public async Task<bool> GetPortAccessAsync()
+        public async Task<PortReply> GetPortAccessAsync()
         {
+            PortReply reply = new PortReply { Port = Parameters.Port };
+
             var tcpClient = new TcpClient
             {
                 SendTimeout = 5
@@ -54,14 +51,16 @@ namespace IPScan.BLL
             }
             catch (SocketException)
             {
-                return false;
+                reply.Status = PortStatus.Closed;
+                return reply;
             }
             catch (Exception exc)
             {
                 throw new ScannerException("Port exception", exc);
             }
 
-            return true;
+            reply.Status = PortStatus.Opened;
+            return reply;
         }
     }
 
