@@ -42,10 +42,11 @@ namespace IPScan.Supports
             for (int ipAsInt = fromAsInt; ipAsInt <= toAsInt; ipAsInt++)
             {
                 var ipAsBytes = BitConverter.GetBytes(ipAsInt);
+
                 // more reverse... more!
                 Array.Reverse(ipAsBytes);
-                var ip = new IPAddress(ipAsBytes);
-                result.Add(ip);
+
+                result.Add(new IPAddress(ipAsBytes));
             }
 
             return result;
