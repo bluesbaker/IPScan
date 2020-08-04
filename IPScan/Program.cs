@@ -22,7 +22,7 @@ namespace IPScan
 
             if(assembly != null)
             {
-                // I'm not sure if this is a good solution
+                // I'm not sure if this is a good idea
                 var appTitle = assembly.GetCustomAttribute<AssemblyTitleAttribute>()?.Title;
                 var appDescription = assembly.GetCustomAttribute<AssemblyDescriptionAttribute>()?.Description;
                 var appVersion = assembly.GetName().Version?.ToString();
