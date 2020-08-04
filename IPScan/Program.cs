@@ -31,11 +31,11 @@ namespace IPScan
             var commonHeader = $"{appTitle} - {appDescription}";
 
             // header
-            ConsoleRender.WriteLine(commonHeader, new ColorSection(foreground: ConsoleColor.Cyan, text: appTitle));
+            ColorConsole.WriteLine(commonHeader, new ColorSection(foreground: ConsoleColor.Cyan, section: appTitle));
             // splitter
-            ConsoleRender.WriteLine(new String('-', commonHeader.Length));
+            ColorConsole.WriteLine(new String('-', commonHeader.Length));
             // additional info
-            ConsoleRender.WriteLine(appInfo, new ColorSection(foreground: ConsoleColor.DarkGray));
+            ColorConsole.WriteLine(appInfo, new ColorSection(foreground: ConsoleColor.DarkGray));
         }
     }
 }

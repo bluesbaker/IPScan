@@ -81,7 +81,7 @@ namespace IPScan
                     Task<PingReply> pingTask = scanner.GetPingReplyAsync();
 
                     Console.Title = "Scanning " + address;
-                    ConsoleRender.Loader("Scanning " + address, (() => !pingTask.IsCompleted));
+                    ColorConsole.Loader("Scanning " + address, (() => !pingTask.IsCompleted));
                     pingTask.Wait();
 
                     // ping response
@@ -96,7 +96,7 @@ namespace IPScan
                             // port request
                             Task<bool> portTask = scanner.GetPortAccessAsync();
                     
-                            ConsoleRender.Loader("Scanning port " + scanner.Parameters.Port, (() => !portTask.IsCompleted));
+                            ColorConsole.Loader("Scanning port " + scanner.Parameters.Port, (() => !portTask.IsCompleted));
                             portTask.Wait();
                     
                             // port response
@@ -140,11 +140,11 @@ namespace IPScan
             if (hasHeaders)
             {
                 // view headers
-                ConsoleRender.FieldsLine(new[] { "Address", "Status", "Roundtrip time" }, 20, new ColorSection(ConsoleColor.DarkBlue));
+                ColorConsole.FieldsLine(new[] { "Address", "Status", "Roundtrip time" }, 20, new ColorSection(ConsoleColor.DarkBlue));
             }
 
             // view address, status and ping*
-            ConsoleRender.FieldsLine(new[] { address, status, roundtripTime }, 20, new ColorSection(foreground: statusColor, text: status));
+            ColorConsole.FieldsLine(new[] { address, status, roundtripTime }, 20, new ColorSection(foreground: statusColor, section: status));
         }
 
         private static void PortAccessViewer(int port, bool isAccessed, bool hasHeaders = false)
@@ -154,11 +154,11 @@ namespace IPScan
             if (hasHeaders)
             {
                 // view headers
-                ConsoleRender.FieldsLine(new[] { "Port", "Status" }, 20, new ColorSection(ConsoleColor.DarkGray));
+                ColorConsole.FieldsLine(new[] { "Port", "Status" }, 20, new ColorSection(ConsoleColor.DarkGray));
             }
 
             // view port and his status
-            ConsoleRender.FieldsLine(new[] { $"Port:{port}", isAccessed.ToString() }, 20, new ColorSection(foreground: statusColor, text: isAccessed.ToString()));
+            ColorConsole.FieldsLine(new[] { $"Port:{port}", isAccessed.ToString() }, 20, new ColorSection(foreground: statusColor, section: isAccessed.ToString()));
         }
 
         private static void ErrorViewer(params Exception[] exceptions)
@@ -171,11 +171,11 @@ namespace IPScan
                 }
                 catch (ScannerException exc)
                 {
-                    ConsoleRender.WriteLine($"Scanner error {exc.Message} ", new ColorSection(ConsoleColor.DarkRed, text: "Scanner error"));                  
+                    ColorConsole.WriteLine($"Scanner error {exc.Message} ", new ColorSection(ConsoleColor.DarkRed, section: "Scanner error"));                  
                 }
                 catch (Exception exc)
                 {
-                    ConsoleRender.WriteLine($"System error {exc.Message} ", new ColorSection(ConsoleColor.DarkRed, text: "System error"));
+                    ColorConsole.WriteLine($"System error {exc.Message} ", new ColorSection(ConsoleColor.DarkRed, section: "System error"));
                 }
                 finally
                 {
@@ -198,18 +198,18 @@ namespace IPScan
                 "--about\t\t- About\n" +
                 "--quit\t\t- Quit\n";
 
-            ConsoleRender.WriteLine(helpString, new ColorSection(foreground: ConsoleColor.DarkGray));
+            ColorConsole.WriteLine(helpString, new ColorSection(foreground: ConsoleColor.DarkGray));
         }
 
         private static void AboutViewer()
         {
             // author
-            ConsoleRender.Field("Author ", width: 15);
-            ConsoleRender.WriteLine("github.com/bluesbaker", new ColorSection(foreground: ConsoleColor.Blue, text: "bluesbaker"));
+            ColorConsole.Field("Author ", width: 15);
+            ColorConsole.WriteLine("github.com/bluesbaker", new ColorSection(foreground: ConsoleColor.Blue, section: "bluesbaker"));
 
             // copyright
-            ConsoleRender.Field("Copyright ", width: 15);
-            ConsoleRender.WriteLine("2020");
+            ColorConsole.Field("Copyright ", width: 15);
+            ColorConsole.WriteLine("2020");
         }
         #endregion
     }

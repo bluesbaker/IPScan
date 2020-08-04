@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 namespace IPScan.Supports
 {
     /// <summary>
-    /// Additional rendering tools
+    /// Additional text rendering tool
     /// </summary>
-    public static class ConsoleRender
+    public static class ColorConsole
     {
         /// <summary>
         /// Rendering the color field
@@ -88,20 +88,20 @@ namespace IPScan.Supports
             if (colorSections.Length != 0)
             {
                 var sortedSections = colorSections.ToList();
-                sortedSections.Sort((s, p) => text.IndexOf(s.Text));
+                sortedSections.Sort((s, p) => text.IndexOf(s.Section));
 
                 var lastIndexOfSection = 0;
                 foreach (var section in sortedSections)
                 {
                     // set default colors by empty* section
-                    if (String.IsNullOrEmpty(section.Text))
+                    if (String.IsNullOrEmpty(section.Section))
                     {
                         foregroundColor = section.Foreground;
                         backgroundColor = section.Background;
                         continue;
                     }
 
-                    var indexOfSection = text.IndexOf(section.Text);
+                    var indexOfSection = text.IndexOf(section.Section);
                     if (indexOfSection == -1) continue;
 
                     // before section...
@@ -111,7 +111,7 @@ namespace IPScan.Supports
                     commonSections.Add(beforeSection);
                     commonSections.Add(section);
 
-                    lastIndexOfSection = indexOfSection + section.Text.Length;
+                    lastIndexOfSection = indexOfSection + section.Section.Length;
                 }
 
                 // ...after section
@@ -133,7 +133,7 @@ namespace IPScan.Supports
                 Console.BackgroundColor = section.Background;
                 Console.ForegroundColor = section.Foreground;
 
-                Console.Write(section.Text);
+                Console.Write(section.Section);
             }
 
             Console.ResetColor();
@@ -187,19 +187,18 @@ namespace IPScan.Supports
             {
                 Console.Write("\b \b");
             }
-        }
-        
+        }      
     }
 
     public class ColorSection
     {
-        public string Text { get; set; }
+        public string Section { get; set; }
         public ConsoleColor Background { get; set; }
         public ConsoleColor Foreground { get; set; }
 
-        public ColorSection(ConsoleColor background = ConsoleColor.Black, ConsoleColor foreground = ConsoleColor.White, string text = "")
+        public ColorSection(ConsoleColor background = ConsoleColor.Black, ConsoleColor foreground = ConsoleColor.White, string section = "")
         {
-            Text = text;
+            Section = section;
             Background = background;
             Foreground = foreground;
         }
