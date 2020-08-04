@@ -1,4 +1,5 @@
-﻿using IPScan.Supports;
+﻿using IPScan.BLL;
+using IPScan.SUP;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
