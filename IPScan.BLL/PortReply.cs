@@ -3,7 +3,7 @@
     public class PortReply
     {
         public int Port { get; set; }
-        public PortStatus Status { get; set; }
+        public PortStatus Status { get; set; } = PortStatus.Unknown;
     }
 
     public enum PortStatus
