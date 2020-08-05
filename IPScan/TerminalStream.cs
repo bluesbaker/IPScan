@@ -65,7 +65,7 @@ namespace IPScan
                 // split addresses to the range* collection
                 var addresses = commandParameters["-ip"].Split('-');
                 var startAddress = IPAddress.Parse(addresses[0]);
-                var endAddress = IPAddress.Parse(addresses[addresses.Length - 1]);
+                var endAddress = IPAddress.Parse(addresses[^1]);
                 var addressRange = startAddress.Range(endAddress);
 
                 var pingResultCount = 0;
