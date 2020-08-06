@@ -56,8 +56,7 @@ namespace IPScan
             try
             {
                 // checking parameters
-                var isCheck = ScannerParameters.CheckingRequiredKeys(commandParameters);
-                if (isCheck == false)
+                if (commandParameters.ContainsKey("-ip"))
                 {
                     throw new ScannerException("One or more required parameters is missing");
                 }
