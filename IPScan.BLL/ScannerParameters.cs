@@ -47,29 +47,6 @@ namespace IPScan.BLL
         }
 
         /// <summary>
-        /// Checking the required keys
-        /// </summary>
-        /// <param name="parameters">Parameters</param>
-        /// <returns>Returns true if the required keys exists in the collection</returns>
-        public static bool CheckingRequiredKeys(Dictionary<string, string> parameters)
-        {
-            var isCheck = true;
-
-            foreach (var keySetter in GetKeySetters())
-            {
-                var param = parameters.FirstOrDefault(p => p.Key == keySetter.Key);
-
-                if (keySetter.IsRequired == true && param.Value == null)
-                {
-                    isCheck = false;
-                }
-            }
-
-            return isCheck;
-        }
-
-
-        /// <summary>
         /// Returns the key setters collection(*for help)
         /// </summary>
         /// <returns>KeySetter collection</returns>
@@ -87,7 +64,7 @@ namespace IPScan.BLL
         }
 
         #region Setters
-        [KeySetter("-ip", "Address", true)]
+        [KeySetter("-ip", "Address")]
         public void AddressSetter(string value)
         {
             Address = IPAddress.Parse(value);
