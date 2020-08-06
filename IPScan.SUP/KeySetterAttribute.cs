@@ -14,15 +14,13 @@ namespace IPScan.SUP
         /// </summary>
         /// <param name="key">For example '-k'</param>
         /// <param name="description">Key description</param>
-        public KeySetterAttribute(string key, string description, bool isRequired = false)
+        public KeySetterAttribute(string key, string description)
         {
             Key = key;
             Description = description;
-            IsRequired = isRequired;
         }
 
         public string Key { get; private set; }
         public string Description { get; private set; }
-        public bool IsRequired { get; private set; }
     }
 }
