@@ -20,7 +20,6 @@ namespace IPScan.BLL
         public int Timeout { get; set; } = 1000;
         public int Port { get; set; } = 0;
 
-
         /// <summary>
         /// Parsing the dictionary of string to ScannerParameters
         /// </summary>
@@ -67,19 +66,40 @@ namespace IPScan.BLL
         [KeySetter("-ip", "Address")]
         public void AddressSetter(string value)
         {
-            Address = IPAddress.Parse(value);
+            try
+            {
+                Address = IPAddress.Parse(value);
+            }
+            catch
+            {
+                Address = null;
+            }
         }
 
         [KeySetter("-t", "Timeout")]
         public void TimeoutSetter(string value)
         {
-            Timeout = Int32.Parse(value);
+            try
+            {
+                Timeout = Int32.Parse(value);
+            }
+            catch
+            {
+                Timeout = 1000;
+            }
         }
 
         [KeySetter("-p", "Port")]
         public void PortSetter(string value)
         {
-            Port = Int32.Parse(value);
+            try
+            {
+                Port = Int32.Parse(value);
+            }
+            catch
+            {
+                Port = 0;
+            }
         }
         #endregion
 
