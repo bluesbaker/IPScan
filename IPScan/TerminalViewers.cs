@@ -40,7 +40,7 @@ namespace IPScan
             }
 
             // view port and his status
-            ColorConsole.FieldsLine(new[] { $"Port:{portReply.Port}", portReply.Status.ToString() }, 20, new ColorSection(foreground: statusColor, section: portReply.Status.ToString()));
+            ColorConsole.FieldsLine(new[] { $"{portReply.Port}", portReply.Status.ToString() }, 20, new ColorSection(foreground: statusColor, section: portReply.Status.ToString()));
         }
 
         public static void ErrorViewer(params Exception[] exceptions)
