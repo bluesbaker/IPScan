@@ -1,6 +1,7 @@
 ﻿using IPScan.BLL;
 using IPScan.SUP;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
@@ -56,7 +57,7 @@ namespace IPScan
             try
             {
                 // checking parameters
-                if (commandParameters.ContainsKey("-ip"))
+                if (!commandParameters.ContainsKey("-ip"))
                 {
                     throw new ScannerException("One or more required parameters is missing");
                 }
@@ -67,13 +68,27 @@ namespace IPScan
                 var endAddress = IPAddress.Parse(addresses[^1]);
                 var addressRange = startAddress.Range(endAddress);
 
+                List<int> portRange = new List<int>();
+                if (commandParameters.ContainsKey("-p"))
+                {
+                    var ports = commandParameters["-p"].Split('-');
+                    var startPort = Int32.Parse(ports[0]);
+                    var endPort = Int32.Parse(ports[^1]);
+                    portRange.AddRange(Enumerable.Range(startPort, endPort-startPort+1));
+                }
+                else
+                {
+                    // default null*-port
+                    portRange.Add(0);
+                }
+
                 var pingResultCount = 0;
 
                 foreach (var address in addressRange)
                 {
                     // copying params with only one address(without range)
                     var parameters = commandParameters.Copy();
-                    parameters["-ip"] = address.ToString();
+                    parameters["-ip"] = address.ToString(); 
 
                     var scanner = new Scanner(ScannerParameters.Parse(parameters));
 
@@ -82,7 +97,7 @@ namespace IPScan
 
                     Console.Title = "Scanning " + address;
                     ColorConsole.Loader("Scanning " + address, (() => !pingTask.IsCompleted));
-                    pingTask.Wait();
+                    pingTask.Wait();                  
 
                     // ping response
                     if (pingTask.Result.Status == IPStatus.Success)
@@ -91,19 +106,27 @@ namespace IPScan
                         PingReplyViewer(pingTask.Result, pingResultCount == 0);
                         pingResultCount++;
 
-                        if (scanner.Parameters.Port > 0)
+                        var portResultCount = 0;
+
+                        foreach (var port in portRange)
                         {
-                            // port request
-                            Task<PortReply> portTask = scanner.GetPortAccessAsync();
+                            scanner.Parameters.Port = port;                         
 
-                            ColorConsole.Loader("Scanning port " + scanner.Parameters.Port, (() => !portTask.IsCompleted));
-                            portTask.Wait();
+                            if (scanner.Parameters.Port > 0)
+                            {
+                                // port request
+                                Task<PortReply> portTask = scanner.GetPortAccessAsync();
 
-                            // view port status
-                            PortAccessViewer(portTask.Result);
+                                ColorConsole.Loader("Scanning port " + scanner.Parameters.Port, (() => !portTask.IsCompleted));
+                                portTask.Wait();
+
+                                // view port status
+                                PortAccessViewer(portTask.Result, portResultCount == 0);
+                                portResultCount++;
+                            }
                         }
-
-                    }
+                        Console.WriteLine();
+                    }                               
                 }
 
                 Console.WriteLine($"\nTotal results: {pingResultCount}");

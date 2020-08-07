@@ -26,7 +26,7 @@ namespace IPScan
                 var appDescription = assembly.GetCustomAttribute<AssemblyDescriptionAttribute>()?.Description;
                 var appVersion = assembly.GetName().Version?.ToString();
 
-                var appHelp = "Usage:\t-ip 192.168.0.1-192.168.0.255 -p 80\nHelp:\t--help\n";
+                var appHelp = "Usage:\t-ip 192.168.0.1-192.168.0.255 -p 80-81\nHelp:\t--help\n";
 
                 var commonHeader = $"{appTitle} {appVersion} - {appDescription}";
 
