@@ -76,21 +76,17 @@ namespace IPScan
                     var endPort = Int32.Parse(ports[^1]);
                     portRange.AddRange(Enumerable.Range(startPort, endPort-startPort+1));
                 }
-                else
-                {
-                    // default null*-port
-                    portRange.Add(0);
-                }
 
                 var pingResultCount = 0;
 
                 foreach (var address in addressRange)
                 {
-                    // copying params with only one address(without range)
-                    var parameters = commandParameters.Copy();
-                    parameters["-ip"] = address.ToString(); 
+                    var scannerParameters = new ScannerParameters
+                    {
+                        Address = address
+                    };
 
-                    var scanner = new Scanner(ScannerParameters.Parse(parameters));
+                    var scanner = new Scanner(scannerParameters);
 
                     // ping request
                     Task<PingReply> pingTask = scanner.GetPingReplyAsync();
@@ -108,24 +104,28 @@ namespace IPScan
 
                         var portResultCount = 0;
 
-                        foreach (var port in portRange)
+                        if(portRange.Count > 0)
                         {
-                            scanner.Parameters.Port = port;                         
-
-                            if (scanner.Parameters.Port > 0)
+                            foreach (var port in portRange)
                             {
-                                // port request
-                                Task<PortReply> portTask = scanner.GetPortAccessAsync();
+                                scanner.Parameters.Port = port;
 
-                                ColorConsole.Loader("Scanning port " + scanner.Parameters.Port, (() => !portTask.IsCompleted));
-                                portTask.Wait();
+                                if (scanner.Parameters.Port > 0)
+                                {
+                                    // port request
+                                    Task<PortReply> portTask = scanner.GetPortAccessAsync();
 
-                                // view port status
-                                PortAccessViewer(portTask.Result, portResultCount == 0);
-                                portResultCount++;
+                                    ColorConsole.Loader("Scanning port " + scanner.Parameters.Port, (() => !portTask.IsCompleted));
+                                    portTask.Wait();
+
+                                    // view port status
+                                    PortAccessViewer(portTask.Result, portResultCount == 0);
+                                    portResultCount++;
+                                }
                             }
-                        }
-                        Console.WriteLine();
+
+                            Console.WriteLine();
+                        }                       
                     }                               
                 }
 
