@@ -89,7 +89,7 @@ namespace IPScan
         public static void AboutViewer()
         {
             // header
-            ColorConsole.FieldLine("About", 40, colorSections: new ColorSection(background: ConsoleColor.DarkGray));
+            ColorConsole.FieldLine("About", 20, colorSections: new ColorSection(background: ConsoleColor.DarkGray));
 
             // author
             ColorConsole.Field("Author ", width: 15);
