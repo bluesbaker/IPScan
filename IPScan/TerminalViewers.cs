@@ -68,14 +68,11 @@ namespace IPScan
 
         public static void HelpViewer()
         {
-            string helpString = "IPScan:\n";
-
-            foreach (var setter in ScannerParameters.GetKeySetters())
-            {
-                helpString += $"{setter.Key}\t\t- {setter.Description}\n";
-            }
-
-            helpString +=
+            string helpString = 
+                "IPScan:\n" +
+                "-ip\t\t- Address\n" +
+                "-p\t\t- Port\n" +
+                "-t\t\t- Timeout\n" +              
                 "--help\t\t- FAQ\n" +
                 "--about\t\t- About\n" +
                 "--quit\t\t- Quit\n";
