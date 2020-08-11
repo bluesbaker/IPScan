@@ -53,14 +53,17 @@ namespace IPScan
                 }
                 catch (ScannerException exc)
                 {
-                    ColorConsole.WriteLine($"Scanner error {exc.Message} ", new ColorSection(ConsoleColor.DarkRed, section: "Scanner error"));
+                    ColorConsole.FieldLine("Scanner error", 20, colorSections: new ColorSection(background: ConsoleColor.DarkRed));
+                    Console.WriteLine(exc.Message);
                 }
                 catch (Exception exc)
                 {
-                    ColorConsole.WriteLine($"System error {exc.Message} ", new ColorSection(ConsoleColor.DarkRed, section: "System error"));
+                    ColorConsole.FieldLine("System error", 20, colorSections: new ColorSection(background: ConsoleColor.DarkRed));
+                    Console.WriteLine(exc.Message);
                 }
                 finally
                 {
+                    Console.WriteLine();
                     HelpViewer();
                 }
             }
@@ -68,8 +71,11 @@ namespace IPScan
 
         public static void HelpViewer()
         {
+            // header
+            ColorConsole.FieldLine("Help", 20, colorSections: new ColorSection(background: ConsoleColor.DarkGray));
+
+            // help string
             string helpString = 
-                "IPScan:\n" +
                 "-ip\t\t- Address\n" +
                 "-p\t\t- Port\n" +
                 "-t\t\t- Timeout\n" +              
@@ -82,6 +88,9 @@ namespace IPScan
 
         public static void AboutViewer()
         {
+            // header
+            ColorConsole.FieldLine("About", 40, colorSections: new ColorSection(background: ConsoleColor.DarkGray));
+
             // author
             ColorConsole.Field("Author ", width: 15);
             ColorConsole.WriteLine("github.com/bluesbaker", new ColorSection(foreground: ConsoleColor.Blue, section: "bluesbaker"));
