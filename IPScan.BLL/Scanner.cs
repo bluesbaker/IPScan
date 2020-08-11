@@ -36,7 +36,7 @@ namespace IPScan.BLL
             return reply;
         }
 
-        public async Task<PortReply> GetPortAccessAsync()
+        public async Task<PortReply> GetPortReplyAsync()
         {
             PortReply reply = new PortReply { Port = Parameters.Port };
 

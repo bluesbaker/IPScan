@@ -113,7 +113,7 @@ namespace IPScan
                                 if (scanner.Parameters.Port > 0)
                                 {
                                     // port request
-                                    Task<PortReply> portTask = scanner.GetPortAccessAsync();
+                                    Task<PortReply> portTask = scanner.GetPortReplyAsync();
 
                                     ColorConsole.Loader("Scanning port " + scanner.Parameters.Port, (() => !portTask.IsCompleted));
                                     portTask.Wait();
