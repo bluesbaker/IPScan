@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IPScan", "IPScan\IPScan.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IPScan.Test", "IPScan.Test\IPScan.Test.csproj", "{FA28EE1F-5C1E-4CB9-8A0F-44667285D58D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IPScan.GUI", "IPScan.GUI\IPScan.GUI.csproj", "{216EC6C9-EB56-47F0-AAF2-D5B210889DE6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IPScan.GUI", "IPScan.GUI\IPScan.GUI.csproj", "{216EC6C9-EB56-47F0-AAF2-D5B210889DE6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

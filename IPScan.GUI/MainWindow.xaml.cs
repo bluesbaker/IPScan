@@ -20,8 +20,13 @@ namespace IPScan.GUI
     /// </summary>
     public partial class MainWindow : Window
     {
+        MainViewModel _context;
+
         public MainWindow()
         {
+            _context = new MainViewModel();
+            this.DataContext = _context;
+
             InitializeComponent();
         }
     }

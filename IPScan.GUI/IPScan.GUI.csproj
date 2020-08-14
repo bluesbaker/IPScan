@@ -4,6 +4,12 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>IPScan.ico</ApplicationIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\IPScan.BLL\IPScan.BLL.csproj" />
+    <ProjectReference Include="..\IPScan.SUP\IPScan.SUP.csproj" />
+  </ItemGroup>
 
 </Project>
