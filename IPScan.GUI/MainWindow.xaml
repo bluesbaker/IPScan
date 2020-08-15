@@ -62,15 +62,17 @@
                 </Grid>
             </GroupBox>
         </StackPanel>
+        
+        <!-- Results -->
         <Grid Grid.Row="1">
             <ListBox ItemsSource="{Binding HostResults}">
                 <ListBox.ItemTemplate>
-                    <ItemContainerTemplate>
+                    <DataTemplate>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="{Binding Host.Address}"/>
                             <TextBlock Text="{Binding Host.Status}"/>
                         </StackPanel>
-                    </ItemContainerTemplate>
+                    </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
         </Grid>
