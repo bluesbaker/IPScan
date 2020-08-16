@@ -9,26 +9,39 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
+        <!-- Options -->
         <StackPanel Orientation="Horizontal">
-
             <!-- Address range -->
             <GroupBox Header="Address range" BorderThickness="0" Background="AliceBlue">
                 <StackPanel Orientation="Horizontal">
                     <TextBox 
-                        Text="{Binding StartAddress}" TextWrapping="NoWrap" 
+                        TextWrapping="NoWrap" 
                         VerticalAlignment="Center"
                         VerticalContentAlignment="Center"               
                         Width="150" Height="30"
-                        Margin="2,5,5,5"/>
+                        Margin="2,5,5,5">
+                        <Binding Path="StartAddress" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <DataErrorValidationRule />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox>
                     <TextBlock Text="-" VerticalAlignment="Center"/>
                     <TextBox 
-                        Text="{Binding EndAddress}" TextWrapping="NoWrap" 
+                        TextWrapping="NoWrap" 
                         VerticalAlignment="Center" 
                         VerticalContentAlignment="Center"                
                         Width="150" Height="30" 
-                        Margin="5,5"/>
+                        Margin="5,5">
+                        <Binding Path="EndAddress" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <DataErrorValidationRule />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox>
                 </StackPanel>
             </GroupBox>
 
@@ -36,18 +49,30 @@
             <GroupBox Header="Port range" BorderThickness="0" Background="Azure">
                 <StackPanel Orientation="Horizontal">
                     <TextBox 
-                        Text="from" TextWrapping="NoWrap" 
+                        TextWrapping="NoWrap" 
                         VerticalAlignment="Center"
                         VerticalContentAlignment="Center"               
                         Width="100" Height="30"
-                        Margin="2,5,5,5"/>
+                        Margin="2,5,5,5">
+                        <Binding Path="StartPort" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <DataErrorValidationRule />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox>
                     <TextBlock Text="-" VerticalAlignment="Center"/>
                     <TextBox 
-                        Text="to" TextWrapping="NoWrap" 
+                        TextWrapping="NoWrap" 
                         VerticalAlignment="Center" 
                         VerticalContentAlignment="Center"                
                         Width="100" Height="30" 
-                        Margin="5,5"/>
+                        Margin="5,5">
+                        <Binding Path="EndPort" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <DataErrorValidationRule />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox>
                 </StackPanel>
             </GroupBox>
 
@@ -63,14 +88,41 @@
             </GroupBox>
         </StackPanel>
         
-        <!-- Results -->
+        <!--Progressbar -->
         <Grid Grid.Row="1">
+            <ProgressBar Value="{Binding ProgressValue}" Height="10"/>
+        </Grid>
+        
+        <!-- Results -->
+        <Grid Grid.Row="2">
             <ListBox ItemsSource="{Binding HostResults}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding Host.Address}"/>
-                            <TextBlock Text="{Binding Host.Status}"/>
+                        <StackPanel>
+                            <!-- Address status -->
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Address" Margin="5,0"/>
+                                    <TextBlock Text="{Binding Host.Address}"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Status" Margin="5,0"/>
+                                    <TextBlock Text="{Binding Host.Status}"/>
+                                </StackPanel>
+                            </StackPanel>
+                            
+                            <!-- Ports list -->
+                            <ListBox ItemsSource="{Binding Ports}">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <!-- Port status -->
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding Port}"/>
+                                            <TextBlock Text="{Binding Status}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>

@@ -20,11 +20,11 @@ namespace IPScan.GUI
     /// </summary>
     public partial class MainWindow : Window
     {
-        MainViewModel _context;
+        ScanningViewModel _context;
 
         public MainWindow()
         {
-            _context = new MainViewModel();
+            _context = new ScanningViewModel();
             this.DataContext = _context;
 
             InitializeComponent();
