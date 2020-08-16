@@ -101,16 +101,13 @@
                         <StackPanel>
                             <!-- Address status -->
                             <StackPanel>
+                                <TextBlock Text="Address" FontSize="12"/>
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="Address" Margin="5,0"/>
-                                    <TextBlock Text="{Binding Host.Address}"/>
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="Status" Margin="5,0"/>
-                                    <TextBlock Text="{Binding Host.Status}"/>
+                                    <TextBlock Text="{Binding Host.Address}" FontSize="20"/>
+                                    <TextBlock Text="{Binding Host.Status}" FontSize="16" Margin="10,0" Foreground="Gray" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </StackPanel>
-                            
+
                             <!-- Ports list -->
                             <ListBox ItemsSource="{Binding Ports}">
                                 <ListBox.ItemTemplate>
