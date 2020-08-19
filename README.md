@@ -6,12 +6,12 @@ ___
 > Scanning the range of ip addresses with\without the range of ports.
 
 ### Usage 
-> * `ipscan -ip 192.168.0.77`
-> * `ipscan -ip 192.168.0.77 -p 80`
-> * `ipscan -ip 192.168.0.77 -p 80-81`
-> * `ipscan -ip 192.168.0.1-192.168.88.255`
-> * `ipscan -ip 192.168.0.1-192.168.88.255 -p 80`
-> * `ipscan -ip 192.168.0.1-192.168.88.255 -p 80-81`
+> * `ipscan -ip 192.168.0.1`
+> * `ipscan -ip 192.168.0.1 -p 80`
+> * `ipscan -ip 192.168.0.1 -p 80-81`
+> * `ipscan -ip 192.168.0.1-192.168.0.255`
+> * `ipscan -ip 192.168.0.1-192.168.0.255 -p 80`
+> * `ipscan -ip 192.168.0.1-192.168.0.255 -p 80-81`
 > * `ipscan.gui.exe`
 
 ### Author
