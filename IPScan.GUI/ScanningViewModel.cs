@@ -17,7 +17,6 @@ namespace IPScan.GUI
 {
     public class ScanningViewModel : NPCBase, IDataErrorInfo
     {
-
         #region Properties
         private string _startAddress = "192.168.88.253";
         public string StartAddress
@@ -114,7 +113,17 @@ namespace IPScan.GUI
             }
         }
 
-        public bool IsScanning { get; set; } = false;
+        private bool _isScanning = false;
+        public bool IsScanning
+        {
+            get => _isScanning;
+            set
+            {
+                _isScanning = value;
+                OnPropertyChanged();
+            }
+        }
+
         public bool IsValid => !_errors.Values.Any(x => x != null);
 
         public ObservableCollection<HostReply> HostResults { get; set; } = new ObservableCollection<HostReply>();
