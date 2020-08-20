@@ -85,7 +85,7 @@
                         Height="30"
                         Margin="5,5" Padding="20,0" />
                     <Button 
-                        Command="{Binding StopScanningComand}"
+                        Command="{Binding StopScanningCommand}"
                         Content="Stop" 
                         Height="30"
                         Margin="5,5" Padding="20,0" />
