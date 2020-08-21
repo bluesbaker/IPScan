@@ -12,6 +12,5 @@ namespace IPScan.GUI.Model
     {
         public PingReply Host { get; set; }
         public ObservableCollection<PortReply> Ports { get; set; } = new ObservableCollection<PortReply>();
-
     }
 }
