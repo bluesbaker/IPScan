@@ -18,7 +18,7 @@ namespace IPScan.GUI
     public class ScanningViewModel : NPCBase, IDataErrorInfo
     {
         #region Properties
-        private string _startAddress = "192.168.88.253";
+        private string _startAddress = "77.88.55.77";
         public string StartAddress
         {
             get => _startAddress.ToString();
@@ -39,7 +39,7 @@ namespace IPScan.GUI
             }
         }
 
-        private string _endAddress = "192.168.88.255";
+        private string _endAddress = "77.88.55.90";
         public string EndAddress
         {
             get => _endAddress;
