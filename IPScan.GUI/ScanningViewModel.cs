@@ -135,6 +135,11 @@ namespace IPScan.GUI
         {
             get => new RelayCommand(ScanningAsync, n => IsValid && !IsScanning);
         }
+
+        public ICommand StopScanningCommand
+        {
+            get => new RelayCommand(ScanningAsync, n => IsScanning);
+        }
         #endregion
 
         #region Methods
