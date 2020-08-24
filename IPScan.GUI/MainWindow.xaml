@@ -76,7 +76,7 @@
                 </StackPanel>
             </GroupBox>
 
-            <!-- Scanning button -->
+            <!-- Scanning buttons -->
             <GroupBox Header="" BorderThickness="0">
                 <StackPanel Orientation="Horizontal">
                     <Button 
