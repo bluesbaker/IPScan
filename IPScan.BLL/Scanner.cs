@@ -17,7 +17,7 @@ namespace IPScan.BLL
             Parameters = scannerParameters;
         }
 
-        public async Task<PingReply> GetPingReplyAsync(Action<PingReply> action = null)
+        public async Task<PingReply> GetPingReplyAsync(Action<PingReply> callbackAction = null)
         {
             var ping = new Ping();
             PingReply reply;
@@ -26,7 +26,7 @@ namespace IPScan.BLL
             try
             {
                 reply = await ping.SendPingAsync(Parameters.Address, Parameters.Timeout);
-                action?.Invoke(reply);
+                callbackAction?.Invoke(reply);
             }
             catch (Exception exc)
             {
@@ -36,7 +36,7 @@ namespace IPScan.BLL
             return reply;
         }
 
-        public async Task<PortReply> GetPortReplyAsync(Action<PortReply> action = null)
+        public async Task<PortReply> GetPortReplyAsync(Action<PortReply> callbackAction = null)
         {
             var reply = new PortReply { Port = Parameters.Port };
             var tcpClient = new TcpClient();
@@ -49,7 +49,7 @@ namespace IPScan.BLL
             catch (SocketException)
             {
                 reply.Status = PortStatus.Closed;
-                action?.Invoke(reply);
+                callbackAction?.Invoke(reply);
                 return reply;
             }
             catch (Exception exc)
@@ -58,7 +58,7 @@ namespace IPScan.BLL
             }
 
             reply.Status = PortStatus.Opened;
-            action?.Invoke(reply);
+            callbackAction?.Invoke(reply);
             return reply;
         }
     }
