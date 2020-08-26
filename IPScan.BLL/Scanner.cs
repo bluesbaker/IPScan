@@ -36,7 +36,7 @@ namespace IPScan.BLL
             return reply;
         }
 
-        public async Task<PortReply> GetPortReplyAsync()
+        public async Task<PortReply> GetPortReplyAsync(Action<PortReply> action = null)
         {
             var reply = new PortReply { Port = Parameters.Port };
             var tcpClient = new TcpClient();
@@ -49,6 +49,7 @@ namespace IPScan.BLL
             catch (SocketException)
             {
                 reply.Status = PortStatus.Closed;
+                action?.Invoke(reply);
                 return reply;
             }
             catch (Exception exc)
@@ -57,6 +58,7 @@ namespace IPScan.BLL
             }
 
             reply.Status = PortStatus.Opened;
+            action?.Invoke(reply);
             return reply;
         }
     }
