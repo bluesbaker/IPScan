@@ -38,16 +38,13 @@ namespace IPScan.BLL
 
         public async Task<PortReply> GetPortReplyAsync()
         {
-            PortReply reply = new PortReply { Port = Parameters.Port };
-
-            var tcpClient = new TcpClient
-            {
-                SendTimeout = 5
-            };
+            var reply = new PortReply { Port = Parameters.Port };
+            var tcpClient = new TcpClient();
 
             try
             {
                 await tcpClient.ConnectAsync(Parameters.Address, Parameters.Port);
+                tcpClient.Close();
             }
             catch (SocketException)
             {
