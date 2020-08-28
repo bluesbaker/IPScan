@@ -18,4 +18,4 @@ ___
 > [github.com/bluesbaker](http://github.com/bluesbaker)
 
 ### License
-> "All questions to my girlfriend" 2.0
+> "All questions to my girlfriend" 2.1
