@@ -1,5 +1,5 @@
 ﻿using IPScan.BLL;
-using IPScan.GUI.Model;
+using IPScan.GUI.Models;
 using IPScan.GUI.Support;
 using IPScan.SUP;
 using System;
