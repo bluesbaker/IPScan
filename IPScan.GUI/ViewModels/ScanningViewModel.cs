@@ -13,7 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace IPScan.GUI
+namespace IPScan.GUI.ViewModels
 {
     public class ScanningViewModel : NPCBase, IDataErrorInfo
     {
