@@ -6,6 +6,7 @@
     <UseWPF>true</UseWPF>
     <ApplicationIcon>IPScan.ico</ApplicationIcon>
     <FileVersion>1.0.4.2</FileVersion>
+    <Description>Scanning ip-addresses</Description>
   </PropertyGroup>
 
   <ItemGroup>
