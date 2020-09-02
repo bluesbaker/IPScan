@@ -138,7 +138,12 @@ namespace IPScan.GUI.ViewModels
 
         public ICommand StopScanningCommand
         {
-            get => new RelayCommand(ScanningAsync, n => IsScanning);
+            get => new RelayCommand(StopScanningAsync, n => IsScanning);
+        }
+
+        public ICommand ClearListCommand
+        {
+            get => new RelayCommand(n => HostResults.Clear(), n => HostResults.Count > 0);
         }
         #endregion
 
@@ -166,7 +171,7 @@ namespace IPScan.GUI.ViewModels
                 var scanner = new Scanner(scannerParameters);
 
                 // ping request
-                var pingReply = await scanner.GetPingReplyAsync();                
+                var pingReply = await scanner.GetPingReplyAsync();
 
                 if (pingReply.Status == IPStatus.Success)
                 {
@@ -184,7 +189,7 @@ namespace IPScan.GUI.ViewModels
                     {
                         if (port > 0)
                         {
-                            scanner.Parameters.Port = port;
+                            scanner.Parameters.Port = port;                           
                             var portReply = await scanner.GetPortReplyAsync();
 
                             portList.Add(portReply);
@@ -197,6 +202,11 @@ namespace IPScan.GUI.ViewModels
 
             ProgressValue = 0.0f;
             IsScanning = false;
+        }
+
+        private async void StopScanningAsync(object n)
+        {
+
         }
         #endregion
 
