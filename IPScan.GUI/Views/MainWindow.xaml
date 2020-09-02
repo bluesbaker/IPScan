@@ -12,8 +12,14 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
+        
         <!-- Options -->
-        <StackPanel Orientation="Horizontal">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
             <!-- Address range -->
             <GroupBox Header="Address range" BorderThickness="0" Background="AliceBlue">
                 <StackPanel Orientation="Horizontal">
@@ -21,7 +27,7 @@
                         TextWrapping="NoWrap" 
                         VerticalAlignment="Center"
                         VerticalContentAlignment="Center"               
-                        Width="150" Height="30"
+                        Width="100" Height="30"
                         Margin="2,5,5,5">
                         <Binding Path="StartAddress" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
@@ -34,7 +40,7 @@
                         TextWrapping="NoWrap" 
                         VerticalAlignment="Center" 
                         VerticalContentAlignment="Center"                
-                        Width="150" Height="30" 
+                        Width="100" Height="30" 
                         Margin="5,5">
                         <Binding Path="EndAddress" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
@@ -46,13 +52,13 @@
             </GroupBox>
 
             <!-- Port range -->
-            <GroupBox Header="Port range" BorderThickness="0" Background="Azure">
+            <GroupBox Header="Port range" BorderThickness="0" Background="Azure" Grid.Column="1">
                 <StackPanel Orientation="Horizontal">
                     <TextBox 
                         TextWrapping="NoWrap" 
                         VerticalAlignment="Center"
                         VerticalContentAlignment="Center"               
-                        Width="100" Height="30"
+                        Width="80" Height="30"
                         Margin="2,5,5,5">
                         <Binding Path="StartPort" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
@@ -65,7 +71,7 @@
                         TextWrapping="NoWrap" 
                         VerticalAlignment="Center" 
                         VerticalContentAlignment="Center"                
-                        Width="100" Height="30" 
+                        Width="80" Height="30" 
                         Margin="5,5">
                         <Binding Path="EndPort" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
@@ -77,7 +83,7 @@
             </GroupBox>
 
             <!-- Scanning buttons -->
-            <GroupBox Header="" BorderThickness="0">
+            <GroupBox Header="" BorderThickness="0" Grid.Column="2">
                 <StackPanel Orientation="Horizontal">
                     <Button 
                         Command="{Binding ScanningCommand}"
@@ -89,9 +95,14 @@
                         Content="Stop" 
                         Height="30"
                         Margin="5,5" Padding="20,0" />
+                    <Button 
+                        Command="{Binding ClearListCommand}"
+                        Content="Clear" 
+                        Height="30"
+                        Margin="5,5" Padding="20,0" />
                 </StackPanel>
             </GroupBox>
-        </StackPanel>
+        </Grid>
         
         <!--Progressbar -->
         <Grid Grid.Row="1">
