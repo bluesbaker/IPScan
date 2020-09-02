@@ -25,7 +25,7 @@ namespace IPScan.BLL
             // request
             try
             {
-                reply = await ping.SendPingAsync(Parameters.Address, Parameters.Timeout);
+                reply = await ping.SendPingAsync(Parameters.Address, Parameters.Timeout);               
                 callbackAction?.Invoke(reply);
             }
             catch (Exception exc)
