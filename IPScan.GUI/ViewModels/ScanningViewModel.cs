@@ -124,7 +124,18 @@ namespace IPScan.GUI.ViewModels
             }
         }
 
-        public bool IsValid => !_errors.Values.Any(x => x != null);
+        private Dictionary<string, string> _errors = new Dictionary<string, string>();
+        public Dictionary<string, string> Errors
+        {
+            get => _errors;
+            set
+            {
+                _errors = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool IsValid => !Errors.Values.Any(x => x != null);
 
         public ObservableCollection<HostReply> HostResults { get; set; } = new ObservableCollection<HostReply>();
         #endregion
@@ -215,8 +226,6 @@ namespace IPScan.GUI.ViewModels
         public string Error => throw new Exception("Scanning error");
 
         public string this[string columnName] => _errors.ContainsKey(columnName) ? _errors[columnName] : null;
-
-        private Dictionary<string, string> _errors = new Dictionary<string, string>();
         #endregion
     }
 }
