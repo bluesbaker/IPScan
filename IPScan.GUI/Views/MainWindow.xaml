@@ -11,6 +11,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         
         <!-- Options -->
@@ -86,7 +87,7 @@
             <GroupBox Header="" BorderThickness="0" Grid.Column="2">
                 <StackPanel Orientation="Horizontal">
                     <Button 
-                        Command="{Binding ScanningCommand}"
+                        Command="{Binding ScanningCommand, UpdateSourceTrigger=PropertyChanged}"
                         Content="Scanning" 
                         Height="30"
                         Margin="5,5" Padding="20,0" />
@@ -141,5 +142,11 @@
                 </ListBox.ItemTemplate>
             </ListBox>
         </Grid>
+        
+        <!-- Debug info -->
+        <StackPanel Grid.Row="3">
+            <CheckBox Content="IsValid" IsChecked="{Binding IsValid, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <CheckBox IsChecked="{Binding IsScanning, UpdateSourceTrigger=PropertyChanged}" Content="IsScanning"/>
+        </StackPanel>
     </Grid>
 </Window>
