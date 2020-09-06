@@ -1,10 +1,6 @@
 ﻿using IPScan.BLL;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Net;
 using System.Net.NetworkInformation;
-using System.Text;
 
 namespace IPScan.GUI.Models
 {
