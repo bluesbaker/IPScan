@@ -9,8 +9,6 @@ using System.ComponentModel;
 using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace IPScan.GUI.ViewModels
