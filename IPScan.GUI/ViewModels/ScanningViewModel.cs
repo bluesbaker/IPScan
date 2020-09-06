@@ -39,7 +39,7 @@ namespace IPScan.GUI.ViewModels
             }
         }
 
-        private string _endAddress = "77.88.55.90";
+        private string _endAddress = "77.88.55.80";
         public string EndAddress
         {
             get => _endAddress;
@@ -144,7 +144,7 @@ namespace IPScan.GUI.ViewModels
         #region Commands
         public ICommand ScanningCommand
         {
-            get => new RelayCommand(ScanningAsync, n => IsValid && !IsScanning);
+            get => new RelayCommand(ScanningAsync, n => !IsScanning);
         }
 
         public ICommand StopScanningCommand
@@ -212,12 +212,18 @@ namespace IPScan.GUI.ViewModels
             }
 
             ProgressValue = 0.0f;
+            
             IsScanning = false;
         }
 
         private async void StopScanningAsync(object n)
         {
 
+        }
+
+        private bool CheckValidation()
+        {
+            return !Errors.Values.Any(x => x != null);
         }
         #endregion
 
