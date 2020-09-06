@@ -26,7 +26,9 @@ namespace IPScan.GUI.Support
             _execute = execute;
             _canExecute = canExecute;
         }
+
         public RelayCommand(Action<object> execute) : this(execute, null) { }
+
         public RelayCommand()
         {
             _execute = (n => { });
