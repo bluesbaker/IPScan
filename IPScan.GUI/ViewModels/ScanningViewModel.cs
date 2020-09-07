@@ -216,12 +216,7 @@ namespace IPScan.GUI.ViewModels
 
         private async void StopScanningAsync(object n)
         {
-
-        }
-
-        private bool CheckValidation()
-        {
-            return !Errors.Values.Any(x => x != null);
+            // TODO: Add the cancel token in scanning 
         }
         #endregion
 
