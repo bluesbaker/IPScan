@@ -13,7 +13,7 @@ using System.Windows.Input;
 
 namespace IPScan.GUI.ViewModels
 {
-    public class ScanningViewModel : NPCBase, IDataErrorInfo
+    public class ScanningViewModel : DialogViewModel<MainWindow>, IDataErrorInfo
     {
         #region Properties
         private string _startAddress = "77.88.55.77";
