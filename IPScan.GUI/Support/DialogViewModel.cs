@@ -7,9 +7,7 @@ using System.Windows.Input;
 namespace IPScan.GUI
 {
     /// <summary>
-    /// Базовый класс для модели представления диалогового окна.
-    /// Реализует интерфейс INotifyPropertyChanged и команды для
-    /// завершения диалога. 
+    /// Basic viewmodel of dialog or control
     /// </summary>
     /// <typeparam name="VIEW">System.Windows.Controls.Control</typeparam>
     public class DialogViewModel<VIEW> : NPCBase, IDialogModel<VIEW> where VIEW: System.Windows.Controls.Control, new()
@@ -39,21 +37,22 @@ namespace IPScan.GUI
 
         #region Public methods
         /// <summary>
-        /// "Одобренный" диалог
+        /// Accepted response
         /// </summary>
-        /// <param name="result">Результат диалога</param>
+        /// <param name="result">Callback result</param>
         public void OnDialogAccepted(object result) => DialogAccepted?.Invoke(result);
+
         /// <summary>
-        /// "Не одобренный" диалог
+        /// Rejected response
         /// </summary>
-        /// <param name="result">Результат диалога</param>
+        /// <param name="result">Callback result</param>
         public void OnDialogRejected(object result) => DialogRejected?.Invoke(result);
         #endregion
 
 
         #region Commands
         /// <summary>
-        /// Команда «Принять» и закрыть диалог(положительно)
+        /// Accepted command
         /// </summary>
         public ICommand AcceptCommand
         {
@@ -62,14 +61,13 @@ namespace IPScan.GUI
                 OnDialogAccepted(result);
 
                 // Close dialog and return 'true'
-                Window window = GetView() as Window;
-                if (window != null)
+                if (GetView() is Window window)
                     window.DialogResult = true;
             }, AcceptCanExecute);
         }
 
         /// <summary>
-        /// Команда «Отклонить» и закрыть диалог
+        /// Rejected command
         /// </summary>
         public ICommand RejectCommand
         {
@@ -78,8 +76,7 @@ namespace IPScan.GUI
                 OnDialogRejected(result);
 
                 // Close dialog?
-                Window window = GetView() as Window;
-                if (window != null)
+                if (GetView() is Window window)
                     window.Close();
             }, RejectCanExecute);
         }
