@@ -156,6 +156,7 @@ namespace IPScan.GUI.ViewModels
         }
         #endregion
 
+
         #region Methods
         private async void ScanningAsync(object n)
         {
