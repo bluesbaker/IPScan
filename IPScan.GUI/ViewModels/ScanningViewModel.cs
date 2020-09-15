@@ -58,7 +58,7 @@ namespace IPScan.GUI.ViewModels
             }
         }
 
-        private string _startPort = "0";
+        private string _startPort = "80";
         public string StartPort
         {
             get => _startPort;
@@ -79,7 +79,7 @@ namespace IPScan.GUI.ViewModels
             }
         }
 
-        private string _endPort = "0";
+        private string _endPort = "80";
         public string EndPort
         {
             get => _endPort;
