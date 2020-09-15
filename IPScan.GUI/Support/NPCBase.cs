@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace IPScan.SUP
+namespace IPScan.GUI.Support
 {
     /// <summary>
     /// Implementation of INotifyPropertyChanged
