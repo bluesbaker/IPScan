@@ -13,7 +13,7 @@ using System.Windows.Input;
 
 namespace IPScan.GUI.ViewModels
 {
-    public class ScanningViewModel : DialogViewModel<MainWindow>, IDataErrorInfo
+    public class ScanningViewModel : NPCBase, IDataErrorInfo
     {
         #region Properties
         private string _startAddress = "77.88.55.77";
@@ -140,17 +140,17 @@ namespace IPScan.GUI.ViewModels
 
 
         #region Commands
-        public ICommand ScanningCommand
+        public RelayCommand ScanningCommand
         {
             get => new RelayCommand(ScanningAsync, n => !IsScanning);
         }
 
-        public ICommand StopScanningCommand
+        public RelayCommand StopScanningCommand
         {
             get => new RelayCommand(StopScanningAsync, n => IsScanning);
         }
 
-        public ICommand ClearListCommand
+        public RelayCommand ClearListCommand
         {
             get => new RelayCommand(n => HostResults.Clear(), n => HostResults.Count > 0);
         }
@@ -213,6 +213,7 @@ namespace IPScan.GUI.ViewModels
             ProgressValue = 0.0f;
             
             IsScanning = false;
+            ScanningCommand.Invalidate();
         }
 
         private async void StopScanningAsync(object n)

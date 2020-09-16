@@ -1,46 +1,51 @@
 ﻿using System;
+using System.Windows;
 using System.Windows.Input;
 
 namespace IPScan.GUI.Support
 {
-    /// <summary>
-    /// Implementation of ICommand
-    /// </summary>
+    #region Делегаты для методов WPF команд
+    public delegate void ExecuteHandler(object parameter);
+    public delegate bool CanExecuteHandler(object parameter);
+    #endregion
+
+    #region Класс команд - RelayCommand
+    /// <summary>Класс реализующий интерфейс ICommand для создания WPF команд</summary>
     public class RelayCommand : ICommand
     {
-        private readonly Action<object> _execute;
-        private readonly Func<object, bool> _canExecute;
+        private readonly CanExecuteHandler _canExecute;
+        private readonly ExecuteHandler _onExecute;
+        private readonly EventHandler _requerySuggested;
 
-        public event EventHandler CanExecuteChanged
-        {
-            add { CommandManager.RequerySuggested += value; }
-            remove { CommandManager.RequerySuggested -= value; }
-        }
+        /// <summary>Событие извещающее об изменении состояния команды</summary>
+        public event EventHandler CanExecuteChanged;
 
-        public RelayCommand(Action<object> execute, Func<object, bool> canExecute)
+        /// <summary>Конструктор команды</summary>
+        /// <param name="execute">Выполняемый метод команды</param>
+        /// <param name="canExecute">Метод разрешающий выполнение команды</param>
+        public RelayCommand(ExecuteHandler execute, CanExecuteHandler canExecute = null)
         {
-            _execute = execute;
+            _onExecute = execute;
             _canExecute = canExecute;
+
+            _requerySuggested = (o, e) => Invalidate();
+            CommandManager.RequerySuggested += _requerySuggested;
         }
 
-        public RelayCommand(Action<object> execute) : this(execute, null) { }
+        public void Invalidate()
+            => Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+            }), null);
 
-        public RelayCommand()
-        {
-            _execute = (n => { });
-            _canExecute = null;
-        }
+        /// <summary>Вызов разрешающего метода команды</summary>
+        /// <param name="parameter">Параметр команды</param>
+        /// <returns>True - если выполнение команды разрешено</returns>
+        public bool CanExecute(object parameter) => _canExecute == null ? true : _canExecute.Invoke(parameter);
 
-        public bool CanExecute(object parameter)
-        {
-            if (_canExecute == null)
-                return true;
-            return _canExecute(parameter);
-        }
-
-        public void Execute(object parameter)
-        {
-            _execute(parameter);
-        }
+        /// <summary>Вызов выполняющего метода команды</summary>
+        /// <param name="parameter">Параметр команды</param>
+        public void Execute(object parameter) => _onExecute?.Invoke(parameter);
     }
+    #endregion
 }
