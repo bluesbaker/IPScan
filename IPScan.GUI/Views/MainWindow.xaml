@@ -87,7 +87,7 @@
             <GroupBox Header="" BorderThickness="0" Grid.Column="2">
                 <StackPanel Orientation="Horizontal">
                     <Button 
-                        Command="{Binding ScanningCommand, UpdateSourceTrigger=PropertyChanged}"
+                        Command="{Binding ScanningCommand}"
                         Content="Scanning" 
                         Height="30"
                         Margin="5,5" Padding="20,0" />
