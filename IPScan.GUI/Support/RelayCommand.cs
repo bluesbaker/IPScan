@@ -4,25 +4,25 @@ using System.Windows.Input;
 
 namespace IPScan.GUI.Support
 {
-    #region Делегаты для методов WPF команд
+    #region Delegates for WPF command methods
     public delegate void ExecuteHandler(object parameter);
     public delegate bool CanExecuteHandler(object parameter);
     #endregion
 
-    #region Класс команд - RelayCommand
-    /// <summary>Класс реализующий интерфейс ICommand для создания WPF команд</summary>
+    #region RelayCommand
+    /// <summary>Implementation ICommand for WPF</summary>
     public class RelayCommand : ICommand
     {
         private readonly CanExecuteHandler _canExecute;
         private readonly ExecuteHandler _onExecute;
         private readonly EventHandler _requerySuggested;
 
-        /// <summary>Событие извещающее об изменении состояния команды</summary>
+        /// <summary>Command state change notification event</summary>
         public event EventHandler CanExecuteChanged;
 
-        /// <summary>Конструктор команды</summary>
-        /// <param name="execute">Выполняемый метод команды</param>
-        /// <param name="canExecute">Метод разрешающий выполнение команды</param>
+        /// <summary>Constructor of Command</summary>
+        /// <param name="execute">Executable method</param>
+        /// <param name="canExecute">Permission method for execution</param>
         public RelayCommand(ExecuteHandler execute, CanExecuteHandler canExecute = null)
         {
             _onExecute = execute;
@@ -33,18 +33,15 @@ namespace IPScan.GUI.Support
         }
 
         public void Invalidate()
-            => Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+        {
+            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
             {
                 CanExecuteChanged?.Invoke(this, EventArgs.Empty);
             }), null);
+        }
 
-        /// <summary>Вызов разрешающего метода команды</summary>
-        /// <param name="parameter">Параметр команды</param>
-        /// <returns>True - если выполнение команды разрешено</returns>
         public bool CanExecute(object parameter) => _canExecute == null ? true : _canExecute.Invoke(parameter);
 
-        /// <summary>Вызов выполняющего метода команды</summary>
-        /// <param name="parameter">Параметр команды</param>
         public void Execute(object parameter) => _onExecute?.Invoke(parameter);
     }
     #endregion
