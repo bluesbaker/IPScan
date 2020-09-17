@@ -9,6 +9,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
+using System.Runtime.CompilerServices;
 using System.Windows.Input;
 
 namespace IPScan.GUI.ViewModels
@@ -22,17 +23,9 @@ namespace IPScan.GUI.ViewModels
             get => _startAddress.ToString();
             set
             {
-                _startAddress = value;
-                OnPropertyChanged();
-
-                // validation
-                if (IPAddress.TryParse(value, out _) == false)
+                if(Set(ref _startAddress, value))
                 {
-                    _errors["StartAddress"] = $"{value} is not ip address";
-                }
-                else
-                {
-                    _errors["StartAddress"] = null;                    
+                    SetError(IPAddress.TryParse(value, out _) ? null : $"{value} is not ip address");
                 }
             }
         }
@@ -43,17 +36,9 @@ namespace IPScan.GUI.ViewModels
             get => _endAddress;
             set
             {
-                _endAddress = value;
-                OnPropertyChanged();
-
-                // validation
-                if (IPAddress.TryParse(value, out _) == false)
+                if (Set(ref _endAddress, value))
                 {
-                    _errors["EndAddress"] = $"{value} is not ip address";
-                }
-                else
-                {
-                    _errors["EndAddress"] = null;
+                    SetError(IPAddress.TryParse(value, out _) ? null : $"{value} is not ip address");
                 }
             }
         }
@@ -64,17 +49,9 @@ namespace IPScan.GUI.ViewModels
             get => _startPort;
             set
             {
-                _startPort = value;
-                OnPropertyChanged();
-
-                // validation
-                if (Int32.TryParse(value, out _) == false)
+                if (Set(ref _startPort, value))
                 {
-                    _errors["StartPort"] = $"{value} is not a port numeric";
-                }
-                else
-                {
-                    _errors["StartPort"] = null;
+                    SetError(Int32.TryParse(value, out _) ? null : $"{value} is not a port numeric");
                 }
             }
         }
@@ -85,17 +62,9 @@ namespace IPScan.GUI.ViewModels
             get => _endPort;
             set
             {
-                _endPort = value;
-                OnPropertyChanged();
-
-                // validation
-                if (Int32.TryParse(value, out _) == false)
+                if (Set(ref _endPort, value))
                 {
-                    _errors["EndPort"] = $"{value} is not a port numeric";
-                }
-                else
-                {
-                    _errors["EndPort"] = null;
+                    SetError(Int32.TryParse(value, out _) ? null : $"{value} is not a port numeric");
                 }
             }
         }
@@ -104,55 +73,41 @@ namespace IPScan.GUI.ViewModels
         public float ProgressValue
         {
             get => _progressValue;
-            set
-            {
-                _progressValue = value;
-                OnPropertyChanged();
-            }
+            set => Set(ref _progressValue, value);
         }
 
         private bool _isScanning = false;
         public bool IsScanning
         {
             get => _isScanning;
-            set
-            {
-                _isScanning = value;
-                OnPropertyChanged();
-            }
+            set => Set(ref _isScanning, value);
         }
 
-        private Dictionary<string, string> _errors = new Dictionary<string, string>();
-        public Dictionary<string, string> Errors
-        {
-            get => _errors;
-            set
-            {
-                _errors = value;
-                OnPropertyChanged();
-            }
-        }
+        public Dictionary<string, string> Errors = new Dictionary<string, string>();
 
-        public bool IsValid => !Errors.Values.Any(x => x != null);
+        public bool IsValid => Errors.Values.All(x => x != null);
 
-        public ObservableCollection<HostReply> HostResults { get; set; } = new ObservableCollection<HostReply>();
+        public ObservableCollection<HostReply> HostResults { get; } = new ObservableCollection<HostReply>();
         #endregion
 
 
         #region Commands
+        private RelayCommand _scanningCommand;
         public RelayCommand ScanningCommand
         {
-            get => new RelayCommand(ScanningAsync, n => !IsScanning);
+            get => _scanningCommand ??=  new RelayCommand(ScanningAsync, n => !IsScanning);
         }
 
+        private RelayCommand _stopScanning;
         public RelayCommand StopScanningCommand
         {
-            get => new RelayCommand(StopScanningAsync, n => IsScanning);
+            get => _stopScanning ??= new RelayCommand(StopScanningAsync, n => IsScanning);
         }
 
+        private RelayCommand _clearListCommand;
         public RelayCommand ClearListCommand
         {
-            get => new RelayCommand(n => HostResults.Clear(), n => HostResults.Count > 0);
+            get => _clearListCommand ??= new RelayCommand(n => HostResults.Clear(), n => HostResults.Count > 0);
         }
         #endregion
 
@@ -184,13 +139,10 @@ namespace IPScan.GUI.ViewModels
                 var pingReply = await scanner.GetPingReplyAsync();
 
                 if (pingReply.Status == IPStatus.Success)
-                {
-                    ObservableCollection<PortReply> portList = new ObservableCollection<PortReply>();                   
-
+                {                 
                     var host = new HostReply
                     {
-                        Host = pingReply,
-                        Ports = portList
+                        Host = pingReply
                     };
 
                     HostResults.Add(host);
@@ -202,7 +154,7 @@ namespace IPScan.GUI.ViewModels
                             scanner.Parameters.Port = port;                           
                             var portReply = await scanner.GetPortReplyAsync();
 
-                            portList.Add(portReply);
+                            host.Ports.Add(portReply);
                         }
                     }
                 }
@@ -214,19 +166,28 @@ namespace IPScan.GUI.ViewModels
             
             IsScanning = false;
             ScanningCommand.Invalidate();
+            StopScanningCommand.Invalidate();
         }
 
         private async void StopScanningAsync(object n)
         {
             // TODO: Add the cancel token in scanning 
         }
+
+        private void SetError(string message, [CallerMemberName] string propertyName = "")
+        {
+            if (Errors.ContainsKey(propertyName))
+                Errors[propertyName] = message;
+            else
+                Errors.Add(propertyName, message);
+        }
         #endregion
 
 
         #region IDataErrorInFo
-        public string Error => throw new Exception("Scanning error");
+        public string Error => string.Join(Environment.NewLine, Errors.Where(pair => pair.Value != null).Select(pair => $"{pair.Key}: \"{pair.Value}\""));
 
-        public string this[string columnName] => _errors.ContainsKey(columnName) ? _errors[columnName] : null;
+        public string this[string columnName] => Errors.TryGetValue(columnName, out string value) ? value : null;
         #endregion
     }
 }
