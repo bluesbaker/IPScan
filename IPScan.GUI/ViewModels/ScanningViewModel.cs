@@ -69,8 +69,8 @@ namespace IPScan.GUI.ViewModels
             }
         }
 
-        private float _progressValue = 0.0f;
-        public float ProgressValue
+        private double _progressValue = 0.0f;
+        public double ProgressValue
         {
             get => _progressValue;
             set => Set(ref _progressValue, value);
@@ -125,7 +125,7 @@ namespace IPScan.GUI.ViewModels
             var endPort = Int32.Parse(EndPort);
             var portRange = Enumerable.Range(startPort, endPort - startPort + 1).ToList();
 
-            float progressStep = 100 / addressRange.Count;
+            double progressStep = 100 / addressRange.Count;
 
             foreach (var address in addressRange)
             {
