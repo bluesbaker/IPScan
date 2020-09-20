@@ -107,7 +107,7 @@ namespace IPScan.GUI.ViewModels
         private RelayCommand _clearListCommand;
         public RelayCommand ClearListCommand
         {
-            get => _clearListCommand ??= new RelayCommand(n => HostResults.Clear(), n => HostResults.Count > 0);
+            get => _clearListCommand ??= new RelayCommand(n => HostResults.Clear(), n => (HostResults.Count > 0));
         }
         #endregion
 
