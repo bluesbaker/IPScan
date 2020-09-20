@@ -85,7 +85,7 @@ namespace IPScan.GUI.ViewModels
 
         public Dictionary<string, string> Errors = new Dictionary<string, string>();
 
-        public bool IsValid => Errors.Values.All(x => x != null);
+        public bool IsValid => !Errors.Values.Any(x => x != null);
 
         public ObservableCollection<HostReply> HostResults { get; } = new ObservableCollection<HostReply>();
         #endregion
@@ -95,7 +95,7 @@ namespace IPScan.GUI.ViewModels
         private RelayCommand _scanningCommand;
         public RelayCommand ScanningCommand
         {
-            get => _scanningCommand ??=  new RelayCommand(ScanningAsync, n => (!IsScanning && IsValid));
+            get => _scanningCommand ??= new RelayCommand(ScanningAsync, n => (!IsScanning && IsValid));
         }
         
         private RelayCommand _stopScanningCommand;
