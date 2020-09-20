@@ -95,9 +95,9 @@ namespace IPScan.GUI.ViewModels
         private RelayCommand _scanningCommand;
         public RelayCommand ScanningCommand
         {
-            get => _scanningCommand ??=  new RelayCommand(ScanningAsync, n => !IsScanning);
+            get => _scanningCommand ??=  new RelayCommand(ScanningAsync, n => (!IsScanning && IsValid));
         }
-
+        
         private RelayCommand _stopScanning;
         public RelayCommand StopScanningCommand
         {
