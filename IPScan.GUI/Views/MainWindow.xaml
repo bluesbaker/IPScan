@@ -142,11 +142,5 @@
                 </ListBox.ItemTemplate>
             </ListBox>
         </Grid>
-        
-        <!-- Debug info -->
-        <StackPanel Grid.Row="3">
-            <CheckBox Content="IsValid" IsChecked="{Binding IsValid, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
-            <CheckBox IsChecked="{Binding IsScanning, UpdateSourceTrigger=PropertyChanged}" Content="IsScanning"/>
-        </StackPanel>
     </Grid>
 </Window>
