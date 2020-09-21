@@ -83,6 +83,13 @@ namespace IPScan.GUI.ViewModels
             set => Set(ref _isScanning, value);
         }
 
+        private bool _isStopScanning = false;
+        public bool IsStopScanning
+        {
+            get => _isStopScanning;
+            set => Set(ref _isStopScanning, value);
+        }
+
         public Dictionary<string, string> Errors = new Dictionary<string, string>();
 
         public bool IsValid => !Errors.Values.Any(x => x != null);
@@ -101,7 +108,7 @@ namespace IPScan.GUI.ViewModels
         private RelayCommand _stopScanningCommand;
         public RelayCommand StopScanningCommand
         {
-            get => _stopScanningCommand ??= new RelayCommand(StopScanningAsync, n => IsScanning);
+            get => _stopScanningCommand ??= new RelayCommand(StopScanning, n => IsScanning);
         }
 
         private RelayCommand _clearListCommand;
@@ -129,6 +136,11 @@ namespace IPScan.GUI.ViewModels
 
             foreach (var address in addressRange)
             {
+                if(IsStopScanning)
+                {
+                    break;
+                }
+
                 var scannerParameters = new ScannerParameters
                 {
                     Address = address
@@ -165,13 +177,15 @@ namespace IPScan.GUI.ViewModels
             ProgressValue = 0.0f;
             
             IsScanning = false;
+            IsStopScanning = false;
+
             ScanningCommand.Invalidate();
             StopScanningCommand.Invalidate();
         }
 
-        private async void StopScanningAsync(object n)
+        private void StopScanning(object n)
         {
-            // TODO: Add the cancel token in scanning 
+            IsStopScanning = true;
         }
 
         private void SetError(string message, [CallerMemberName] string propertyName = "")
