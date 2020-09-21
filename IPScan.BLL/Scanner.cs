@@ -25,39 +25,47 @@ namespace IPScan.BLL
             // request
             try
             {
-                reply = await ping.SendPingAsync(Parameters.Address, Parameters.Timeout);               
-                callbackAction?.Invoke(reply);
+                reply = await ping.SendPingAsync(Parameters.Address, Parameters.Timeout);                               
             }
             catch (Exception exc)
             {
                 throw new ScannerException("Ping exception", exc);
             }
 
+            callbackAction?.Invoke(reply);
             return reply;
         }
 
         public async Task<PortReply> GetPortReplyAsync(Action<PortReply> callbackAction = null)
         {
             var reply = new PortReply { Port = Parameters.Port };
-            var tcpClient = new TcpClient();
 
-            try
-            {
-                await tcpClient.ConnectAsync(Parameters.Address, Parameters.Port);
-                tcpClient.Close();
-            }
-            catch (SocketException)
-            {
-                reply.Status = PortStatus.Closed;
-                callbackAction?.Invoke(reply);
-                return reply;
-            }
-            catch (Exception exc)
-            {
-                throw new ScannerException("Port exception", exc);
-            }
+            var tcpCLient = new TcpClient();
+            var ar = tcpCLient.BeginConnect(Parameters.Address, Parameters.Port, null, null);
 
-            reply.Status = PortStatus.Opened;
+            await Task.Factory.StartNew(() =>
+            {
+                var wh = ar.AsyncWaitHandle;
+
+                try
+                {
+                    if (!ar.AsyncWaitHandle.WaitOne(TimeSpan.FromSeconds(2), false))
+                    {
+                        reply.Status = PortStatus.Closed;
+                        tcpCLient.Close();                      
+                    }
+                    else
+                    {
+                        reply.Status = PortStatus.Opened;
+                        tcpCLient.EndConnect(ar);
+                    }
+                }
+                finally
+                {
+                    wh.Close();
+                }
+            });
+
             callbackAction?.Invoke(reply);
             return reply;
         }
