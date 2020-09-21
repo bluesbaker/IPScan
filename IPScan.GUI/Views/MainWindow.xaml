@@ -107,7 +107,8 @@
         
         <!--Progressbar -->
         <Grid Grid.Row="1">
-            <ProgressBar Value="{Binding ProgressValue}" Height="10"/>
+            <TextBlock Text="{Binding ProgressDescription}" Panel.ZIndex="1" VerticalAlignment="Center" Margin="10,0"/>
+            <ProgressBar Value="{Binding ProgressValue}" Height="30"/>
         </Grid>
         
         <!-- Results -->
