@@ -76,6 +76,13 @@ namespace IPScan.GUI.ViewModels
             set => Set(ref _progressValue, value);
         }
 
+        private string _progressDescription = String.Empty;
+        public string ProgressDescription
+        {
+            get => _progressDescription;
+            set => Set(ref _progressDescription, value);
+        }
+
         private bool _isScanning = false;
         public bool IsScanning
         {
@@ -123,6 +130,7 @@ namespace IPScan.GUI.ViewModels
         private async void ScanningAsync(object n)
         {
             IsScanning = true;
+            ProgressDescription = $"Scanning is started";
 
             var startAddress = IPAddress.Parse(StartAddress);
             var endAddress = IPAddress.Parse(EndAddress);
@@ -136,8 +144,11 @@ namespace IPScan.GUI.ViewModels
 
             foreach (var address in addressRange)
             {
+                ProgressDescription = $"Scanning address \"{address}\"";
+
                 if(IsStopScanning)
                 {
+                    ProgressDescription = "Scanning is stopped";
                     break;
                 }
 
@@ -161,6 +172,8 @@ namespace IPScan.GUI.ViewModels
 
                     foreach (var port in portRange)
                     {
+                        ProgressDescription = $"Scanning port \"{port}\"";
+
                         if (IsStopScanning)
                         {
                             break;
@@ -180,6 +193,7 @@ namespace IPScan.GUI.ViewModels
             }
 
             ProgressValue = 0.0f;
+            ProgressDescription = "Scanning is completed";
             
             IsScanning = false;
             IsStopScanning = false;
