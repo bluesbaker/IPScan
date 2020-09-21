@@ -161,6 +161,11 @@ namespace IPScan.GUI.ViewModels
 
                     foreach (var port in portRange)
                     {
+                        if (IsStopScanning)
+                        {
+                            break;
+                        }
+
                         if (port > 0)
                         {
                             scanner.Parameters.Port = port;                           
