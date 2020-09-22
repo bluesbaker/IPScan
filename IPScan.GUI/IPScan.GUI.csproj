@@ -10,6 +10,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MaterialDesignThemes" Version="3.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\IPScan.BLL\IPScan.BLL.csproj" />
     <ProjectReference Include="..\IPScan.SUP\IPScan.SUP.csproj" />
   </ItemGroup>
