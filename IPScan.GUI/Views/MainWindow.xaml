@@ -15,143 +15,227 @@
         FontFamily="{DynamicResource MaterialDesignFont}"
         
         mc:Ignorable="d"
-        Title="IPScan" Height="450" Width="800">
+        Title="IPScan" Height="600" Width="800">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
+        <!-- Menu -->
+        <Menu IsMainMenu="True" Grid.ColumnSpan="2">
+            <MenuItem Header="_File">
+                <MenuItem.Icon>
+                    <materialDesign:PackIcon Kind="Menu" />
+                </MenuItem.Icon>
+                <MenuItem Header="Export to...">
+                    <MenuItem.Icon>
+                        <materialDesign:PackIcon Kind="ContentSave" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator />
+                <MenuItem Header="Exit" InputGestureText="Ctrl+E">
+                    <MenuItem.Icon>
+                        <materialDesign:PackIcon Kind="ExitToApp" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+
+            <MenuItem Header="About"/>
+        </Menu>
         
-        <!-- Options -->
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-            <!-- Address range -->
-            <GroupBox Header="Address range" BorderThickness="0" Background="AliceBlue">
-                <StackPanel Orientation="Horizontal">
-                    <TextBox 
-                        TextWrapping="NoWrap" 
-                        VerticalAlignment="Center"
-                        VerticalContentAlignment="Center"               
-                        Width="100" Height="30"
-                        Margin="2,5,5,5">
-                        <Binding Path="StartAddress" UpdateSourceTrigger="PropertyChanged">
-                            <Binding.ValidationRules>
-                                <DataErrorValidationRule />
-                            </Binding.ValidationRules>
-                        </Binding>
-                    </TextBox>
-                    <TextBlock Text="-" VerticalAlignment="Center"/>
-                    <TextBox 
-                        TextWrapping="NoWrap" 
-                        VerticalAlignment="Center" 
-                        VerticalContentAlignment="Center"                
-                        Width="100" Height="30" 
-                        Margin="5,5">
-                        <Binding Path="EndAddress" UpdateSourceTrigger="PropertyChanged">
-                            <Binding.ValidationRules>
-                                <DataErrorValidationRule />
-                            </Binding.ValidationRules>
-                        </Binding>
-                    </TextBox>
-                </StackPanel>
-            </GroupBox>
+        <!-- Scanning options -->
+        <materialDesign:Card 
+            materialDesign:ShadowAssist.ShadowDepth="Depth0" 
+            Padding="15" 
+            Grid.Row="1" Grid.RowSpan="2">
+            <StackPanel>
+                <!-- Address range -->
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="Addresses" Style="{StaticResource MaterialDesignHeadline6TextBlock}"/>
+                    <StackPanel Orientation="Horizontal" Grid.Row="1">
+                        <TextBox 
+                            VerticalAlignment="Center"
+                            Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                            materialDesign:HintAssist.Hint="From"
+                            Width="100">
+                            <Binding Path="StartAddress" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <DataErrorValidationRule />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox>
+                        <TextBlock 
+                            Text="-" 
+                            VerticalAlignment="Center" Margin="5,20,5,0"/>
+                        <TextBox 
+                            VerticalAlignment="Center"
+                            Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                            materialDesign:HintAssist.Hint="To"
+                            Width="100">
+                            <Binding Path="EndAddress" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <DataErrorValidationRule />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox>
+                    </StackPanel>
+                </Grid>
 
-            <!-- Port range -->
-            <GroupBox Header="Port range" BorderThickness="0" Background="Azure" Grid.Column="1">
-                <StackPanel Orientation="Horizontal">
-                    <TextBox 
-                        TextWrapping="NoWrap" 
-                        VerticalAlignment="Center"
-                        VerticalContentAlignment="Center"               
-                        Width="80" Height="30"
-                        Margin="2,5,5,5">
-                        <Binding Path="StartPort" UpdateSourceTrigger="PropertyChanged">
-                            <Binding.ValidationRules>
-                                <DataErrorValidationRule />
-                            </Binding.ValidationRules>
-                        </Binding>
-                    </TextBox>
-                    <TextBlock Text="-" VerticalAlignment="Center"/>
-                    <TextBox 
-                        TextWrapping="NoWrap" 
-                        VerticalAlignment="Center" 
-                        VerticalContentAlignment="Center"                
-                        Width="80" Height="30" 
-                        Margin="5,5">
-                        <Binding Path="EndPort" UpdateSourceTrigger="PropertyChanged">
-                            <Binding.ValidationRules>
-                                <DataErrorValidationRule />
-                            </Binding.ValidationRules>
-                        </Binding>
-                    </TextBox>
-                </StackPanel>
-            </GroupBox>
+                <!-- Port range -->
+                <Grid Margin="0, 30">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="Ports" Style="{StaticResource MaterialDesignHeadline6TextBlock}"/>
+                    <StackPanel Orientation="Horizontal" Grid.Row="1">
+                        <TextBox 
+                            VerticalAlignment="Center"
+                            Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                            materialDesign:HintAssist.Hint="From"
+                            Width="100">
+                            <Binding Path="StartPort" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <DataErrorValidationRule />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox>
+                        <TextBlock 
+                            Text="-"
+                            VerticalAlignment="Center" Margin="5,20,5,0"/>
+                        <TextBox 
+                            VerticalAlignment="Center"
+                            Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                            materialDesign:HintAssist.Hint="To"
+                            Width="100">
+                            <Binding Path="EndPort" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <DataErrorValidationRule />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox>
+                    </StackPanel>
+                </Grid>
 
-            <!-- Scanning buttons -->
-            <GroupBox Header="" BorderThickness="0" Grid.Column="2">
-                <StackPanel Orientation="Horizontal">
+                <!-- Scanning buttons -->
+                <StackPanel Grid.Column="2">
                     <Button 
                         Command="{Binding ScanningCommand}"
-                        Content="Scanning" 
-                        Height="30"
-                        Margin="5,5" Padding="20,0" />
-                    <Button 
-                        Command="{Binding StopScanningCommand}"
-                        Content="Stop" 
-                        Height="30"
-                        Margin="5,5" Padding="20,0" />
-                    <Button 
-                        Command="{Binding ClearListCommand}"
-                        Content="Clear" 
-                        Height="30"
-                        Margin="5,5" Padding="20,0" />
+                        Style="{StaticResource MaterialDesignFlatAccentBgButton}"
+                        Padding="20,0">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Scan" Style="{StaticResource MaterialDesignBody1TextBlock}"/>
+                        </StackPanel>
+                    </Button>
+                    <Grid Margin="0,5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Button
+                            Command="{Binding StopScanningCommand}"
+                            Style="{StaticResource MaterialDesignOutlinedButton}"
+                            Grid.Column="0"
+                            Padding="20,0"
+                            Margin="0,0,5,0">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Stop"/>
+                            </StackPanel>
+                        </Button>
+                        <Button 
+                            Command="{Binding ClearListCommand}"
+                            Style="{StaticResource MaterialDesignOutlinedButton}"
+                            Grid.Column="1"
+                            Padding="20,0">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Clear"/>
+                            </StackPanel>
+                        </Button>
+                    </Grid>
                 </StackPanel>
-            </GroupBox>
-        </Grid>
-        
-        <!--Progressbar -->
-        <Grid Grid.Row="1">
-            <TextBlock Text="{Binding ProgressDescription}" Panel.ZIndex="1" VerticalAlignment="Center" Margin="10,0"/>
-            <ProgressBar Value="{Binding ProgressValue}" Height="30"/>
-        </Grid>
-        
+            </StackPanel>
+        </materialDesign:Card>
+
         <!-- Results -->
-        <Grid Grid.Row="2">
-            <ListBox ItemsSource="{Binding HostResults}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel>
-                            <!-- Address status -->
-                            <StackPanel>
-                                <TextBlock Text="Address" FontSize="12"/>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="{Binding Host.Address}" FontSize="20"/>
-                                    <TextBlock Text="{Binding Host.Status}" FontSize="16" Margin="10,0" Foreground="Gray" VerticalAlignment="Center"/>
+        <materialDesign:Card 
+            materialDesign:ShadowAssist.ShadowDepth="Depth0" 
+            Padding="15"
+            Margin="10,0,0,0"
+            Grid.Row="1" Grid.Column="1">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <!--Progressbar -->
+                <Grid>
+                    <ProgressBar Value="{Binding ProgressValue}" VerticalAlignment="Top" Height="5"/>
+                </Grid>
+
+                <!-- List -->
+                <ListBox ItemsSource="{Binding HostResults}" Grid.Row="1">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <!-- Address status -->
+                                <StackPanel>
+                                    <TextBlock Text="Address" FontSize="12"/>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding Host.Address}" FontSize="20"/>
+                                        <TextBlock Text="{Binding Host.Status}" FontSize="16" Margin="10,0" Foreground="Gray" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </StackPanel>
+
+                                <!-- Ports list -->
+                                <StackPanel>
+                                    <TextBlock Text="Ports" FontSize="12"/>
+                                    <ListBox ItemsSource="{Binding Ports}">
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <!-- Port status -->
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="{Binding Port}"/>
+                                                    <TextBlock Text="{Binding Status}" Margin="5,0"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
                                 </StackPanel>
                             </StackPanel>
-
-                            <!-- Ports list -->
-                            <ListBox ItemsSource="{Binding Ports}">
-                                <ListBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <!-- Port status -->
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="{Binding Port}"/>
-                                            <TextBlock Text="{Binding Status}"/>
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>
-                            </ListBox>
-                        </StackPanel>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-        </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
+        </materialDesign:Card>
+        
+        <!-- Exports -->
+        <materialDesign:Card
+            materialDesign:ShadowAssist.ShadowDepth="Depth0"
+            Padding="15"
+            Margin="10,10,0,0"
+            Grid.Column="1" Grid.Row="2">
+            <Button
+                Command="{Binding ExportCommand}"
+                Style="{StaticResource MaterialDesignOutlinedButton}"
+                Width="200"
+                Grid.Column="0"
+                Padding="20,0"               
+                Margin="0,0,5,0"
+                HorizontalAlignment="Right">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Export to..."/>
+                </StackPanel>
+            </Button>
+        </materialDesign:Card>
     </Grid>
 </Window>
