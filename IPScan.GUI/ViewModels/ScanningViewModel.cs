@@ -123,6 +123,12 @@ namespace IPScan.GUI.ViewModels
         {
             get => _clearListCommand ??= new RelayCommand(n => HostResults.Clear(), n => (HostResults.Count > 0));
         }
+
+        private RelayCommand _exportCommand;
+        public RelayCommand ExportCommand
+        {
+            get => _exportCommand ??= new RelayCommand(n => { }, n => (!IsScanning && (HostResults.Count > 0)));
+        }
         #endregion
 
 
@@ -200,6 +206,7 @@ namespace IPScan.GUI.ViewModels
 
             ScanningCommand.Invalidate();
             StopScanningCommand.Invalidate();
+            ExportCommand.Invalidate();
         }
 
         private void StopScanning(object n)
