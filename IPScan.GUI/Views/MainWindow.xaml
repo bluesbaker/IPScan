@@ -30,24 +30,24 @@
         </Grid.RowDefinitions>
         <!-- Menu -->
         <Menu IsMainMenu="True" Grid.ColumnSpan="2">
-            <MenuItem Header="_File">
+            <MenuItem Header="_FILE">
                 <MenuItem.Icon>
                     <materialDesign:PackIcon Kind="Menu" />
                 </MenuItem.Icon>
-                <MenuItem Header="Export to..." Command="{Binding ExportCommand}">
+                <MenuItem Header="EXPORT TO..." Command="{Binding ExportCommand}">
                     <MenuItem.Icon>
                         <materialDesign:PackIcon Kind="Export" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator />
-                <MenuItem Header="Exit" InputGestureText="Ctrl+E">
+                <MenuItem Header="EXIT" InputGestureText="CTRL+E">
                     <MenuItem.Icon>
                         <materialDesign:PackIcon Kind="ExitToApp" />
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
 
-            <MenuItem Header="About"/>
+            <MenuItem Header="ABOUT"/>
         </Menu>
         
         <!-- Scanning options -->
@@ -132,10 +132,10 @@
                 <StackPanel Grid.Column="2">
                     <Button 
                         Command="{Binding ScanningCommand}"
-                        Style="{StaticResource MaterialDesignFlatAccentBgButton}"
+                        Style="{StaticResource MaterialDesignFlatMidBgButton}"
                         Padding="20,0">
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Scan" Style="{StaticResource MaterialDesignBody1TextBlock}"/>
+                            <TextBlock Text="SCAN" Style="{StaticResource MaterialDesignButtonTextBlock}"/>
                         </StackPanel>
                     </Button>
                     <Grid Margin="0,5">
@@ -150,7 +150,7 @@
                             Padding="20,0"
                             Margin="0,0,5,0">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Stop"/>
+                                <TextBlock Text="STOP"/>
                             </StackPanel>
                         </Button>
                         <Button 
@@ -159,7 +159,7 @@
                             Grid.Column="1"
                             Padding="20,0">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Clear"/>
+                                <TextBlock Text="CLEAR"/>
                             </StackPanel>
                         </Button>
                     </Grid>
@@ -196,11 +196,11 @@
                     Grid.Column="2">
                     <CheckBox
                         IsChecked="True"
-                        Style="{StaticResource MaterialDesignLightCheckBox}"
+                        Style="{StaticResource MaterialDesignCheckBox}"
                         Content="Succeed addresses" />
                     <CheckBox
                         IsChecked="True"
-                        Style="{StaticResource MaterialDesignLightCheckBox}"
+                        Style="{StaticResource MaterialDesignCheckBox}"
                         Content="Opened ports" 
                         Margin="10,0"/>
                 </StackPanel>
@@ -277,7 +277,7 @@
                 HorizontalAlignment="Right">
                 <StackPanel Orientation="Horizontal">
                     <materialDesign:PackIcon Kind="Export" />
-                    <TextBlock Text="Export to..." Margin="5,0"/>
+                    <TextBlock Text="EXPORT TO..." Margin="5,0"/>
                 </StackPanel>
             </Button>
         </materialDesign:Card>
