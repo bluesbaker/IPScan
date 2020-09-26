@@ -10,6 +10,8 @@ using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices.WindowsRuntime;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace IPScan.GUI.ViewModels
@@ -69,6 +71,20 @@ namespace IPScan.GUI.ViewModels
             }
         }
 
+        private bool _isSucceedAddress = false;
+        public bool IsSucceedAddress
+        {
+            get => _isSucceedAddress;               
+            set => Set(ref _isSucceedAddress, value);
+        }
+
+        private bool _isOpenedPort = false;
+        public bool IsOpenedPort
+        {
+            get => _isOpenedPort;
+            set => Set(ref _isOpenedPort, value);
+        }
+
         private double _progressValue = 0.0f;
         public double ProgressValue
         {
@@ -101,7 +117,10 @@ namespace IPScan.GUI.ViewModels
 
         public bool IsValid => !Errors.Values.Any(x => x != null);
 
-        public ObservableCollection<HostReply> HostResults { get; } = new ObservableCollection<HostReply>();
+        public ObservableCollection<HostReply> HostReplyCollection { get; } = new ObservableCollection<HostReply>();
+
+        public Predicate<object> SucceedAddressFilter => SucceedAddress;
+        public Predicate<object> OpenedPortFilter => OpenedPort;
         #endregion
 
 
@@ -121,13 +140,13 @@ namespace IPScan.GUI.ViewModels
         private RelayCommand _clearListCommand;
         public RelayCommand ClearListCommand
         {
-            get => _clearListCommand ??= new RelayCommand(n => HostResults.Clear(), n => (HostResults.Count > 0));
+            get => _clearListCommand ??= new RelayCommand(n => HostReplyCollection.Clear(), n => (HostReplyCollection.Count > 0));
         }
 
         private RelayCommand _exportCommand;
         public RelayCommand ExportCommand
         {
-            get => _exportCommand ??= new RelayCommand(n => { }, n => (!IsScanning && (HostResults.Count > 0)));
+            get => _exportCommand ??= new RelayCommand(n => { }, n => (!IsScanning && (HostReplyCollection.Count > 0)));
         }
         #endregion
 
@@ -167,15 +186,15 @@ namespace IPScan.GUI.ViewModels
                 // ping request
                 var pingReply = await scanner.GetPingReplyAsync();
 
+                var host = new HostReply
+                {
+                    Host = pingReply
+                };
+
+                HostReplyCollection.Add(host);
+
                 if (pingReply.Status == IPStatus.Success)
                 {                 
-                    var host = new HostReply
-                    {
-                        Host = pingReply
-                    };
-
-                    HostResults.Add(host);
-
                     foreach (var port in portRange)
                     {
                         ProgressDescription = $"Scanning port \"{port}\"";
@@ -193,7 +212,7 @@ namespace IPScan.GUI.ViewModels
                             host.Ports.Add(portReply);
                         }
                     }
-                }
+                } 
 
                 ProgressValue += progressStep;
             }
@@ -220,6 +239,18 @@ namespace IPScan.GUI.ViewModels
                 Errors[propertyName] = message;
             else
                 Errors.Add(propertyName, message);
+        }
+
+        private bool SucceedAddress(object sender)
+        {
+            var hostReply = sender as HostReply;
+            return hostReply.Host.Status == IPStatus.Success;
+        }
+
+        private bool OpenedPort(object sender)
+        {
+            var portReply = sender as PortReply;
+            return portReply.Status == PortStatus.Opened;
         }
         #endregion
 
