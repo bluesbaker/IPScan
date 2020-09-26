@@ -188,7 +188,8 @@ namespace IPScan.GUI.ViewModels
 
                 var host = new HostReply
                 {
-                    Host = pingReply
+                    Address = address,
+                    Status = pingReply.Status
                 };
 
                 HostReplyCollection.Add(host);
@@ -244,7 +245,7 @@ namespace IPScan.GUI.ViewModels
         private bool SucceedAddress(object sender)
         {
             var hostReply = sender as HostReply;
-            return hostReply.Host.Status == IPStatus.Success;
+            return hostReply.Status == IPStatus.Success;
         }
 
         private bool OpenedPort(object sender)
