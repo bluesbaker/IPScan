@@ -219,14 +219,13 @@
             <ListView ItemsSource="{Binding HostReplyCollection}"
                       support:UIAPConfigurator.CollectionFilter="{Binding SucceedAddressFilter}"
                       support:UIAPConfigurator.IsFiltred="{Binding IsSucceedAddress}">
-
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Address">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock 
-                                        Text="{Binding Host.Address}" 
+                                        Text="{Binding Address}" 
                                         HorizontalAlignment="Right"
                                         Margin="0,10"/>
                                 </DataTemplate>
@@ -237,7 +236,7 @@
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock 
-                                        Text="{Binding Host.Status}" 
+                                        Text="{Binding Status}" 
                                         HorizontalAlignment="Right"
                                         Margin="0,10"/>
                                 </DataTemplate>
