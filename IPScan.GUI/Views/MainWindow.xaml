@@ -4,6 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:IPScan.GUI"
+        xmlns:support="clr-namespace:IPScan.GUI.Support"
+        xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
         
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -195,11 +197,11 @@
                     Orientation="Horizontal" 
                     Grid.Column="2">
                     <CheckBox
-                        IsChecked="True"
+                        IsChecked="{Binding IsSucceedAddress}"
                         Style="{StaticResource MaterialDesignCheckBox}"
                         Content="Succeed addresses" />
                     <CheckBox
-                        IsChecked="True"
+                        IsChecked="{Binding IsOpenedPort}"
                         Style="{StaticResource MaterialDesignCheckBox}"
                         Content="Opened ports" 
                         Margin="10,0"/>
@@ -214,7 +216,10 @@
             Margin="10,10,0,0"
             Grid.Row="2" Grid.Column="1">
             <!-- List -->
-            <ListView ItemsSource="{Binding HostResults}">
+            <ListView ItemsSource="{Binding HostReplyCollection}"
+                      support:UIAPConfigurator.CollectionFilter="{Binding SucceedAddressFilter}"
+                      support:UIAPConfigurator.IsFiltred="{Binding IsSucceedAddress}">
+
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Address">
@@ -242,7 +247,9 @@
                         <GridViewColumn Header="Ports">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <ListBox ItemsSource="{Binding Ports}">
+                                    <ListBox ItemsSource="{Binding Ports}"
+                                             support:UIAPConfigurator.CollectionFilter="{Binding Path=DataContext.OpenedPortFilter, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
+                                             support:UIAPConfigurator.IsFiltred="{Binding Path=DataContext.IsOpenedPort, RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>
                                                 <!-- Port status -->
