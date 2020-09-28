@@ -10,7 +10,7 @@ namespace IPScan.GUI
     {
         public MainWindow()
         {
-            this.DataContext = new ScanningViewModel();
+            this.DataContext = new ScanViewModel();
             InitializeComponent();
         }
     }
