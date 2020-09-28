@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:IPScan.GUI"
         xmlns:support="clr-namespace:IPScan.GUI.Support"
-        xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:providers="clr-namespace:IPScan.GUI.Providers"
+        xmlns:selectors="clr-namespace:IPScan.GUI.Selectors"
         
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -23,7 +24,7 @@
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        
+
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -48,92 +49,300 @@
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
-
             <MenuItem Header="ABOUT"/>
         </Menu>
-        
-        <!-- Scanning options -->
+
+        <!-- Settings -->
         <materialDesign:Card 
             materialDesign:ShadowAssist.ShadowDepth="Depth0" 
             Padding="15" 
-            Grid.Row="1" Grid.RowSpan="3">
-            <StackPanel>
-                <!-- Address range -->
+            Grid.Row="1" Grid.RowSpan="3" MinWidth="300">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="AUto"/>
+                </Grid.RowDefinitions>
+                <!-- Addresses-->
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <TextBlock Text="Addresses" Style="{StaticResource MaterialDesignHeadline6TextBlock}"/>
-                    <StackPanel Orientation="Horizontal" Grid.Row="1">
-                        <TextBox 
-                            VerticalAlignment="Center"
-                            Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                            materialDesign:HintAssist.Hint="From"
-                            Width="100">
-                            <Binding Path="StartAddress" UpdateSourceTrigger="PropertyChanged">
-                                <Binding.ValidationRules>
-                                    <DataErrorValidationRule />
-                                </Binding.ValidationRules>
-                            </Binding>
-                        </TextBox>
-                        <TextBlock 
-                            Text="-" 
-                            VerticalAlignment="Center" Margin="5,20,5,0"/>
-                        <TextBox 
-                            VerticalAlignment="Center"
-                            Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                            materialDesign:HintAssist.Hint="To"
-                            Width="100">
-                            <Binding Path="EndAddress" UpdateSourceTrigger="PropertyChanged">
-                                <Binding.ValidationRules>
-                                    <DataErrorValidationRule />
-                                </Binding.ValidationRules>
-                            </Binding>
-                        </TextBox>
-                    </StackPanel>
-                </Grid>
+                    <!-- Title -->
+                    <TextBlock Text="Addresses" Style="{StaticResource MaterialDesignHeadline6TextBlock}" Margin="5,0"/>
+                    <!-- Address provider list -->
+                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                        <ListBox ItemsSource="{Binding AddressProviders}"
+                                 ItemContainerStyle="{StaticResource StretchListBoxItem}">
+                            <ListBox.Resources>
+                                <DataTemplate x:Key="SingleAddressDataTemplate">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <!-- Single address -->
+                                        <TextBox 
+                                            VerticalAlignment="Center"
+                                            Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                            materialDesign:HintAssist.Hint="Single address"
+                                            HorizontalAlignment="Stretch">
+                                            <Binding Path="SingleAddress" UpdateSourceTrigger="PropertyChanged">
+                                                <Binding.ValidationRules>
+                                                    <DataErrorValidationRule />
+                                                </Binding.ValidationRules>
+                                            </Binding>
+                                        </TextBox>
 
-                <!-- Port range -->
-                <Grid Margin="0, 30">
+                                        <!-- Remove button-->
+                                        <Button
+                                            Style="{StaticResource MaterialDesignToolForegroundButton}"
+                                            Command="{Binding Path=DataContext.RemoveAddressProviderCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+                                            CommandParameter="{Binding}"
+                                            Grid.Column="1"
+                                            ToolTip="Remove address provider"
+                                            HorizontalAlignment="Right">
+                                            <materialDesign:PackIcon
+                                                Kind="CloseCircle"
+                                                Height="16"
+                                                Width="16" />
+                                        </Button>
+                                    </Grid>
+                                </DataTemplate>
+
+                                <DataTemplate x:Key="RangeAddressDataTemplate">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox 
+                                                VerticalAlignment="Center"
+                                                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                                materialDesign:HintAssist.Hint="From">
+                                            <Binding Path="StartAddress" UpdateSourceTrigger="PropertyChanged">
+                                                <Binding.ValidationRules>
+                                                    <DataErrorValidationRule />
+                                                </Binding.ValidationRules>
+                                            </Binding>
+                                        </TextBox>
+                                        <TextBlock 
+                                                Text="-"
+                                                Grid.Column="1"
+                                                VerticalAlignment="Center" Margin="5,20,5,0"/>
+                                        <TextBox 
+                                                VerticalAlignment="Center"
+                                                Grid.Column="2"
+                                                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                                materialDesign:HintAssist.Hint="To">
+                                            <Binding Path="EndAddress" UpdateSourceTrigger="PropertyChanged">
+                                                <Binding.ValidationRules>
+                                                    <DataErrorValidationRule />
+                                                </Binding.ValidationRules>
+                                            </Binding>
+                                        </TextBox>
+
+                                        <!-- Remove button-->
+                                        <Button
+                                                Style="{StaticResource MaterialDesignToolForegroundButton}"
+                                                Command="{Binding Path=DataContext.RemoveAddressProviderCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+                                                CommandParameter="{Binding}"
+                                                Grid.Column="3"
+                                                ToolTip="Remove address provider"
+                                                HorizontalAlignment="Right">
+                                            <materialDesign:PackIcon
+                                                    Kind="CloseCircle"
+                                                    Height="16"
+                                                    Width="16" />
+                                        </Button>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.Resources>
+                            <ListBox.ItemTemplateSelector>
+                                <selectors:AddressProviderTempalateSelector/>
+                            </ListBox.ItemTemplateSelector>
+                        </ListBox>
+                    </ScrollViewer>
+                    <!-- Manage address providers -->
+                    <materialDesign:PopupBox
+                        Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}"
+                        materialDesign:ShadowAssist.ShadowDepth="Depth0"
+                        Grid.Row="2"
+                        PlacementMode="LeftAndAlignMiddles"
+                        ToolTipService.Placement="Right"
+                        HorizontalAlignment="Center"
+                        ToolTip="Manage address items">
+                        <StackPanel Orientation="Horizontal">
+                            <Button
+                                Style="{StaticResource MaterialDesignFloatingActionMiniButton}"
+                                Command="{Binding AddRangeAddressProviderCommand}"
+                                HorizontalAlignment="Left"
+                                ToolTip="Add address range">
+                                <materialDesign:PackIcon
+                                        Kind="PlusCircleMultipleOutline"
+                                        Height="24"
+                                        Width="24" />
+                            </Button>
+                            <Button
+                                Style="{StaticResource MaterialDesignFloatingActionMiniButton}"
+                                Command="{Binding AddSingleAddressProviderCommand}"
+                                HorizontalAlignment="Left"
+                                ToolTip="Add single address">
+                                <materialDesign:PackIcon
+                                    Kind="PlusCircleOutline"
+                                    Height="24"
+                                    Width="24" />
+                            </Button>
+                        </StackPanel>
+                    </materialDesign:PopupBox>
+                </Grid>
+                <!-- Ports -->
+                <Grid Grid.Row="1">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <TextBlock Text="Ports" Style="{StaticResource MaterialDesignHeadline6TextBlock}"/>
-                    <StackPanel Orientation="Horizontal" Grid.Row="1">
-                        <TextBox 
-                            VerticalAlignment="Center"
-                            Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                            materialDesign:HintAssist.Hint="From"
-                            Width="100">
-                            <Binding Path="StartPort" UpdateSourceTrigger="PropertyChanged">
-                                <Binding.ValidationRules>
-                                    <DataErrorValidationRule />
-                                </Binding.ValidationRules>
-                            </Binding>
-                        </TextBox>
-                        <TextBlock 
-                            Text="-"
-                            VerticalAlignment="Center" Margin="5,20,5,0"/>
-                        <TextBox 
-                            VerticalAlignment="Center"
-                            Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                            materialDesign:HintAssist.Hint="To"
-                            Width="100">
-                            <Binding Path="EndPort" UpdateSourceTrigger="PropertyChanged">
-                                <Binding.ValidationRules>
-                                    <DataErrorValidationRule />
-                                </Binding.ValidationRules>
-                            </Binding>
-                        </TextBox>
-                    </StackPanel>
+                    <!-- Title -->
+                    <TextBlock Text="Ports" Style="{StaticResource MaterialDesignHeadline6TextBlock}" Margin="5,0"/>
+                    <!-- Port provider list -->
+                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                        <ListBox ItemsSource="{Binding PortProviders}"
+                                 ItemContainerStyle="{StaticResource StretchListBoxItem}">
+                            <ListBox.Resources>
+                                <!-- Single port data template -->
+                                <DataTemplate x:Key="SinglePortDataTemplate">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <!-- Single port -->
+                                        <TextBox 
+                                            VerticalAlignment="Center"
+                                            Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                            materialDesign:HintAssist.Hint="Single port"
+                                            HorizontalAlignment="Stretch">
+                                            <Binding Path="SinglePort" UpdateSourceTrigger="PropertyChanged">
+                                                <Binding.ValidationRules>
+                                                    <DataErrorValidationRule />
+                                                </Binding.ValidationRules>
+                                            </Binding>
+                                        </TextBox>
+                                        <!-- Remove button-->
+                                        <Button
+                                            Style="{StaticResource MaterialDesignToolForegroundButton}"
+                                            Command="{Binding Path=DataContext.RemovePortProviderCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+                                            CommandParameter="{Binding}"
+                                            Grid.Column="1"
+                                            ToolTip="Remove port provider"
+                                            HorizontalAlignment="Right">
+                                            <materialDesign:PackIcon
+                                                Kind="CloseCircle"
+                                                Height="16"
+                                                Width="16" />
+                                        </Button>
+                                    </Grid>
+                                </DataTemplate>
+                                <!-- Port range data template -->
+                                <DataTemplate x:Key="RangePortDataTemplate">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <!-- Start port -->
+                                        <TextBox 
+                                                VerticalAlignment="Center"
+                                                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                                materialDesign:HintAssist.Hint="From">
+                                            <Binding Path="StartPort" UpdateSourceTrigger="PropertyChanged">
+                                                <Binding.ValidationRules>
+                                                    <DataErrorValidationRule />
+                                                </Binding.ValidationRules>
+                                            </Binding>
+                                        </TextBox>
+                                        <!-- Separator -->
+                                        <TextBlock 
+                                                Text="-"
+                                                Grid.Column="1"
+                                                VerticalAlignment="Center" Margin="5,20,5,0"/>
+                                        <!-- End address -->
+                                        <TextBox 
+                                                VerticalAlignment="Center"
+                                                Grid.Column="2"
+                                                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                                materialDesign:HintAssist.Hint="To">
+                                            <Binding Path="EndPort" UpdateSourceTrigger="PropertyChanged">
+                                                <Binding.ValidationRules>
+                                                    <DataErrorValidationRule />
+                                                </Binding.ValidationRules>
+                                            </Binding>
+                                        </TextBox>
+                                        <!-- Remove button-->
+                                        <Button
+                                                Style="{StaticResource MaterialDesignToolForegroundButton}"
+                                                Command="{Binding Path=DataContext.RemovePortProviderCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+                                                CommandParameter="{Binding}"
+                                                Grid.Column="3"
+                                                ToolTip="Remove port provider"
+                                                HorizontalAlignment="Right">
+                                            <materialDesign:PackIcon
+                                                    Kind="CloseCircle"
+                                                    Height="16"
+                                                    Width="16" />
+                                        </Button>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.Resources>
+                            <ListBox.ItemTemplateSelector>
+                                <selectors:PortProviderTempalateSelector/>
+                            </ListBox.ItemTemplateSelector>
+                        </ListBox>
+                    </ScrollViewer>
+                    <!-- Manage port providers -->
+                    <materialDesign:PopupBox
+                        Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}"
+                        materialDesign:ShadowAssist.ShadowDepth="Depth0"
+                        Grid.Row="2"
+                        PlacementMode="LeftAndAlignMiddles"
+                        ToolTipService.Placement="Right"
+                        HorizontalAlignment="Center"
+                        ToolTip="Manage port items">
+                        <StackPanel Orientation="Horizontal">
+                            <Button
+                                Style="{StaticResource MaterialDesignFloatingActionMiniButton}"
+                                Command="{Binding AddRangePortProviderCommand}"
+                                HorizontalAlignment="Left"
+                                ToolTip="Add address range">
+                                <materialDesign:PackIcon
+                                        Kind="PlusCircleMultipleOutline"
+                                        Height="24"
+                                        Width="24" />
+                            </Button>
+                            <Button
+                                Style="{StaticResource MaterialDesignFloatingActionMiniButton}"
+                                Command="{Binding AddSinglePortProviderCommand}"
+                                HorizontalAlignment="Left"
+                                ToolTip="Add single port">
+                                <materialDesign:PackIcon
+                                    Kind="PlusCircleOutline"
+                                    Height="24"
+                                    Width="24" />
+                            </Button>
+                        </StackPanel>
+                    </materialDesign:PopupBox>
                 </Grid>
-
-                <!-- Scanning buttons -->
-                <StackPanel Grid.Column="2">
+                <!-- Scan buttons -->
+                <StackPanel Grid.Row="2">
                     <Button 
-                        Command="{Binding ScanningCommand}"
+                        Command="{Binding ScanCommand}"
                         Style="{StaticResource MaterialDesignFlatMidBgButton}"
                         Padding="20,0">
                         <StackPanel Orientation="Horizontal">
@@ -146,7 +355,7 @@
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
                         <Button
-                            Command="{Binding StopScanningCommand}"
+                            Command="{Binding StopScanCommand}"
                             Style="{StaticResource MaterialDesignOutlinedButton}"
                             Grid.Column="0"
                             Padding="20,0"
@@ -166,7 +375,7 @@
                         </Button>
                     </Grid>
                 </StackPanel>
-            </StackPanel>
+            </Grid>
         </materialDesign:Card>
 
         <!-- Filters and progressbar-->
@@ -181,18 +390,19 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
+                <!-- Progress bar -->
                 <ProgressBar
                     Value="{Binding ProgressValue}"
                     Style="{StaticResource MaterialDesignCircularProgressBar}"
                     x:Name="DeterminateCircularProgress"
                     VerticalAlignment="Center"/>
-
+                <!-- Progress description -->
                 <TextBlock 
                     Text="{Binding ProgressDescription}" 
                     Grid.Column="1" 
                     VerticalAlignment="Center"
                     Margin="10,0"/>
-
+                <!-- Manage filters-->
                 <StackPanel 
                     Orientation="Horizontal" 
                     Grid.Column="2">
@@ -208,14 +418,14 @@
                 </StackPanel>
             </Grid>
         </materialDesign:Card>
-        
+
         <!-- Results -->
         <materialDesign:Card 
             materialDesign:ShadowAssist.ShadowDepth="Depth0" 
             Padding="15"
             Margin="10,10,0,0"
             Grid.Row="2" Grid.Column="1">
-            <!-- List -->
+            <!-- Address results -->
             <ListView ItemsSource="{Binding HostReplyCollection}"
                       support:UIAPConfigurator.CollectionFilter="{Binding SucceedAddressFilter}"
                       support:UIAPConfigurator.IsFiltred="{Binding IsSucceedAddress}">
@@ -231,7 +441,6 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-
                         <GridViewColumn Header="Status">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
@@ -242,16 +451,15 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-
                         <GridViewColumn Header="Ports">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
+                                    <!-- Port results -->
                                     <ListBox ItemsSource="{Binding Ports}"
                                              support:UIAPConfigurator.CollectionFilter="{Binding Path=DataContext.OpenedPortFilter, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
                                              support:UIAPConfigurator.IsFiltred="{Binding Path=DataContext.IsOpenedPort, RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>
-                                                <!-- Port status -->
                                                 <StackPanel Orientation="Horizontal">
                                                     <TextBlock Text="{Binding Port}"/>
                                                     <TextBlock Text="{Binding Status}" Margin="5,0"/>
@@ -266,7 +474,7 @@
                 </ListView.View>
             </ListView>
         </materialDesign:Card>
-        
+
         <!-- Exports -->
         <materialDesign:Card
             materialDesign:ShadowAssist.ShadowDepth="Depth0"
