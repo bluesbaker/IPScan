@@ -19,7 +19,8 @@
         
         mc:Ignorable="d"
         Title="IPScan" Height="600" Width="800">
-    <Grid>
+    <materialDesign:DialogHost>
+        <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
@@ -49,7 +50,9 @@
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
-            <MenuItem Header="ABOUT"/>
+            <MenuItem 
+                Header="ABOUT" 
+                Command="{Binding AboutOpenDialogCommand}"/>
         </Menu>
 
         <!-- Settings -->
@@ -134,19 +137,18 @@
                                                 Text="-"
                                                 Grid.Column="1"
                                                 VerticalAlignment="Center" Margin="5,20,5,0"/>
-                                        <TextBox 
+                                            <TextBox 
                                                 VerticalAlignment="Center"
                                                 Grid.Column="2"
                                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                                 materialDesign:HintAssist.Hint="To">
-                                            <Binding Path="EndAddress" UpdateSourceTrigger="PropertyChanged">
-                                                <Binding.ValidationRules>
-                                                    <DataErrorValidationRule />
-                                                </Binding.ValidationRules>
-                                            </Binding>
-                                        </TextBox>
-
-                                        <!-- Remove button-->
+                                                <Binding Path="EndAddress" UpdateSourceTrigger="PropertyChanged">
+                                                    <Binding.ValidationRules>
+                                                        <DataErrorValidationRule />
+                                                    </Binding.ValidationRules>
+                                                </Binding>
+                                            </TextBox>
+                                            <!-- Remove button-->
                                         <Button
                                                 Style="{StaticResource MaterialDesignToolForegroundButton}"
                                                 Command="{Binding Path=DataContext.RemoveAddressProviderCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
@@ -455,9 +457,10 @@
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <!-- Port results -->
-                                    <ListBox ItemsSource="{Binding Ports}"
-                                             support:UIAPConfigurator.CollectionFilter="{Binding Path=DataContext.OpenedPortFilter, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
-                                             support:UIAPConfigurator.IsFiltred="{Binding Path=DataContext.IsOpenedPort, RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
+                                    <ListBox 
+                                        ItemsSource="{Binding Ports}"
+                                        support:UIAPConfigurator.CollectionFilter="{Binding Path=DataContext.OpenedPortFilter, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
+                                        support:UIAPConfigurator.IsFiltred="{Binding Path=DataContext.IsOpenedPort, RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>
                                                 <StackPanel Orientation="Horizontal">
@@ -496,4 +499,6 @@
             </Button>
         </materialDesign:Card>
     </Grid>
+    </materialDesign:DialogHost>
+
 </Window>
