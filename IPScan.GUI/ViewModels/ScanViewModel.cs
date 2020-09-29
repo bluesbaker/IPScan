@@ -2,7 +2,6 @@
 using IPScan.GUI.Models;
 using IPScan.GUI.Support;
 using IPScan.GUI.Providers;
-using IPScan.SUP;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,9 +10,8 @@ using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Windows.Data;
-using System.Windows.Input;
+using IPScan.GUI.UserControls;
+using MaterialDesignThemes.Wpf;
 
 namespace IPScan.GUI.ViewModels
 {
@@ -68,13 +66,17 @@ namespace IPScan.GUI.ViewModels
             set => Set(ref _isStopScan, value);
         }
 
-
         public bool IsValid
         {
             get
             {
                 // check self errors
                 if(Errors.Values.Any(x => x != null))
+                {
+                    return false;
+                }
+                // check count of settings
+                if(AddressProviders.Count == 0 || PortProviders.Count == 0)
                 {
                     return false;
                 }
@@ -110,6 +112,26 @@ namespace IPScan.GUI.ViewModels
             var portReply = sender as PortReply;
             return portReply.Status == PortStatus.Opened;
         };
+        #endregion
+
+
+        #region Menu commands
+        private RelayCommand _aboutOpenDialogCommand;
+        public RelayCommand AboutOpenDialogCommand
+        {
+            get => _aboutOpenDialogCommand ??= new RelayCommand(async (n) => 
+            {
+                var view = new SampleDialog
+                {
+                    DataContext = new AboutDialogViewModel()
+                    {
+                        Title = "About",
+                        Description = "Author: github.com/bluesbaker"
+                    }
+                };
+                await DialogHost.Show(view);
+            });
+        }
         #endregion
 
 
