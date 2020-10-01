@@ -22,6 +22,13 @@ namespace IPScan.GUI.Models
             set => Set(ref _status, value);
         }
 
+        private long _roundtripTime;
+        public long RoundtripTime
+        {
+            get => _roundtripTime;
+            set => Set(ref _roundtripTime, value);
+        }
+
         public ObservableCollection<PortReply> Ports { get; } = new ObservableCollection<PortReply>();
     }
 }
