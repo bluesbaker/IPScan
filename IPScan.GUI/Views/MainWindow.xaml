@@ -7,6 +7,7 @@
         xmlns:support="clr-namespace:IPScan.GUI.Support"
         xmlns:selectors="clr-namespace:IPScan.GUI.Selectors"     
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
         
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Regular"
@@ -24,7 +25,6 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -43,15 +43,17 @@
                         </MenuItem.Icon>
                     </MenuItem>
                     <Separator />
-                    <MenuItem Header="EXIT" InputGestureText="CTRL+E">
+                    <MenuItem 
+                        Header="EXIT" 
+                        InputGestureText="CTRL+E">
                         <MenuItem.Icon>
                             <materialDesign:PackIcon Kind="ExitToApp" />
                         </MenuItem.Icon>
                     </MenuItem>
                 </MenuItem>
                 <MenuItem 
-                Header="ABOUT" 
-                Command="{Binding AboutOpenDialogCommand}"/>
+                    Header="ABOUT" 
+                    Command="{Binding AboutOpenDialogCommand}"/>
             </Menu>
 
             <!-- Settings -->
@@ -228,10 +230,11 @@
                             </Grid.RowDefinitions>
                             <!-- Title -->
                             <TextBlock Text="Ports" Style="{StaticResource MaterialDesignHeadline6TextBlock}" Margin="5,0"/>
-                            <!-- Address provider list -->
+                            <!-- Port provider list -->
                             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-                                <ListBox ItemsSource="{Binding PortProviders}"
-                                 ItemContainerStyle="{StaticResource StretchListBoxItem}">
+                                <ListBox
+                                    ItemsSource="{Binding PortProviders}"
+                                    ItemContainerStyle="{StaticResource StretchListBoxItem}">
                                     <ListBox.Resources>
                                         <!-- Single port provider template -->
                                         <DataTemplate x:Key="SinglePortDataTemplate">
@@ -374,9 +377,9 @@
                     Grid.Row="2">
                     <StackPanel>
                         <Button 
-                        Command="{Binding ScanCommand}"
-                        Style="{StaticResource MaterialDesignFlatMidBgButton}"
-                        Padding="20,0">
+                            Command="{Binding ScanCommand}"
+                            Style="{StaticResource MaterialDesignFlatMidBgButton}"
+                            Padding="20,0">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="SCAN" Style="{StaticResource MaterialDesignButtonTextBlock}"/>
                             </StackPanel>
@@ -387,20 +390,20 @@
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             <Button
-                            Command="{Binding StopScanCommand}"
-                            Style="{StaticResource MaterialDesignOutlinedButton}"
-                            Grid.Column="0"
-                            Padding="20,0"
-                            Margin="0,0,5,0">
+                                Command="{Binding StopScanCommand}"
+                                Style="{StaticResource MaterialDesignOutlinedButton}"
+                                Grid.Column="0"
+                                Padding="20,0"
+                                Margin="0,0,5,0">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="STOP"/>
                                 </StackPanel>
                             </Button>
                             <Button 
-                            Command="{Binding ClearListCommand}"
-                            Style="{StaticResource MaterialDesignOutlinedButton}"
-                            Grid.Column="1"
-                            Padding="20,0">
+                                Command="{Binding ClearListCommand}"
+                                Style="{StaticResource MaterialDesignOutlinedButton}"
+                                Grid.Column="1"
+                                Padding="20,0">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="CLEAR"/>
                                 </StackPanel>
@@ -408,16 +411,15 @@
                         </Grid>
                     </StackPanel>
                 </materialDesign:Card>
-                
             </Grid>
 
 
             <!-- Filters and progressbar-->
             <materialDesign:Card
-            materialDesign:ShadowAssist.ShadowDepth="Depth0"
-            Padding="15"
-            Margin="10,0,0,0"
-            Grid.Row="1" Grid.Column="1">
+                materialDesign:ShadowAssist.ShadowDepth="Depth0"
+                Padding="15"
+                Margin="10,0,0,0"
+                Grid.Row="1" Grid.Column="1">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -426,104 +428,148 @@
                     </Grid.ColumnDefinitions>
                     <!-- Progress bar -->
                     <ProgressBar
-                    Value="{Binding ProgressValue}"
-                    Style="{StaticResource MaterialDesignCircularProgressBar}"
-                    x:Name="DeterminateCircularProgress"
-                    VerticalAlignment="Center"/>
+                        Value="{Binding ProgressValue}"
+                        Style="{StaticResource MaterialDesignCircularProgressBar}"
+                        x:Name="DeterminateCircularProgress"
+                        VerticalAlignment="Center"/>
                     <!-- Progress description -->
                     <TextBlock 
-                    Text="{Binding ProgressDescription}" 
-                    Grid.Column="1" 
-                    VerticalAlignment="Center"
-                    Margin="10,0"/>
+                        Text="{Binding ProgressDescription}" 
+                        Grid.Column="1" 
+                        VerticalAlignment="Center"
+                        Margin="10,0"/>
                     <!-- Manage filters-->
                     <StackPanel 
-                    Orientation="Horizontal" 
-                    Grid.Column="2">
+                        Orientation="Horizontal" 
+                        Grid.Column="2">
                         <CheckBox
-                        IsChecked="{Binding IsSucceedAddress}"
-                        Style="{StaticResource MaterialDesignCheckBox}"
-                        Content="Succeed addresses" />
+                            IsChecked="{Binding IsSucceedAddress}"
+                            Style="{StaticResource MaterialDesignCheckBox}"
+                            Content="Succeed addresses" />
                         <CheckBox
-                        IsChecked="{Binding IsOpenedPort}"
-                        Style="{StaticResource MaterialDesignCheckBox}"
-                        Content="Opened ports" 
-                        Margin="10,0"/>
+                            IsChecked="{Binding IsOpenedPort}"
+                            Style="{StaticResource MaterialDesignCheckBox}"
+                            Content="Opened ports" 
+                            Margin="10,0"/>
                     </StackPanel>
                 </Grid>
             </materialDesign:Card>
 
             <!-- Results -->
             <materialDesign:Card 
-            materialDesign:ShadowAssist.ShadowDepth="Depth0" 
-            Padding="15"
-            Margin="10,10,0,0"
-            Grid.Row="2" Grid.Column="1">
-                <!-- Address results -->
-                <ListView ItemsSource="{Binding HostReplyCollection}"
-                      support:UIAPConfigurator.CollectionFilter="{Binding SucceedAddressFilter}"
-                      support:UIAPConfigurator.IsFiltred="{Binding IsSucceedAddress}">
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn Header="Address">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBlock 
-                                        Text="{Binding Address}" 
-                                        HorizontalAlignment="Right"
-                                        Margin="0,10"/>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                            <GridViewColumn Header="Status">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBlock 
-                                        Text="{Binding Status}" 
-                                        HorizontalAlignment="Right"
-                                        Margin="0,10"/>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                            <GridViewColumn Header="Ports">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <!-- Port results -->
-                                        <ListBox 
-                                        ItemsSource="{Binding Ports}"
-                                        support:UIAPConfigurator.CollectionFilter="{Binding Path=DataContext.OpenedPortFilter, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
-                                        support:UIAPConfigurator.IsFiltred="{Binding Path=DataContext.IsOpenedPort, RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
-                                            <ListBox.ItemTemplate>
+                materialDesign:ShadowAssist.ShadowDepth="Depth0" 
+                Padding="15"
+                Margin="10,10,0,0"
+                Grid.Row="2" Grid.Column="1">
+                <ContentControl>
+                    <ContentControl.Resources>
+                        <Style TargetType="{x:Type ContentControl}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate>
+                                        <ContentPresenter Content="{Binding}">
+                                            <ContentPresenter.ContentTemplate>
                                                 <DataTemplate>
-                                                    <StackPanel Orientation="Horizontal">
-                                                        <TextBlock Text="{Binding Port}"/>
-                                                        <TextBlock Text="{Binding Status}" Margin="5,0"/>
-                                                    </StackPanel>
+                                                    <Grid>
+                                                        <!-- Address results -->
+                                                        <ListView 
+                                                            ItemsSource="{Binding HostReplyCollection}"
+                                                            support:UIAPConfigurator.CollectionFilter="{Binding SucceedAddressFilter}"
+                                                            support:UIAPConfigurator.IsFiltred="{Binding IsSucceedAddress}"
+                                                            Style="{StaticResource MaterialDesignListView}">
+                                                            <ListView.View>
+                                                                <GridView>
+                                                                    <GridViewColumn Header="Address">
+                                                                        <GridViewColumn.CellTemplate>
+                                                                            <DataTemplate>
+                                                                                <TextBlock 
+                                                                                    Text="{Binding Address}" 
+                                                                                    HorizontalAlignment="Right"
+                                                                                    Margin="0,10"/>
+                                                                            </DataTemplate>
+                                                                        </GridViewColumn.CellTemplate>
+                                                                    </GridViewColumn>
+                                                                    <GridViewColumn Header="Status">
+                                                                        <GridViewColumn.CellTemplate>
+                                                                            <DataTemplate>
+                                                                                <TextBlock 
+                                                                                    Text="{Binding Status}" 
+                                                                                    HorizontalAlignment="Right"
+                                                                                    Margin="0,10"/>
+                                                                            </DataTemplate>
+                                                                        </GridViewColumn.CellTemplate>
+                                                                    </GridViewColumn>
+                                                                    <GridViewColumn Header="Time">
+                                                                        <GridViewColumn.CellTemplate>
+                                                                            <DataTemplate>
+                                                                                <TextBlock 
+                                                                                    Text="{Binding RoundtripTime}" 
+                                                                                    HorizontalAlignment="Right"
+                                                                                    Margin="0,10"/>
+                                                                            </DataTemplate>
+                                                                        </GridViewColumn.CellTemplate>
+                                                                    </GridViewColumn>
+                                                                    <GridViewColumn Header="Ports">
+                                                                        <GridViewColumn.CellTemplate>
+                                                                            <DataTemplate>
+                                                                                <!-- Port results -->
+                                                                                <ListBox 
+                                                                                    ItemsSource="{Binding Ports}"
+                                                                                    support:UIAPConfigurator.CollectionFilter="{Binding Path=DataContext.OpenedPortFilter, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
+                                                                                    support:UIAPConfigurator.IsFiltred="{Binding Path=DataContext.IsOpenedPort, RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
+                                                                                    <ListBox.ItemTemplate>
+                                                                                        <DataTemplate>
+                                                                                            <StackPanel Orientation="Horizontal">
+                                                                                                <TextBlock Text="{Binding Port}"/>
+                                                                                                <TextBlock Text="{Binding Status}" Margin="5,0"/>
+                                                                                            </StackPanel>
+                                                                                        </DataTemplate>
+                                                                                    </ListBox.ItemTemplate>
+                                                                                </ListBox>
+                                                                            </DataTemplate>
+                                                                        </GridViewColumn.CellTemplate>
+                                                                    </GridViewColumn>
+                                                                </GridView>
+                                                            </ListView.View>
+                                                        </ListView>
+                                                        <TextBlock 
+                                                            Name="emptyResultText" 
+                                                            Text="No items found" 
+                                                            Visibility="Collapsed" 
+                                                            HorizontalAlignment="Center" 
+                                                            VerticalAlignment="Top"
+                                                            Margin="0,100"/>
+                                                    </Grid>
+                                                    <DataTemplate.Triggers>
+                                                        <DataTrigger Binding="{Binding HostReplyCollection.Count}" Value="0">
+                                                            <Setter TargetName="emptyResultText" Property="Visibility" Value="Visible"/>
+                                                        </DataTrigger>
+                                                    </DataTemplate.Triggers>
                                                 </DataTemplate>
-                                            </ListBox.ItemTemplate>
-                                        </ListBox>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
+                                            </ContentPresenter.ContentTemplate>
+                                        </ContentPresenter>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ContentControl.Resources>
+                </ContentControl>
             </materialDesign:Card>
 
             <!-- Exports -->
             <materialDesign:Card
-            materialDesign:ShadowAssist.ShadowDepth="Depth0"
-            Padding="15"
-            Margin="10,10,0,0"
-            Grid.Column="1" Grid.Row="3">
+                materialDesign:ShadowAssist.ShadowDepth="Depth0"
+                Padding="15"
+                Margin="10,10,0,0"
+                Grid.Column="1" Grid.Row="3">
                 <Button
-                Command="{Binding ExportCommand}"
-                Style="{StaticResource MaterialDesignOutlinedButton}"
-                Width="200"
-                Grid.Column="0"
-                Padding="20,0"               
-                Margin="0,0,5,0"
-                HorizontalAlignment="Right">
+                    Command="{Binding ExportCommand}"
+                    Style="{StaticResource MaterialDesignOutlinedButton}"
+                    Width="200"
+                    Grid.Column="0"
+                    Padding="20,0"               
+                    Margin="0,0,5,0"
+                    HorizontalAlignment="Right">
                     <StackPanel Orientation="Horizontal">
                         <materialDesign:PackIcon Kind="Export" />
                         <TextBlock Text="EXPORT TO..." Margin="5,0"/>
