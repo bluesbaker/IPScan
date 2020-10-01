@@ -319,7 +319,8 @@ namespace IPScan.GUI.ViewModels
                 var host = new HostReply
                 {
                     Address = address,
-                    Status = pingReply.Status
+                    Status = pingReply.Status,
+                    RoundtripTime = pingReply.RoundtripTime
                 };
 
                 HostReplyCollection.Add(host);
