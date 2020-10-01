@@ -5,10 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:IPScan.GUI"
         xmlns:support="clr-namespace:IPScan.GUI.Support"
-        xmlns:providers="clr-namespace:IPScan.GUI.Providers"
-        xmlns:selectors="clr-namespace:IPScan.GUI.Selectors"
-        
+        xmlns:selectors="clr-namespace:IPScan.GUI.Selectors"     
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Regular"
         TextElement.FontSize="13"
@@ -16,7 +15,7 @@
         TextOptions.TextRenderingMode="Auto"        
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
-        
+        UseLayoutRounding="True"
         mc:Ignorable="d"
         Title="IPScan" Height="600" Width="800">
     <materialDesign:DialogHost>
@@ -96,7 +95,7 @@
                                                     Style="{StaticResource MaterialDesignToolForegroundButton}"
                                                     Command="{Binding Path=DataContext.ChangeAddressProviderCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
                                                     CommandParameter="{Binding}"
-                                                    ToolTip="Change address provider">
+                                                    ToolTip="Change to the address range provider">
                                                     <materialDesign:PackIcon
                                                         Kind="TransitConnection"
                                                         Height="16"
@@ -145,7 +144,7 @@
                                                     Style="{StaticResource MaterialDesignToolForegroundButton}"
                                                     Command="{Binding Path=DataContext.ChangeAddressProviderCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
                                                     CommandParameter="{Binding}"
-                                                    ToolTip="Change address provider">
+                                                    ToolTip="Change to the single address provider">
                                                     <materialDesign:PackIcon
                                                         Kind="TransitSkip"
                                                         Height="16"
@@ -247,7 +246,7 @@
                                                     Style="{StaticResource MaterialDesignToolForegroundButton}"
                                                     Command="{Binding Path=DataContext.ChangePortProviderCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
                                                     CommandParameter="{Binding}"
-                                                    ToolTip="Change port provider">
+                                                    ToolTip="Change to the port range provider">
                                                     <materialDesign:PackIcon
                                                         Kind="TransitConnection"
                                                         Height="16"
@@ -296,7 +295,7 @@
                                                     Style="{StaticResource MaterialDesignToolForegroundButton}"
                                                     Command="{Binding Path=DataContext.ChangePortProviderCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
                                                     CommandParameter="{Binding}"
-                                                    ToolTip="Change port provider">
+                                                    ToolTip="Change to the single port provider">
                                                     <materialDesign:PackIcon
                                                         Kind="TransitSkip"
                                                         Height="16"
