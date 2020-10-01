@@ -12,6 +12,7 @@ using System.Net.NetworkInformation;
 using System.Runtime.CompilerServices;
 using IPScan.GUI.UserControls;
 using MaterialDesignThemes.Wpf;
+using System.Threading;
 
 namespace IPScan.GUI.ViewModels
 {
@@ -136,21 +137,12 @@ namespace IPScan.GUI.ViewModels
 
 
         #region Address providers commands
-        private RelayCommand _addSingleAddressProviderCommand;
-        public RelayCommand AddSingleAddressProviderCommand
+        private RelayCommand _addAddressProviderCommand;
+        public RelayCommand AddAddressProviderCommand
         {
-            get => _addSingleAddressProviderCommand ??= new RelayCommand(n =>
+            get => _addAddressProviderCommand ??= new RelayCommand(n =>
             {
                 AddressProviders.Add(new SingleAddressProvider() { SingleAddress = "77.88.55.77" });
-            });
-        }
-
-        private RelayCommand _addRangeAddressProviderCommand;
-        public RelayCommand AddRangeAddressProviderCommand
-        {
-            get => _addRangeAddressProviderCommand ??= new RelayCommand(n =>
-            {
-                AddressProviders.Add(new RangeAddressProvider() { StartAddress = "77.88.55.77", EndAddress = "77.88.55.80" });
             });
         }
 
@@ -165,25 +157,49 @@ namespace IPScan.GUI.ViewModels
                 }
             });
         }
+
+        private RelayCommand _changeAddressProviderCommand;
+        public RelayCommand ChangeAddressProviderCommand
+        {
+            get => _changeAddressProviderCommand ??= new RelayCommand(p =>
+            {
+                var provider = p as IAddressProvider;
+                if (AddressProviders.Contains(provider))
+                {
+                    var addressList = provider.GetList();
+                    var indexProvider = AddressProviders.IndexOf(provider);
+
+                    if(provider is RangeAddressProvider)
+                    {
+                        var singleAddressProvider = new SingleAddressProvider()
+                        {
+                            SingleAddress = addressList[^1].ToString()
+                        };
+                        AddressProviders.Insert(indexProvider, singleAddressProvider);
+                    }
+                    else if(provider is SingleAddressProvider)
+                    {
+                        var rangeAddressProvider = new RangeAddressProvider()
+                        {
+                            StartAddress = addressList[0].ToString(),
+                            EndAddress = addressList[^1].ToString()
+                        };
+                        AddressProviders.Insert(indexProvider, rangeAddressProvider);
+                    }
+                    AddressProviders.Remove(provider);
+                }
+            });
+        }
         #endregion
 
 
         #region Port providers commands
-        private RelayCommand _addSinglePortProviderCommand;
-        public RelayCommand AddSinglePortProviderCommand
+        private RelayCommand _addPortProviderCommand;
+        public RelayCommand AddPortProviderCommand
         {
-            get => _addSinglePortProviderCommand ??= new RelayCommand(n =>
+            get => _addPortProviderCommand ??= new RelayCommand(n =>
             {
                 PortProviders.Add(new SinglePortProvider() { SinglePort = "80" });
-            });
-        }
-
-        private RelayCommand _addRangePortProviderCommand;
-        public RelayCommand AddRangePortProviderCommand
-        {
-            get => _addRangePortProviderCommand ??= new RelayCommand(n =>
-            {
-                PortProviders.Add(new RangePortProvider() { StartPort = "80", EndPort = "85"});
             });
         }
 
@@ -194,6 +210,39 @@ namespace IPScan.GUI.ViewModels
             {
                 if (p is IPortProvider provider)
                 {
+                    PortProviders.Remove(provider);
+                }
+            });
+        }
+
+        private RelayCommand _changePortProviderCommand;
+        public RelayCommand ChangePortProviderCommand
+        {
+            get => _changePortProviderCommand ??= new RelayCommand(p =>
+            {
+                var provider = p as IPortProvider;
+                if (PortProviders.Contains(provider))
+                {
+                    var portList = provider.GetList();
+                    var indexProvider = PortProviders.IndexOf(provider);
+
+                    if(provider is RangePortProvider)
+                    {
+                        var singlePortProvider = new SinglePortProvider()
+                        {
+                            SinglePort = portList[^1].ToString()
+                        };
+                        PortProviders.Insert(indexProvider, singlePortProvider);
+                    }
+                    else if(provider is SinglePortProvider)
+                    {
+                        var rangePortProvider = new RangePortProvider()
+                        {
+                            StartPort = portList[0].ToString(),
+                            EndPort = portList[^1].ToString()
+                        };
+                        PortProviders.Insert(indexProvider, rangePortProvider);                       
+                    }
                     PortProviders.Remove(provider);
                 }
             });
