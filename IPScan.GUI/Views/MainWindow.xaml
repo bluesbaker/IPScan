@@ -437,7 +437,7 @@
                 </Grid>
             </materialDesign:Card>
 
-            <!-- Results and footer -->
+            <!-- Results -->
             <materialDesign:Card 
                 materialDesign:ShadowAssist.ShadowDepth="Depth1"
                 materialDesign:ShadowAssist.ShadowEdges="Bottom"
@@ -571,7 +571,6 @@
                                                             </StackPanel>
                                                         </Grid>
                                                     </Grid>
-
                                                     <DataTemplate.Triggers>
                                                         <DataTrigger Binding="{Binding HostReplyCollection.Count}" Value="0">
                                                             <Setter TargetName="emptyResultText" Property="Visibility" Value="Visible"/>
