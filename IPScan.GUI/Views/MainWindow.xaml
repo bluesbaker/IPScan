@@ -7,7 +7,6 @@
         xmlns:support="clr-namespace:IPScan.GUI.Support"
         xmlns:selectors="clr-namespace:IPScan.GUI.Selectors"     
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
         
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Regular"
@@ -18,7 +17,9 @@
         FontFamily="{DynamicResource MaterialDesignFont}"
         UseLayoutRounding="True"
         mc:Ignorable="d"
-        Title="IPScan" Height="600" Width="800">
+        Title="IPScan" 
+        Height="650" Width="900"
+        MinHeight="600" MinWidth="800">
     <materialDesign:DialogHost>
         <Grid>
             <Grid.ColumnDefinitions>
@@ -59,18 +60,19 @@
             <!-- Settings -->
             <Grid
                 MinWidth="300"
-                Grid.Row="1" Grid.RowSpan="3">
+                Grid.Row="1" Grid.RowSpan="2">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <!-- Address providers -->
-                <Grid Margin="0,0,0,10">
+                <Grid Margin="0,0,0,5">
                     <materialDesign:Card 
-                        materialDesign:ShadowAssist.ShadowDepth="Depth0" 
+                        materialDesign:ShadowAssist.ShadowDepth="Depth1" 
+                        materialDesign:ShadowAssist.ShadowEdges="Bottom"
                         Padding="15"
-                        Margin="0,0,0,20">
+                        Margin="0,0,0,15">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
@@ -202,27 +204,30 @@
                             </ScrollViewer>
                         </Grid>
                     </materialDesign:Card>
+                    <!-- Add button -->
                     <Button
                         Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
                         Command="{Binding AddAddressProviderCommand}"
                         materialDesign:ShadowAssist.ShadowDepth="Depth0"
                         VerticalAlignment="Bottom"
                         HorizontalAlignment="Center"
-                        Grid.Row="0"
-                        Margin="0">
+                        Width="32"
+                        Height="32"
+                        Grid.Row="0">
                         <materialDesign:PackIcon
                             Kind="Plus"
-                            Height="22"
-                            Width="22" />
+                            Height="20"
+                            Width="20" />
                     </Button>
                 </Grid>
 
                 <!-- Port providers -->
-                <Grid Grid.Row="1" Margin="0,0,0,10">
+                <Grid Grid.Row="1" Margin="0,0,0,5">
                     <materialDesign:Card 
-                        materialDesign:ShadowAssist.ShadowDepth="Depth0" 
+                        materialDesign:ShadowAssist.ShadowDepth="Depth1"
+                        materialDesign:ShadowAssist.ShadowEdges="Bottom"                        
                         Padding="15"
-                        Margin="0,0,0,20">
+                        Margin="0,0,0,15">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
@@ -231,7 +236,7 @@
                             <!-- Title -->
                             <TextBlock Text="Ports" Style="{StaticResource MaterialDesignHeadline6TextBlock}" Margin="5,0"/>
                             <!-- Port provider list -->
-                            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Margin="0,0,0,10">
                                 <ListBox
                                     ItemsSource="{Binding PortProviders}"
                                     ItemContainerStyle="{StaticResource StretchListBoxItem}">
@@ -354,94 +359,71 @@
                             </ScrollViewer>
                         </Grid>
                     </materialDesign:Card>
+                    <!-- Add button -->
                     <Button
                         Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
                         Command="{Binding AddPortProviderCommand}"
                         materialDesign:ShadowAssist.ShadowDepth="Depth0"
                         VerticalAlignment="Bottom"
                         HorizontalAlignment="Center"
-                        Grid.Row="0"
-                        Margin="0">
+                        Width="32"
+                        Height="32"
+                        Grid.Row="0">
                         <materialDesign:PackIcon
                             Kind="Plus"
-                            Height="22"
-                            Width="22" />
+                            Height="20"
+                            Width="20" />
                     </Button>
                 </Grid>
-                
-                <!-- Scan buttons -->
-                <materialDesign:Card 
-                    materialDesign:ShadowAssist.ShadowDepth="Depth0" 
-                    Padding="15"
-                    Margin="0"
-                    Grid.Row="2">
-                    <StackPanel>
-                        <Button 
-                            Command="{Binding ScanCommand}"
-                            Style="{StaticResource MaterialDesignFlatMidBgButton}"
-                            Padding="20,0">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="SCAN" Style="{StaticResource MaterialDesignButtonTextBlock}"/>
-                            </StackPanel>
-                        </Button>
-                        <Grid Margin="0,5">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-                            <Button
-                                Command="{Binding StopScanCommand}"
-                                Style="{StaticResource MaterialDesignOutlinedButton}"
-                                Grid.Column="0"
-                                Padding="20,0"
-                                Margin="0,0,5,0">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="STOP"/>
-                                </StackPanel>
-                            </Button>
-                            <Button 
-                                Command="{Binding ClearListCommand}"
-                                Style="{StaticResource MaterialDesignOutlinedButton}"
-                                Grid.Column="1"
-                                Padding="20,0">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="CLEAR"/>
-                                </StackPanel>
-                            </Button>
-                        </Grid>
-                    </StackPanel>
-                </materialDesign:Card>
             </Grid>
 
+            <!-- Scan buttons -->
+            <materialDesign:Card 
+                    materialDesign:ShadowAssist.ShadowDepth="Depth1"
+                    materialDesign:ShadowAssist.ShadowEdges="Bottom"                   
+                    Padding="15"
+                    Margin="0,0,0,10"
+                    Grid.Row="3">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <!-- Scan -->
+                    <Button 
+                        Command="{Binding ScanCommand}"
+                        Style="{StaticResource MaterialDesignFlatMidBgButton}">
+                        <TextBlock Text="SCAN" Style="{StaticResource MaterialDesignButtonTextBlock}"/>
+                    </Button>
+                    <!-- Stop -->
+                    <Button
+                        Command="{Binding StopScanCommand}"
+                        Style="{StaticResource MaterialDesignOutlinedButton}"
+                        Grid.Column="1"
+                        Margin="5,0,0,0">
+                        <TextBlock Text="STOP"/>
+                    </Button>
+                </Grid>
+            </materialDesign:Card>
 
-            <!-- Filters and progressbar-->
+            <!-- Filters -->
             <materialDesign:Card
-                materialDesign:ShadowAssist.ShadowDepth="Depth0"
+                materialDesign:ShadowAssist.ShadowDepth="Depth1"
+                materialDesign:ShadowAssist.ShadowEdges="Bottom"
                 Padding="15"
-                Margin="10,0,0,0"
+                Margin="15,0,0,0"
                 Grid.Row="1" Grid.Column="1">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <!-- Progress bar -->
-                    <ProgressBar
-                        Value="{Binding ProgressValue}"
-                        Style="{StaticResource MaterialDesignCircularProgressBar}"
-                        x:Name="DeterminateCircularProgress"
-                        VerticalAlignment="Center"/>
-                    <!-- Progress description -->
-                    <TextBlock 
-                        Text="{Binding ProgressDescription}" 
-                        Grid.Column="1" 
-                        VerticalAlignment="Center"
-                        Margin="10,0"/>
+                    <!-- Title -->
+                    <TextBlock Text="Filters" Style="{StaticResource MaterialDesignHeadline6TextBlock}" Margin="5,0"/>
                     <!-- Manage filters-->
                     <StackPanel 
                         Orientation="Horizontal" 
-                        Grid.Column="2">
+                        Grid.Column="1">
                         <CheckBox
                             IsChecked="{Binding IsSucceedAddress}"
                             Style="{StaticResource MaterialDesignCheckBox}"
@@ -455,12 +437,13 @@
                 </Grid>
             </materialDesign:Card>
 
-            <!-- Results -->
+            <!-- Results and footer -->
             <materialDesign:Card 
-                materialDesign:ShadowAssist.ShadowDepth="Depth0" 
+                materialDesign:ShadowAssist.ShadowDepth="Depth1"
+                materialDesign:ShadowAssist.ShadowEdges="Bottom"
                 Padding="15"
-                Margin="10,10,0,0"
-                Grid.Row="2" Grid.Column="1">
+                Margin="15,15,0,10"
+                Grid.Row="2" Grid.RowSpan="2" Grid.Column="1">
                 <ContentControl>
                     <ContentControl.Resources>
                         <Style TargetType="{x:Type ContentControl}">
@@ -471,75 +454,124 @@
                                             <ContentPresenter.ContentTemplate>
                                                 <DataTemplate>
                                                     <Grid>
-                                                        <!-- Address results -->
-                                                        <ListView 
-                                                            ItemsSource="{Binding HostReplyCollection}"
-                                                            support:UIAPConfigurator.CollectionFilter="{Binding SucceedAddressFilter}"
-                                                            support:UIAPConfigurator.IsFiltred="{Binding IsSucceedAddress}"
-                                                            Style="{StaticResource MaterialDesignListView}">
-                                                            <ListView.View>
-                                                                <GridView>
-                                                                    <GridViewColumn Header="Address">
-                                                                        <GridViewColumn.CellTemplate>
-                                                                            <DataTemplate>
-                                                                                <TextBlock 
-                                                                                    Text="{Binding Address}" 
-                                                                                    HorizontalAlignment="Right"
-                                                                                    Margin="0,10"/>
-                                                                            </DataTemplate>
-                                                                        </GridViewColumn.CellTemplate>
-                                                                    </GridViewColumn>
-                                                                    <GridViewColumn Header="Status">
-                                                                        <GridViewColumn.CellTemplate>
-                                                                            <DataTemplate>
-                                                                                <TextBlock 
-                                                                                    Text="{Binding Status}" 
-                                                                                    HorizontalAlignment="Right"
-                                                                                    Margin="0,10"/>
-                                                                            </DataTemplate>
-                                                                        </GridViewColumn.CellTemplate>
-                                                                    </GridViewColumn>
-                                                                    <GridViewColumn Header="Time">
-                                                                        <GridViewColumn.CellTemplate>
-                                                                            <DataTemplate>
-                                                                                <TextBlock 
-                                                                                    Text="{Binding RoundtripTime}" 
-                                                                                    HorizontalAlignment="Right"
-                                                                                    Margin="0,10"/>
-                                                                            </DataTemplate>
-                                                                        </GridViewColumn.CellTemplate>
-                                                                    </GridViewColumn>
-                                                                    <GridViewColumn Header="Ports">
-                                                                        <GridViewColumn.CellTemplate>
-                                                                            <DataTemplate>
-                                                                                <!-- Port results -->
-                                                                                <ListBox 
-                                                                                    ItemsSource="{Binding Ports}"
-                                                                                    support:UIAPConfigurator.CollectionFilter="{Binding Path=DataContext.OpenedPortFilter, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
-                                                                                    support:UIAPConfigurator.IsFiltred="{Binding Path=DataContext.IsOpenedPort, RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
-                                                                                    <ListBox.ItemTemplate>
-                                                                                        <DataTemplate>
-                                                                                            <StackPanel Orientation="Horizontal">
-                                                                                                <TextBlock Text="{Binding Port}"/>
-                                                                                                <TextBlock Text="{Binding Status}" Margin="5,0"/>
-                                                                                            </StackPanel>
-                                                                                        </DataTemplate>
-                                                                                    </ListBox.ItemTemplate>
-                                                                                </ListBox>
-                                                                            </DataTemplate>
-                                                                        </GridViewColumn.CellTemplate>
-                                                                    </GridViewColumn>
-                                                                </GridView>
-                                                            </ListView.View>
-                                                        </ListView>
-                                                        <TextBlock 
-                                                            Name="emptyResultText" 
-                                                            Text="No items found" 
-                                                            Visibility="Collapsed" 
-                                                            HorizontalAlignment="Center" 
-                                                            VerticalAlignment="Top"
-                                                            Margin="0,100"/>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="*"/>
+                                                            <RowDefinition Height="Auto"/>
+                                                        </Grid.RowDefinitions>
+                                                        <!-- Results -->
+                                                        <Grid>
+                                                            <ListView 
+                                                                ItemsSource="{Binding HostReplyCollection}"
+                                                                support:UIAPConfigurator.CollectionFilter="{Binding SucceedAddressFilter}"
+                                                                support:UIAPConfigurator.IsFiltred="{Binding IsSucceedAddress}"
+                                                                Style="{StaticResource MaterialDesignListView}">
+                                                                <ListView.View>
+                                                                    <GridView>
+                                                                        <GridViewColumn Header="Address">
+                                                                            <GridViewColumn.CellTemplate>
+                                                                                <DataTemplate>
+                                                                                    <TextBlock 
+                                                                                        Text="{Binding Address}" 
+                                                                                        HorizontalAlignment="Right"
+                                                                                        Margin="0,10"/>
+                                                                                </DataTemplate>
+                                                                            </GridViewColumn.CellTemplate>
+                                                                        </GridViewColumn>
+                                                                        <GridViewColumn Header="Status">
+                                                                            <GridViewColumn.CellTemplate>
+                                                                                <DataTemplate>
+                                                                                    <TextBlock 
+                                                                                        Text="{Binding Status}" 
+                                                                                        HorizontalAlignment="Right"
+                                                                                        Margin="0,10"/>
+                                                                                </DataTemplate>
+                                                                            </GridViewColumn.CellTemplate>
+                                                                        </GridViewColumn>
+                                                                        <GridViewColumn Header="Time">
+                                                                            <GridViewColumn.CellTemplate>
+                                                                                <DataTemplate>
+                                                                                    <TextBlock 
+                                                                                        Text="{Binding RoundtripTime}" 
+                                                                                        HorizontalAlignment="Right"
+                                                                                        Margin="0,10"/>
+                                                                                </DataTemplate>
+                                                                            </GridViewColumn.CellTemplate>
+                                                                        </GridViewColumn>
+                                                                        <GridViewColumn Header="Ports">
+                                                                            <GridViewColumn.CellTemplate>
+                                                                                <DataTemplate>
+                                                                                    <!-- Port results -->
+                                                                                    <ListBox 
+                                                                                        ItemsSource="{Binding Ports}"
+                                                                                        support:UIAPConfigurator.CollectionFilter="{Binding Path=DataContext.OpenedPortFilter, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
+                                                                                        support:UIAPConfigurator.IsFiltred="{Binding Path=DataContext.IsOpenedPort, RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
+                                                                                        <ListBox.ItemTemplate>
+                                                                                            <DataTemplate>
+                                                                                                <StackPanel Orientation="Horizontal">
+                                                                                                    <TextBlock Text="{Binding Port}"/>
+                                                                                                    <TextBlock Text="{Binding Status}" Margin="5,0"/>
+                                                                                                </StackPanel>
+                                                                                            </DataTemplate>
+                                                                                        </ListBox.ItemTemplate>
+                                                                                    </ListBox>
+                                                                                </DataTemplate>
+                                                                            </GridViewColumn.CellTemplate>
+                                                                        </GridViewColumn>
+                                                                    </GridView>
+                                                                </ListView.View>
+                                                            </ListView>
+                                                            <TextBlock 
+                                                                Name="emptyResultText" 
+                                                                Text="No items found" 
+                                                                Visibility="Collapsed" 
+                                                                HorizontalAlignment="Center" 
+                                                                VerticalAlignment="Top"
+                                                                Margin="0,100"/>
+                                                        </Grid>
+                                                        <!-- Footer -->
+                                                        <Grid Grid.Row="1" Margin="0,15,0,0">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="*"/>
+                                                                <ColumnDefinition Width="Auto"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <!-- Progress bar -->
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <TextBlock 
+                                                                    Text="{Binding ProgressDescription}"
+                                                                    VerticalAlignment="Center"
+                                                                    Margin="10,0"/>
+                                                                <ProgressBar
+                                                                    Value="{Binding ProgressValue}"
+                                                                    Style="{StaticResource MaterialDesignCircularProgressBar}"
+                                                                    VerticalAlignment="Center"/>
+                                                            </StackPanel>
+                                                            <!-- List buttons -->
+                                                            <StackPanel Orientation="Horizontal" Grid.Column="1">
+                                                                <!-- Clear -->
+                                                                <Button 
+                                                                    Command="{Binding ClearListCommand}"
+                                                                    Style="{StaticResource MaterialDesignOutlinedButton}"
+                                                                    Grid.Column="1"
+                                                                    Margin="5,0">
+                                                                    <StackPanel Orientation="Horizontal">
+                                                                        <TextBlock Text="CLEAR"/>
+                                                                    </StackPanel>
+                                                                </Button>
+                                                                <!-- Export -->
+                                                                <Button
+                                                                    Command="{Binding ExportCommand}"
+                                                                    Style="{StaticResource MaterialDesignOutlinedButton}"
+                                                                    Grid.Column="0"
+                                                                    HorizontalAlignment="Right">
+                                                                    <StackPanel Orientation="Horizontal">
+                                                                        <materialDesign:PackIcon Kind="Export" />
+                                                                        <TextBlock Text="EXPORT TO..." Margin="5,0"/>
+                                                                    </StackPanel>
+                                                                </Button>
+                                                            </StackPanel>
+                                                        </Grid>
                                                     </Grid>
+
                                                     <DataTemplate.Triggers>
                                                         <DataTrigger Binding="{Binding HostReplyCollection.Count}" Value="0">
                                                             <Setter TargetName="emptyResultText" Property="Visibility" Value="Visible"/>
@@ -555,28 +587,6 @@
                     </ContentControl.Resources>
                 </ContentControl>
             </materialDesign:Card>
-
-            <!-- Exports -->
-            <materialDesign:Card
-                materialDesign:ShadowAssist.ShadowDepth="Depth0"
-                Padding="15"
-                Margin="10,10,0,0"
-                Grid.Column="1" Grid.Row="3">
-                <Button
-                    Command="{Binding ExportCommand}"
-                    Style="{StaticResource MaterialDesignOutlinedButton}"
-                    Width="200"
-                    Grid.Column="0"
-                    Padding="20,0"               
-                    Margin="0,0,5,0"
-                    HorizontalAlignment="Right">
-                    <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon Kind="Export" />
-                        <TextBlock Text="EXPORT TO..." Margin="5,0"/>
-                    </StackPanel>
-                </Button>
-            </materialDesign:Card>
         </Grid>
     </materialDesign:DialogHost>
-
 </Window>
