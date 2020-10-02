@@ -293,17 +293,17 @@ namespace IPScan.GUI.ViewModels
             }
 
             IsScan = true;
-            ProgressDescription = $"Scan is started";
+            ProgressDescription = $"Scanning is started";
 
             double progressStep = 100 / addresses.Count;
 
             foreach (var address in addresses)
             {
-                ProgressDescription = $"Scan address \"{address}\"";
+                ProgressDescription = $"Scanning {address}";
 
                 if(IsStopScan)
                 {
-                    ProgressDescription = "Scan is stopped";
+                    ProgressDescription = "Scanning is stopped";
                     break;
                 }
 
@@ -329,7 +329,7 @@ namespace IPScan.GUI.ViewModels
                 {                 
                     foreach (var port in ports)
                     {
-                        ProgressDescription = $"Scan port \"{port}\"";
+                        ProgressDescription = $"Scanning {address}:{port}";
 
                         if (IsStopScan)
                         {
@@ -344,13 +344,13 @@ namespace IPScan.GUI.ViewModels
                             host.Ports.Add(portReply);
                         }
                     }
-                } 
+                }
 
                 ProgressValue += progressStep;
             }
 
             ProgressValue = 0.0f;
-            ProgressDescription = "Scan is completed";
+            ProgressDescription = "Scanning is completed";
             
             IsScan = false;
             IsStopScan = false;
