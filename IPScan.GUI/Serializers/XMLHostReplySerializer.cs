@@ -10,7 +10,7 @@ using System.Xml.Serialization;
 namespace IPScan.GUI.Serializers
 {
     /// <summary>
-    /// Additional class for serializing HostReply
+    /// Intermediate class for serializing HostReply
     /// </summary>
     public class XMLSerializableHostReply
     {
@@ -29,7 +29,6 @@ namespace IPScan.GUI.Serializers
             {
                 var serializableList = new List<XMLSerializableHostReply>();
 
-                // creating a serializable list from the "HostReply" source data
                 foreach (HostReply host in collection)
                 {
                     serializableList.Add(new XMLSerializableHostReply
