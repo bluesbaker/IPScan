@@ -157,7 +157,7 @@ namespace IPScan.GUI.ViewModels
                     AddressProviders.Remove(provider);
                 }
                 ScanCommand.Invalidate();
-            }, n => AddressProviders.Count > 1);
+            }, n => (AddressProviders.Count > 1) && !IsScan);
         }
 
         private RelayCommand _changeAddressProviderCommand;
@@ -216,7 +216,7 @@ namespace IPScan.GUI.ViewModels
                     PortProviders.Remove(provider);
                 }
                 ScanCommand.Invalidate();
-            });
+            }, n => !IsScan);
         }
 
         private RelayCommand _changePortProviderCommand;
@@ -376,19 +376,27 @@ namespace IPScan.GUI.ViewModels
 
             ProgressValue = 0.0f;
             ProgressDescription = "Scanning is completed";
-            
+
             IsScan = false;
             IsStopScan = false;
 
-            ScanCommand.Invalidate();
-            StopScanCommand.Invalidate();
-            ExportCommand.Invalidate();
+            // refresh
+            InvalidateCommands();
         }
 
         private void StopScan(object n)
         {
-            IsStopScan = true;
-        }   
+            IsStopScan = true;         
+        } 
+        
+        private void InvalidateCommands()
+        {
+            RemoveAddressProviderCommand.Invalidate();
+            RemovePortProviderCommand.Invalidate();
+            ScanCommand.Invalidate();
+            StopScanCommand.Invalidate();
+            ExportCommand.Invalidate();
+        }
         #endregion
 
 
