@@ -12,7 +12,8 @@ using System.Net.NetworkInformation;
 using System.Runtime.CompilerServices;
 using IPScan.GUI.UserControls;
 using MaterialDesignThemes.Wpf;
-using System.Threading;
+using IPScan.GUI.Serializers;
+using Microsoft.Win32;
 
 namespace IPScan.GUI.ViewModels
 {
@@ -25,7 +26,7 @@ namespace IPScan.GUI.ViewModels
         }
 
         #region Properties
-        private bool _isSucceedAddress = false;
+        private bool _isSucceedAddress = true;
         public bool IsSucceedAddress
         {
             get => _isSucceedAddress;               
@@ -76,8 +77,8 @@ namespace IPScan.GUI.ViewModels
                 {
                     return false;
                 }
-                // check count of settings
-                if(AddressProviders.Count == 0 || PortProviders.Count == 0)
+                // check count of address
+                if(AddressProviders.Count == 0)
                 {
                     return false;
                 }
@@ -102,7 +103,7 @@ namespace IPScan.GUI.ViewModels
         #endregion
 
 
-        #region Filters of result list
+        #region Filters
         public Predicate<object> SucceedAddressFilter => (sender) =>
         {
             var hostReply = sender as HostReply;
@@ -136,7 +137,7 @@ namespace IPScan.GUI.ViewModels
         #endregion
 
 
-        #region Address providers commands
+        #region Address provider commands
         private RelayCommand _addAddressProviderCommand;
         public RelayCommand AddAddressProviderCommand
         {
@@ -155,7 +156,8 @@ namespace IPScan.GUI.ViewModels
                 {
                     AddressProviders.Remove(provider);
                 }
-            });
+                ScanCommand.Invalidate();
+            }, n => AddressProviders.Count > 1);
         }
 
         private RelayCommand _changeAddressProviderCommand;
@@ -168,7 +170,7 @@ namespace IPScan.GUI.ViewModels
                 {
                     var addressList = provider.GetList();
                     var indexProvider = AddressProviders.IndexOf(provider);
-
+                    // range to single
                     if(provider is RangeAddressProvider)
                     {
                         var singleAddressProvider = new SingleAddressProvider()
@@ -177,6 +179,7 @@ namespace IPScan.GUI.ViewModels
                         };
                         AddressProviders.Insert(indexProvider, singleAddressProvider);
                     }
+                    // single to range
                     else if(provider is SingleAddressProvider)
                     {
                         var rangeAddressProvider = new RangeAddressProvider()
@@ -193,7 +196,7 @@ namespace IPScan.GUI.ViewModels
         #endregion
 
 
-        #region Port providers commands
+        #region Port provider commands
         private RelayCommand _addPortProviderCommand;
         public RelayCommand AddPortProviderCommand
         {
@@ -212,6 +215,7 @@ namespace IPScan.GUI.ViewModels
                 {
                     PortProviders.Remove(provider);
                 }
+                ScanCommand.Invalidate();
             });
         }
 
@@ -225,7 +229,7 @@ namespace IPScan.GUI.ViewModels
                 {
                     var portList = provider.GetList();
                     var indexProvider = PortProviders.IndexOf(provider);
-
+                    // range to single
                     if(provider is RangePortProvider)
                     {
                         var singlePortProvider = new SinglePortProvider()
@@ -234,6 +238,7 @@ namespace IPScan.GUI.ViewModels
                         };
                         PortProviders.Insert(indexProvider, singlePortProvider);
                     }
+                    // single to range
                     else if(provider is SinglePortProvider)
                     {
                         var rangePortProvider = new RangePortProvider()
@@ -272,12 +277,36 @@ namespace IPScan.GUI.ViewModels
         private RelayCommand _exportCommand;
         public RelayCommand ExportCommand
         {
-            get => _exportCommand ??= new RelayCommand(n => { }, n => (!IsScan && (HostReplyCollection.Count > 0)));
+            get => _exportCommand ??= new RelayCommand(n => 
+            {
+                var dialog = new SaveFileDialog
+                {
+                    Filter = "Text files|*.txt|XML files|*.xml",
+                    FileName = $"ipscan-{DateTime.Now:dd.MM.yyyy-hh.mm.ss}",
+                    Title = "Export to..."
+                };
+                if (dialog.ShowDialog() == true)
+                {
+                    ICollectionSerializer<HostReply> serializer;
+                    switch (dialog.FilterIndex)
+                    {
+                        case 1:
+                            serializer = new TextHostReplySerializer();
+                            break;
+                        case 2:
+                            serializer = new XMLHostReplySerializer();
+                            break;
+                        default:
+                            return;
+                    }
+                    serializer.Serialize(dialog.FileName, HostReplyCollection);
+                }             
+            }, n => (!IsScan && (HostReplyCollection.Count > 0)));
         }
         #endregion
 
 
-        #region Methods
+        #region Scan methods
         private async void ScanAsync(object n)
         {
             List<IPAddress> addresses = new List<IPAddress>();
@@ -299,13 +328,12 @@ namespace IPScan.GUI.ViewModels
 
             foreach (var address in addresses)
             {
-                ProgressDescription = $"Scanning {address}";
-
                 if(IsStopScan)
                 {
-                    ProgressDescription = "Scanning is stopped";
                     break;
                 }
+
+                ProgressDescription = $"Scanning {address}";
 
                 var scannerParameters = new ScannerParameters
                 {
@@ -315,7 +343,6 @@ namespace IPScan.GUI.ViewModels
 
                 // ping request
                 var pingReply = await scanner.GetPingReplyAsync();
-
                 var host = new HostReply
                 {
                     Address = address,
@@ -329,23 +356,21 @@ namespace IPScan.GUI.ViewModels
                 {                 
                     foreach (var port in ports)
                     {
-                        ProgressDescription = $"Scanning {address}:{port}";
-
                         if (IsStopScan)
                         {
                             break;
                         }
 
+                        ProgressDescription = $"Scanning {address}:{port}";           
+
                         if (port > 0)
                         {
                             scanner.Parameters.Port = port;                           
                             var portReply = await scanner.GetPortReplyAsync();
-
                             host.Ports.Add(portReply);
                         }
                     }
                 }
-
                 ProgressValue += progressStep;
             }
 
@@ -363,15 +388,7 @@ namespace IPScan.GUI.ViewModels
         private void StopScan(object n)
         {
             IsStopScan = true;
-        }
-
-        private void SetError(string message, [CallerMemberName] string propertyName = "")
-        {
-            if (Errors.ContainsKey(propertyName))
-                Errors[propertyName] = message;
-            else
-                Errors.Add(propertyName, message);
-        }
+        }   
         #endregion
 
 
@@ -381,6 +398,18 @@ namespace IPScan.GUI.ViewModels
         public string Error => string.Join(Environment.NewLine, Errors.Where(pair => pair.Value != null).Select(pair => $"{pair.Key}: \"{pair.Value}\""));
 
         public string this[string columnName] => Errors.TryGetValue(columnName, out string value) ? value : null;
+
+        private void SetError(string message, [CallerMemberName] string propertyName = "")
+        {
+            if (Errors.ContainsKey(propertyName))
+            {
+                Errors[propertyName] = message;
+            }
+            else
+            {
+                Errors.Add(propertyName, message);
+            }
+        }
         #endregion
     }
 }
