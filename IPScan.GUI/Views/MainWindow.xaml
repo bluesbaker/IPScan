@@ -462,8 +462,8 @@
                                                         <Grid>
                                                             <ListView 
                                                                 ItemsSource="{Binding HostReplyCollection}"
-                                                                support:UIAPConfigurator.CollectionFilter="{Binding SucceedAddressFilter}"
-                                                                support:UIAPConfigurator.IsFiltred="{Binding IsSucceedAddress}"
+                                                                support:ItemsControlAssist.Filter="{Binding SucceedAddressFilter}"
+                                                                support:ItemsControlAssist.IsFiltered="{Binding IsSucceedAddress}"
                                                                 Style="{StaticResource MaterialDesignListView}">
                                                                 <ListView.View>
                                                                     <GridView>
@@ -503,8 +503,8 @@
                                                                                     <!-- Port results -->
                                                                                     <ListBox 
                                                                                         ItemsSource="{Binding Ports}"
-                                                                                        support:UIAPConfigurator.CollectionFilter="{Binding Path=DataContext.OpenedPortFilter, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
-                                                                                        support:UIAPConfigurator.IsFiltred="{Binding Path=DataContext.IsOpenedPort, RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
+                                                                                        support:ItemsControlAssist.Filter="{Binding Path=DataContext.OpenedPortFilter, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
+                                                                                        support:ItemsControlAssist.IsFiltered="{Binding Path=DataContext.IsOpenedPort, RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
                                                                                         <ListBox.ItemTemplate>
                                                                                             <DataTemplate>
                                                                                                 <StackPanel Orientation="Horizontal">
