@@ -13,8 +13,8 @@ namespace IPScan.GUI.Selectors
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
             FrameworkElement element = container as FrameworkElement;
-
             IPortProvider provider = item as IPortProvider;
+
             if(provider is SinglePortProvider)
             {
                 return element.FindResource("SinglePortDataTemplate") as DataTemplate;
@@ -23,6 +23,7 @@ namespace IPScan.GUI.Selectors
             {
                 return element.FindResource("RangePortDataTemplate") as DataTemplate;
             }
+
             return element.FindResource("SinglePortDataTemplate") as DataTemplate;
         }
     }
