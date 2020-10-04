@@ -463,9 +463,36 @@
                                                             <DataGrid 
                                                                 Style="{StaticResource MaterialDesignDataGrid}"
                                                                 ItemsSource="{Binding HostReplyCollection}" 
+                                                                AutoGenerateColumns="False"
                                                                 IsReadOnly="True"
                                                                 support:ItemsControlAssist.Filter="{Binding SucceedAddressFilter}"
-                                                                support:ItemsControlAssist.IsFiltered="{Binding IsSucceedAddress}"/>
+                                                                support:ItemsControlAssist.IsFiltered="{Binding IsSucceedAddress}">
+                                                                <DataGrid.Columns>
+                                                                    <DataGridTextColumn Header="Address" Binding="{Binding Address}" MinWidth="130"/>
+                                                                    <DataGridTextColumn Header="Status" Binding="{Binding Status}" MinWidth="100"/>
+                                                                    <DataGridTextColumn Header="Time" Binding="{Binding RoundtripTime}" MinWidth="80" />
+                                                                    <DataGridTemplateColumn Header="Ports" Width="120">
+                                                                        <DataGridTemplateColumn.CellTemplate>
+                                                                            <DataTemplate>
+                                                                                <!-- Port results -->
+                                                                                <ListBox
+                                                                                        ItemsSource="{Binding Ports}"
+                                                                                        support:ItemsControlAssist.Filter="{Binding Path=DataContext.OpenedPortFilter, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
+                                                                                        support:ItemsControlAssist.IsFiltered="{Binding Path=DataContext.IsOpenedPort, RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
+                                                                                    <ListBox.ItemTemplate>
+                                                                                        <DataTemplate>
+                                                                                            <StackPanel Orientation="Horizontal">
+                                                                                                <TextBlock Text="{Binding Port}"/>
+                                                                                                <TextBlock Text="{Binding Status}" Margin="5,0"/>
+                                                                                            </StackPanel>
+                                                                                        </DataTemplate>
+                                                                                    </ListBox.ItemTemplate>
+                                                                                </ListBox>
+                                                                            </DataTemplate>
+                                                                        </DataGridTemplateColumn.CellTemplate>
+                                                                    </DataGridTemplateColumn>
+                                                                </DataGrid.Columns>
+                                                            </DataGrid>
                                                             <TextBlock 
                                                                 Name="emptyResultText" 
                                                                 Text="No items found" 
