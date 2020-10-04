@@ -26,7 +26,7 @@ namespace IPScan.GUI.ViewModels
         }
 
         #region Properties
-        private bool _isSucceedAddress = true;
+        private bool _isSucceedAddress = false;
         public bool IsSucceedAddress
         {
             get => _isSucceedAddress;               
