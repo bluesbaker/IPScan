@@ -84,7 +84,7 @@
                             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
                                 <ListBox 
                                     ItemsSource="{Binding AddressProviders}"
-                                    ItemContainerStyle="{StaticResource StretchListBoxItem}">
+                                    Style="{StaticResource StretchedItemListBox}">
                                     <ListBox.Resources>
                                         <!-- Single address provider template-->
                                         <DataTemplate x:Key="SingleAddressDataTemplate">
@@ -239,7 +239,7 @@
                             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Margin="0,0,0,10">
                                 <ListBox
                                     ItemsSource="{Binding PortProviders}"
-                                    ItemContainerStyle="{StaticResource StretchListBoxItem}">
+                                    Style="{StaticResource StretchedItemListBox}">
                                     <ListBox.Resources>
                                         <!-- Single port provider template -->
                                         <DataTemplate x:Key="SinglePortDataTemplate">
