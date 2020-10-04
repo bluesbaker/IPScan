@@ -82,13 +82,11 @@
                             <TextBlock Text="Addresses" Style="{StaticResource MaterialDesignHeadline6TextBlock}" Margin="5,0"/>
                             <!-- Address provider list -->
                             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-                                <ListBox 
-                                    ItemsSource="{Binding AddressProviders}"
-                                    Style="{StaticResource StretchedItemListBox}">
-                                    <ListBox.Resources>
+                                <ItemsControl ItemsSource="{Binding AddressProviders}">
+                                    <ItemsControl.Resources>
                                         <!-- Single address provider template-->
                                         <DataTemplate x:Key="SingleAddressDataTemplate">
-                                            <Grid>
+                                            <Grid Margin="0,5">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="Auto"/>
                                                     <ColumnDefinition Width="*"/>
@@ -135,7 +133,7 @@
                                         </DataTemplate>
                                         <!-- Range address provider template-->
                                         <DataTemplate x:Key="RangeAddressDataTemplate">
-                                            <Grid>
+                                            <Grid Margin="0,5">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="Auto"/>
                                                     <ColumnDefinition Width="*"/>
@@ -196,11 +194,11 @@
                                                 </Button>
                                             </Grid>
                                         </DataTemplate>
-                                    </ListBox.Resources>
-                                    <ListBox.ItemTemplateSelector>
+                                    </ItemsControl.Resources>
+                                    <ItemsControl.ItemTemplateSelector>
                                         <selectors:AddressProviderTempalateSelector/>
-                                    </ListBox.ItemTemplateSelector>
-                                </ListBox>
+                                    </ItemsControl.ItemTemplateSelector>
+                                </ItemsControl>
                             </ScrollViewer>
                         </Grid>
                     </materialDesign:Card>
@@ -237,13 +235,11 @@
                             <TextBlock Text="Ports" Style="{StaticResource MaterialDesignHeadline6TextBlock}" Margin="5,0"/>
                             <!-- Port provider list -->
                             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Margin="0,0,0,10">
-                                <ListBox
-                                    ItemsSource="{Binding PortProviders}"
-                                    Style="{StaticResource StretchedItemListBox}">
-                                    <ListBox.Resources>
+                                <ItemsControl ItemsSource="{Binding PortProviders}">
+                                    <ItemsControl.Resources>
                                         <!-- Single port provider template -->
                                         <DataTemplate x:Key="SinglePortDataTemplate">
-                                            <Grid>
+                                            <Grid Margin="0,5">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="Auto"/>
                                                     <ColumnDefinition Width="*"/>
@@ -290,7 +286,7 @@
                                         </DataTemplate>
                                         <!-- Range port provider template -->
                                         <DataTemplate x:Key="RangePortDataTemplate">
-                                            <Grid>
+                                            <Grid Margin="0,5">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="Auto"/>
                                                     <ColumnDefinition Width="*"/>
@@ -351,11 +347,11 @@
                                                 </Button>
                                             </Grid>
                                         </DataTemplate>
-                                    </ListBox.Resources>
-                                    <ListBox.ItemTemplateSelector>
+                                    </ItemsControl.Resources>
+                                    <ItemsControl.ItemTemplateSelector>
                                         <selectors:PortProviderTempalateSelector/>
-                                    </ListBox.ItemTemplateSelector>
-                                </ListBox>
+                                    </ItemsControl.ItemTemplateSelector>
+                                </ItemsControl>
                             </ScrollViewer>
                         </Grid>
                     </materialDesign:Card>
