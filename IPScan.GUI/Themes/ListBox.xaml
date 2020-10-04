@@ -15,15 +15,6 @@
                     </Setter>
                     <Setter Property="Padding" Value="5,8"/>
                 </Style.Setters>
-
-                <Style.Triggers>
-                    <Trigger Property="IsMouseOver" Value="True">
-                        <Setter Property="Background" Value="{StaticResource AttentionToActionBrush}"/>
-                    </Trigger>
-                    <Trigger Property="IsSelected" Value="True">
-                        <Setter Property="Background" Value="{StaticResource AttentionToActionBrush}"/>
-                    </Trigger>
-                </Style.Triggers>
             </Style>
         </Style.Resources>
     </Style>
