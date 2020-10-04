@@ -470,24 +470,24 @@
                                                                 <DataGrid.Columns>
                                                                     <DataGridTextColumn Header="Address" Binding="{Binding Address}" MinWidth="130"/>
                                                                     <DataGridTextColumn Header="Status" Binding="{Binding Status}" MinWidth="100"/>
-                                                                    <DataGridTextColumn Header="Time" Binding="{Binding RoundtripTime}" MinWidth="80" />
-                                                                    <DataGridTemplateColumn Header="Ports" Width="120">
+                                                                    <DataGridTextColumn Header="Time" Binding="{Binding RoundtripTime}" MinWidth="80"/>
+                                                                    <DataGridTemplateColumn Header="Ports" MinWidth="120">
                                                                         <DataGridTemplateColumn.CellTemplate>
                                                                             <DataTemplate>
                                                                                 <!-- Port results -->
-                                                                                <ListBox
-                                                                                        ItemsSource="{Binding Ports}"
-                                                                                        support:ItemsControlAssist.Filter="{Binding Path=DataContext.OpenedPortFilter, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
-                                                                                        support:ItemsControlAssist.IsFiltered="{Binding Path=DataContext.IsOpenedPort, RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
-                                                                                    <ListBox.ItemTemplate>
+                                                                                <ItemsControl
+                                                                                    ItemsSource="{Binding Ports}"
+                                                                                    support:ItemsControlAssist.Filter="{Binding Path=DataContext.OpenedPortFilter, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
+                                                                                    support:ItemsControlAssist.IsFiltered="{Binding Path=DataContext.IsOpenedPort, RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
+                                                                                    <ItemsControl.ItemTemplate>
                                                                                         <DataTemplate>
-                                                                                            <StackPanel Orientation="Horizontal">
+                                                                                            <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
                                                                                                 <TextBlock Text="{Binding Port}"/>
                                                                                                 <TextBlock Text="{Binding Status}" Margin="5,0"/>
                                                                                             </StackPanel>
                                                                                         </DataTemplate>
-                                                                                    </ListBox.ItemTemplate>
-                                                                                </ListBox>
+                                                                                    </ItemsControl.ItemTemplate>
+                                                                                </ItemsControl>
                                                                             </DataTemplate>
                                                                         </DataGridTemplateColumn.CellTemplate>
                                                                     </DataGridTemplateColumn>
