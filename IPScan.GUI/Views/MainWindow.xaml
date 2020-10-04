@@ -460,66 +460,12 @@
                                                         </Grid.RowDefinitions>
                                                         <!-- Results -->
                                                         <Grid>
-                                                            <ListView 
-                                                                ItemsSource="{Binding HostReplyCollection}"
+                                                            <DataGrid 
+                                                                Style="{StaticResource MaterialDesignDataGrid}"
+                                                                ItemsSource="{Binding HostReplyCollection}" 
+                                                                IsReadOnly="True"
                                                                 support:ItemsControlAssist.Filter="{Binding SucceedAddressFilter}"
-                                                                support:ItemsControlAssist.IsFiltered="{Binding IsSucceedAddress}"
-                                                                Style="{StaticResource MaterialDesignListView}">
-                                                                <ListView.View>
-                                                                    <GridView>
-                                                                        <GridViewColumn Header="Address">
-                                                                            <GridViewColumn.CellTemplate>
-                                                                                <DataTemplate>
-                                                                                    <TextBlock 
-                                                                                        Text="{Binding Address}" 
-                                                                                        HorizontalAlignment="Right"
-                                                                                        Margin="0,10"/>
-                                                                                </DataTemplate>
-                                                                            </GridViewColumn.CellTemplate>
-                                                                        </GridViewColumn>
-                                                                        <GridViewColumn Header="Status">
-                                                                            <GridViewColumn.CellTemplate>
-                                                                                <DataTemplate>
-                                                                                    <TextBlock 
-                                                                                        Text="{Binding Status}" 
-                                                                                        HorizontalAlignment="Right"
-                                                                                        Margin="0,10"/>
-                                                                                </DataTemplate>
-                                                                            </GridViewColumn.CellTemplate>
-                                                                        </GridViewColumn>
-                                                                        <GridViewColumn Header="Time">
-                                                                            <GridViewColumn.CellTemplate>
-                                                                                <DataTemplate>
-                                                                                    <TextBlock 
-                                                                                        Text="{Binding RoundtripTime}" 
-                                                                                        HorizontalAlignment="Right"
-                                                                                        Margin="0,10"/>
-                                                                                </DataTemplate>
-                                                                            </GridViewColumn.CellTemplate>
-                                                                        </GridViewColumn>
-                                                                        <GridViewColumn Header="Ports">
-                                                                            <GridViewColumn.CellTemplate>
-                                                                                <DataTemplate>
-                                                                                    <!-- Port results -->
-                                                                                    <ListBox 
-                                                                                        ItemsSource="{Binding Ports}"
-                                                                                        support:ItemsControlAssist.Filter="{Binding Path=DataContext.OpenedPortFilter, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
-                                                                                        support:ItemsControlAssist.IsFiltered="{Binding Path=DataContext.IsOpenedPort, RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
-                                                                                        <ListBox.ItemTemplate>
-                                                                                            <DataTemplate>
-                                                                                                <StackPanel Orientation="Horizontal">
-                                                                                                    <TextBlock Text="{Binding Port}"/>
-                                                                                                    <TextBlock Text="{Binding Status}" Margin="5,0"/>
-                                                                                                </StackPanel>
-                                                                                            </DataTemplate>
-                                                                                        </ListBox.ItemTemplate>
-                                                                                    </ListBox>
-                                                                                </DataTemplate>
-                                                                            </GridViewColumn.CellTemplate>
-                                                                        </GridViewColumn>
-                                                                    </GridView>
-                                                                </ListView.View>
-                                                            </ListView>
+                                                                support:ItemsControlAssist.IsFiltered="{Binding IsSucceedAddress}"/>
                                                             <TextBlock 
                                                                 Name="emptyResultText" 
                                                                 Text="No items found" 
