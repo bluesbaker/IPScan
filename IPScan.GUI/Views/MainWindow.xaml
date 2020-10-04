@@ -461,8 +461,8 @@
                                                         <!-- Results -->
                                                         <Grid>
                                                             <DataGrid 
-                                                                Style="{StaticResource MaterialDesignDataGrid}"
-                                                                ItemsSource="{Binding HostReplyCollection}" 
+                                                                Style="{StaticResource ResultDataGrid}"
+                                                                ItemsSource="{Binding HostReplyCollection}"
                                                                 AutoGenerateColumns="False"
                                                                 IsReadOnly="True"
                                                                 support:ItemsControlAssist.Filter="{Binding SucceedAddressFilter}"
