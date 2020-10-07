@@ -143,7 +143,8 @@ namespace IPScan.GUI.ViewModels
         {
             get => _addAddressProviderCommand ??= new RelayCommand(n =>
             {
-                AddressProviders.Add(new SingleAddressProvider() { SingleAddress = "77.88.55.77" });
+                var lastAddress = AddressProviders[^1].GetList()[^1].ToString();
+                AddressProviders.Add(new SingleAddressProvider() { SingleAddress = lastAddress });
             });
         }
 
@@ -202,7 +203,8 @@ namespace IPScan.GUI.ViewModels
         {
             get => _addPortProviderCommand ??= new RelayCommand(n =>
             {
-                PortProviders.Add(new SinglePortProvider() { SinglePort = "80" });
+                var lastPort = PortProviders[^1].GetList()[^1].ToString();
+                PortProviders.Add(new SinglePortProvider() { SinglePort = lastPort });
             });
         }
 
