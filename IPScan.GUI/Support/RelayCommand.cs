@@ -40,7 +40,7 @@ namespace IPScan.GUI.Support
             }), null);
         }
 
-        public bool CanExecute(object parameter) => _canExecute == null ? true : _canExecute.Invoke(parameter);
+        public bool CanExecute(object parameter) => _canExecute == null || _canExecute.Invoke(parameter);
 
         public void Execute(object parameter) => _onExecute?.Invoke(parameter);
     }
