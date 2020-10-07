@@ -21,7 +21,7 @@ namespace IPScan.GUI.ViewModels
     {
         public ScanViewModel()
         {
-            AddressProviders.Add(new SingleAddressProvider() { SingleAddress = "77.88.55.77" });
+            AddressProviders.Add(new SingleAddressProvider() { SingleAddress = "5.255.255.80" });
             PortProviders.Add(new SinglePortProvider() { SinglePort = "80" });
         }
 
