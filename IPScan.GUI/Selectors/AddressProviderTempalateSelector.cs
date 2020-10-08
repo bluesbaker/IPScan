@@ -1,5 +1,5 @@
 ﻿using IPScan.GUI.Support;
-using IPScan.GUI.Providers;
+using IPScan.GUI.ViewModels.Providers;
 using System;
 using System.Collections.Generic;
 using System.Text;

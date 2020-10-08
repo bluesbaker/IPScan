@@ -1,7 +1,6 @@
 ﻿using IPScan.BLL;
 using IPScan.GUI.Models;
 using IPScan.GUI.Support;
-using IPScan.GUI.Providers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,6 +13,7 @@ using IPScan.GUI.UserControls;
 using MaterialDesignThemes.Wpf;
 using IPScan.GUI.Serializers;
 using Microsoft.Win32;
+using IPScan.GUI.ViewModels.Providers;
 
 namespace IPScan.GUI.ViewModels
 {
