@@ -9,7 +9,7 @@ using System.Runtime.CompilerServices;
 using System.Security.Policy;
 using System.Text;
 
-namespace IPScan.GUI.Providers
+namespace IPScan.GUI.ViewModels.Providers
 {
     public class RangeAddressProvider : NPCBase, IAddressProvider, IDataErrorInfo
     {

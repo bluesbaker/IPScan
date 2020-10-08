@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace IPScan.GUI.Providers
+namespace IPScan.GUI.ViewModels.Providers
 {
     public interface IPortProvider
     {

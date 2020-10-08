@@ -6,31 +6,18 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 
-namespace IPScan.GUI.Providers
+namespace IPScan.GUI.ViewModels.Providers
 {
-    public class RangePortProvider : NPCBase, IDataErrorInfo, IPortProvider
+    public class SinglePortProvider : NPCBase, IDataErrorInfo, IPortProvider
     {
         #region Properties
-        private string _startPort;
-        public string StartPort
+        private string _singlePort;
+        public string SinglePort
         {
-            get => _startPort;
+            get => _singlePort;
             set
             {
-                if (Set(ref _startPort, value))
-                {
-                    SetError(Int32.TryParse(value, out _) ? null : $"{value} is not a port numeric");
-                }
-            }
-        }
-
-        private string _endPort;
-        public string EndPort
-        {
-            get => _endPort;
-            set
-            {
-                if (Set(ref _endPort, value))
+                if (Set(ref _singlePort, value))
                 {
                     SetError(Int32.TryParse(value, out _) ? null : $"{value} is not a port numeric");
                 }
@@ -39,16 +26,15 @@ namespace IPScan.GUI.Providers
         #endregion
 
         #region Implementation IAddressProvider
+        public bool IsValid => !Errors.Values.Any(x => x != null);
+
         public List<int> GetList()
         {
-            var startPort = Int32.Parse(StartPort);
-            var endPort = Int32.Parse(EndPort);
-            return Enumerable.Range(startPort, endPort - startPort + 1).ToList();
+            return new List<int> { Int32.Parse(SinglePort) };
         }
-        public bool IsValid => !Errors.Values.Any(x => x != null);
         #endregion
 
-        #region IDataErrorInfo
+        #region Implementation IDataErrorInFo
         public Dictionary<string, string> Errors = new Dictionary<string, string>();
 
         private void SetError(string message, [CallerMemberName] string propertyName = "")
