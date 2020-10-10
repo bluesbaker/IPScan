@@ -19,6 +19,7 @@
                 <!-- Customize -->
                 <ResourceDictionary Source="Themes/ListBox.xaml"/>
                 <ResourceDictionary Source="Themes/DataGrid.xaml"/>
+                <ResourceDictionary Source="Themes/Card.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
