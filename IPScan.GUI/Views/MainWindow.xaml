@@ -69,9 +69,7 @@
                 <!-- Address providers -->
                 <Grid Margin="0,0,0,5">
                     <materialDesign:Card 
-                        materialDesign:ShadowAssist.ShadowDepth="Depth1" 
-                        materialDesign:ShadowAssist.ShadowEdges="Bottom"
-                        Padding="15"
+                        Style="{StaticResource FacadeCard}"
                         Margin="0,0,0,15">
                         <Grid>
                             <Grid.RowDefinitions>
@@ -222,9 +220,7 @@
                 <!-- Port providers -->
                 <Grid Grid.Row="1" Margin="0,0,0,5">
                     <materialDesign:Card 
-                        materialDesign:ShadowAssist.ShadowDepth="Depth1"
-                        materialDesign:ShadowAssist.ShadowEdges="Bottom"                        
-                        Padding="15"
+                        Style="{StaticResource FacadeCard}"
                         Margin="0,0,0,15">
                         <Grid>
                             <Grid.RowDefinitions>
@@ -375,9 +371,7 @@
 
             <!-- Scan buttons -->
             <materialDesign:Card 
-                    materialDesign:ShadowAssist.ShadowDepth="Depth1"
-                    materialDesign:ShadowAssist.ShadowEdges="Bottom"                   
-                    Padding="15"
+                    Style="{StaticResource FacadeCard}"
                     Margin="0,0,0,10"
                     Grid.Row="3">
                 <Grid>
@@ -404,9 +398,7 @@
 
             <!-- Filters -->
             <materialDesign:Card
-                materialDesign:ShadowAssist.ShadowDepth="Depth1"
-                materialDesign:ShadowAssist.ShadowEdges="Bottom"
-                Padding="15"
+                Style="{StaticResource FacadeCard}"
                 Margin="15,0,0,0"
                 Grid.Row="1" Grid.Column="1">
                 <Grid>
@@ -435,9 +427,7 @@
 
             <!-- Results -->
             <materialDesign:Card 
-                materialDesign:ShadowAssist.ShadowDepth="Depth1"
-                materialDesign:ShadowAssist.ShadowEdges="Bottom"
-                Padding="15"
+                Style="{StaticResource FacadeCard}"
                 Margin="15,15,0,10"
                 Grid.Row="2" Grid.RowSpan="2" Grid.Column="1">
                 <ContentControl>
