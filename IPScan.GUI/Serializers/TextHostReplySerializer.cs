@@ -15,14 +15,13 @@ namespace IPScan.GUI.Serializers
         {
             using (StreamWriter writer = new StreamWriter(filePath, false, System.Text.Encoding.UTF8))
             {
-                writer.WriteLine("IPScan results:\n_______________\n");
                 foreach (HostReply host in collection)
                 {
-                    string hostLines = $"{host.Address}\t- {host.Status}(time: {host.RoundtripTime})\n";
+                    string hostLines = $"{host.Address}\t{host.Status}\t{host.RoundtripTime}";
 
                     foreach (PortReply port in host.Ports)
                     {
-                        hostLines += $"{host.Address}:{port.Port}\t- {port.Status}\n";
+                        hostLines += $"{host.Address}:{port.Port}\t{port.Status}\n";
                     }
 
                     writer.WriteLine(hostLines);
