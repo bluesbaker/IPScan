@@ -129,7 +129,7 @@ namespace IPScan.GUI.ViewModels
                     {
                         Title = "IPSCan",
                         Description = "Author:\tgithub.com/bluesbaker\n" +
-                                        "Version:\t1.0.8.6\n" + 
+                                        "Version:\t1.0.8.7\n" + 
                                         "Copyright:\t2020\n"
                     }
                 };
