@@ -126,12 +126,6 @@ namespace IPScan.GUI.ViewModels
                 var view = new SampleDialog
                 {
                     DataContext = new AboutDialogViewModel()
-                    {
-                        Title = "IPSCan",
-                        Description = "Author:\tgithub.com/bluesbaker\n" +
-                                        "Version:\t1.0.8.7\n" + 
-                                        "Copyright:\t2020\n"
-                    }
                 };
                 await DialogHost.Show(view);
             });
