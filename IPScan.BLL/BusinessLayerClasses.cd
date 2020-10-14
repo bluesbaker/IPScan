@@ -18,11 +18,28 @@
     </TypeIdentifier>
   </Class>
   <Class Name="IPScan.BLL.ScannerParameters">
-    <Position X="3.75" Y="2" Width="1.5" />
+    <Position X="3.75" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAACAAAAAICAAAAAAAAAAA=</HashCode>
       <FileName>ScannerParameters.cs</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="IPScan.BLL.PortReply">
+    <Position X="6.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PortReply.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Status" />
+    </ShowAsAssociation>
+  </Class>
+  <Enum Name="IPScan.BLL.PortStatus" Collapsed="true">
+    <Position X="6.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAACAABA=</HashCode>
+      <FileName>PortReply.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>
