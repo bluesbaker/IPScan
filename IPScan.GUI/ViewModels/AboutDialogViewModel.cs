@@ -16,7 +16,7 @@ namespace IPScan.GUI.ViewModels
 
         private string _description = 
             "Author: github.com/bluesbaker\n" +
-            "Version: 1.0.8.8\n" +
+            "Version: 1.0.8.9\n" +
             "Copyright: 2020\n";
         public string Description
         {
