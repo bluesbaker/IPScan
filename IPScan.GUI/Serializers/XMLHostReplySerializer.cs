@@ -1,10 +1,8 @@
 ﻿using IPScan.BLL;
 using IPScan.GUI.Models;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Xml.Serialization;
 
 namespace IPScan.GUI.Serializers
@@ -25,7 +23,7 @@ namespace IPScan.GUI.Serializers
         public void Serialize(string filePath, ICollection<HostReply> collection)
         {
             var serializer = new XmlSerializer(typeof(List<XMLSerializableHostReply>));
-            using (FileStream fs = new FileStream(filePath, FileMode.OpenOrCreate))
+            using (var stream = new FileStream(filePath, FileMode.OpenOrCreate))
             {
                 var serializableList = new List<XMLSerializableHostReply>();
 
@@ -40,7 +38,7 @@ namespace IPScan.GUI.Serializers
                     });
                 }
 
-                serializer.Serialize(fs, serializableList);
+                serializer.Serialize(stream, serializableList);
             }
         }
     }
