@@ -17,10 +17,10 @@ namespace IPScan.GUI.Support
         /// <summary>
         /// Will the filter be applied?
         /// </summary>
-        public static readonly DependencyProperty IsFiletredProperty =
+        public static readonly DependencyProperty IsFilteredProperty =
             DependencyProperty.RegisterAttached("IsFiltered", typeof(bool), typeof(ItemsControlAssist), new PropertyMetadata(OnIsFilteredPropertyChanged));
-        public static void SetIsFiltered(DependencyObject element, bool value) => element.SetValue(IsFiletredProperty, value);
-        public static bool GetIsFiltered(DependencyObject element) => (bool)element.GetValue(IsFiletredProperty);
+        public static void SetIsFiltered(DependencyObject element, bool value) => element.SetValue(IsFilteredProperty, value);
+        public static bool GetIsFiltered(DependencyObject element) => (bool)element.GetValue(IsFilteredProperty);
 
         private static void OnIsFilteredPropertyChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
