@@ -1,8 +1,4 @@
-﻿using IPScan.GUI.Support;
-using IPScan.GUI.ViewModels.Providers;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using IPScan.GUI.ViewModels.Providers;
 using System.Windows;
 using System.Windows.Controls;
 
