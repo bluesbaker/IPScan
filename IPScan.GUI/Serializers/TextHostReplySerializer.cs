@@ -1,11 +1,7 @@
 ﻿using IPScan.BLL;
 using IPScan.GUI.Models;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Security.Permissions;
-using System.Text;
 
 namespace IPScan.GUI.Serializers
 {
@@ -13,7 +9,7 @@ namespace IPScan.GUI.Serializers
     {      
         public void Serialize(string filePath, ICollection<HostReply> collection)
         {
-            using (StreamWriter writer = new StreamWriter(filePath, false, System.Text.Encoding.UTF8))
+            using (var writer = new StreamWriter(filePath, false, System.Text.Encoding.UTF8))
             {
                 foreach (HostReply host in collection)
                 {
