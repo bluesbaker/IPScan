@@ -6,8 +6,6 @@ using System.ComponentModel;
 using System.Linq;
 using System.Net;
 using System.Runtime.CompilerServices;
-using System.Security.Policy;
-using System.Text;
 
 namespace IPScan.GUI.ViewModels.Providers
 {
