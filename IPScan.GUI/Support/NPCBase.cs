@@ -24,7 +24,9 @@ namespace IPScan.GUI.Support
         public bool Set<T>(ref T _filed, T value, [CallerMemberName] string propertyName = "")
         {
             if ((_filed == null && value == null) || (_filed != null && _filed.Equals(value)))
+            {
                 return false;
+            }
 
             _filed = value;
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
