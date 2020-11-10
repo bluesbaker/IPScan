@@ -31,7 +31,7 @@ namespace IPScan.GUI.Support
             _requerySuggested = (o, e) => Invalidate();
             CommandManager.RequerySuggested += _requerySuggested;
         }
-
+        
         public void Invalidate()
         {
             Application.Current.Dispatcher.BeginInvoke(new Action(() =>
@@ -39,9 +39,8 @@ namespace IPScan.GUI.Support
                 CanExecuteChanged?.Invoke(this, EventArgs.Empty);
             }), null);
         }
-
+        
         public bool CanExecute(object parameter) => _canExecute == null || _canExecute.Invoke(parameter);
-
         public void Execute(object parameter) => _onExecute?.Invoke(parameter);
     }
     #endregion
