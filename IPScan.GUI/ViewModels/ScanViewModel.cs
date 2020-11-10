@@ -98,10 +98,8 @@ namespace IPScan.GUI.ViewModels
 
         public ObservableCollection<IAddressProvider> AddressProviders { get; } = new ObservableCollection<IAddressProvider>();
         public ObservableCollection<IPortProvider> PortProviders { get; } = new ObservableCollection<IPortProvider>();
-
         public ObservableCollection<HostReply> HostReplyCollection { get; } = new ObservableCollection<HostReply>();
         #endregion
-
 
         #region Filters
         public Predicate<object> SucceedAddressFilter => (sender) =>
@@ -115,7 +113,6 @@ namespace IPScan.GUI.ViewModels
             return portReply.Status == PortStatus.Opened;
         };
         #endregion
-
 
         #region Menu commands
         private RelayCommand _aboutOpenDialogCommand;
@@ -131,7 +128,6 @@ namespace IPScan.GUI.ViewModels
             });
         }
         #endregion
-
 
         #region Address provider commands
         private RelayCommand _addAddressProviderCommand;
@@ -192,7 +188,6 @@ namespace IPScan.GUI.ViewModels
         }
         #endregion
 
-
         #region Port provider commands
         private RelayCommand _addPortProviderCommand;
         public RelayCommand AddPortProviderCommand
@@ -252,7 +247,6 @@ namespace IPScan.GUI.ViewModels
         }
         #endregion
 
-
         #region Scan commands
         private RelayCommand _ScanCommand;
         public RelayCommand ScanCommand
@@ -302,7 +296,6 @@ namespace IPScan.GUI.ViewModels
             }, n => (!IsScan && (HostReplyCollection.Count > 0)));
         }
         #endregion
-
 
         #region Scan methods
         private async void ScanAsync(object n)
@@ -396,7 +389,6 @@ namespace IPScan.GUI.ViewModels
             ExportCommand.Invalidate();
         }
         #endregion
-
 
         #region Implementation IDataErrorInfo
         public Dictionary<string, string> Errors = new Dictionary<string, string>();
