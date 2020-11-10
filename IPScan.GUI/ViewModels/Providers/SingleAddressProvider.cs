@@ -37,7 +37,6 @@ namespace IPScan.GUI.ViewModels.Providers
 
         #region Implementation IDataErrorInFo
         public Dictionary<string, string> Errors = new Dictionary<string, string>();
-
         private void SetError(string message, [CallerMemberName] string propertyName = "")
         {
             if (Errors.ContainsKey(propertyName))
@@ -45,9 +44,7 @@ namespace IPScan.GUI.ViewModels.Providers
             else
                 Errors.Add(propertyName, message);
         }
-
         public string Error => string.Join(Environment.NewLine, Errors.Where(pair => pair.Value != null).Select(pair => $"{pair.Key}: \"{pair.Value}\""));
-
         public string this[string columnName] => Errors.TryGetValue(columnName, out string value) ? value : null;
         #endregion
     }
