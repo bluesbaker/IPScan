@@ -15,7 +15,7 @@ namespace IPScan.GUI.Selectors
             {
                 return element.FindResource("SingleAddressDataTemplate") as DataTemplate;
             }
-            if(provider is RangeAddressProvider)
+            else if(provider is RangeAddressProvider)
             {
                 return element.FindResource("RangeAddressDataTemplate") as DataTemplate;
             }
