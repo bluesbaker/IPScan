@@ -15,7 +15,7 @@ namespace IPScan.GUI.Selectors
             {
                 return element.FindResource("SinglePortDataTemplate") as DataTemplate;
             }
-            if(provider is RangePortProvider)
+            else if(provider is RangePortProvider)
             {
                 return element.FindResource("RangePortDataTemplate") as DataTemplate;
             }
