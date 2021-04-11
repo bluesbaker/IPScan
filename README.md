@@ -15,7 +15,7 @@ ___
 * `ipscan.gui.exe`
 
 ### Author
-> [github.com/bluesbaker](http://github.com/bluesbaker)
+[github.com/bluesbaker](http://github.com/bluesbaker)
 
 ### License
 > "All questions to my girlfriend" 2.1
