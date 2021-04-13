@@ -15,7 +15,6 @@ namespace IPScan.BLL
     {
         // required
         public IPAddress Address { get; set; }
-
         // default
         public int Timeout { get; set; } = 1000;
         public int Port { get; set; } = 0;
