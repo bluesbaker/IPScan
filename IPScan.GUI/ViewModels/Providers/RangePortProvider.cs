@@ -18,9 +18,7 @@ namespace IPScan.GUI.ViewModels.Providers
             set
             {
                 if (Set(ref _startPort, value))
-                {
                     SetError(Int32.TryParse(value, out _) ? null : $"{value} is not a port numeric");
-                }
             }
         }
 
@@ -31,9 +29,7 @@ namespace IPScan.GUI.ViewModels.Providers
             set
             {
                 if (Set(ref _endPort, value))
-                {
                     SetError(Int32.TryParse(value, out _) ? null : $"{value} is not a port numeric");
-                }
             }
         }
         #endregion
