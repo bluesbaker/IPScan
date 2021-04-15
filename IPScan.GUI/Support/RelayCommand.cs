@@ -9,7 +9,6 @@ namespace IPScan.GUI.Support
     public delegate bool CanExecuteHandler(object parameter);
     #endregion
 
-    #region RelayCommand
     /// <summary>Implementation ICommand for WPF</summary>
     public class RelayCommand : ICommand
     {
@@ -42,5 +41,4 @@ namespace IPScan.GUI.Support
         public bool CanExecute(object parameter) => _canExecute == null || _canExecute.Invoke(parameter);
         public void Execute(object parameter) => _onExecute?.Invoke(parameter);
     }
-    #endregion
 }
