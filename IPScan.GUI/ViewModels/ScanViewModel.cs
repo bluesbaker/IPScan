@@ -79,19 +79,16 @@ namespace IPScan.GUI.ViewModels
                 }
                 // check count of address
                 if(AddressProviders.Count == 0)
-                {
                     return false;
-                }
+        
                 // check validate of address providers
                 foreach(var provider in AddressProviders)
-                {
                     if (!provider.IsValid) return false;
-                }
+
                 // check validate of port providers
                 foreach (var provider in PortProviders)
-                {
                     if (!provider.IsValid) return false;
-                }
+                //  or...
                 return true;
             }
         }
@@ -146,9 +143,7 @@ namespace IPScan.GUI.ViewModels
             get => _removeAddressProviderCommand ??= new RelayCommand(p =>
             {
                 if (p is IAddressProvider provider)
-                {
                     AddressProviders.Remove(provider);
-                }
                 ScanCommand.Invalidate();
             }, n => (AddressProviders.Count > 1) && !IsScan);
         }
