@@ -27,7 +27,6 @@ namespace IPScan.GUI.Support
         {
             _onExecute = execute;
             _canExecute = canExecute;
-
             _requerySuggested = (o, e) => Invalidate();
             CommandManager.RequerySuggested += _requerySuggested;
         }
