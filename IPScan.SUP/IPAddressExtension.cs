@@ -29,9 +29,7 @@ namespace IPScan.SUP
             var toAsInt = BitConverter.ToInt32(toAsBytes, 0);
 
             if (fromAsInt > toAsInt)
-            {
                 throw new ArgumentException($"Beginning of the range must not be less than the end");
-            }
 
             // calculate the range
             for (int ipAsInt = fromAsInt; ipAsInt <= toAsInt; ipAsInt++)
