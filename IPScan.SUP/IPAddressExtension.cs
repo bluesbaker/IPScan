@@ -15,7 +15,6 @@ namespace IPScan.SUP
         public static List<IPAddress> Range(this IPAddress startAddress, IPAddress endAddress)
         {
             var result = new List<IPAddress>();
-
             // convert IPAdresses to bytes
             var fromAsBytes = startAddress.GetAddressBytes();
             var toAsBytes = endAddress.GetAddressBytes();
