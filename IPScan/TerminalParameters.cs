@@ -55,9 +55,7 @@ namespace IPScan
             if (dictionary != null)
             {
                 foreach (var field in dictionary)
-                {
                     parametersClone[field.Key] = field.Value;
-                }
             }
 
             return parametersClone;
@@ -68,9 +66,7 @@ namespace IPScan
         {
             var parameters = new TerminalParameters();
             foreach (var field in this)
-            {
                 parameters[field.Key] = field.Value;
-            }
             return parameters;
         }
     }
