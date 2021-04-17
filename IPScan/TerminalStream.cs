@@ -58,9 +58,7 @@ namespace IPScan
             {
                 // checking parameters
                 if (!commandParameters.ContainsKey("-ip"))
-                {
                     throw new ScannerException("One or more required parameters is missing");
-                }
 
                 // split addresses to the range* collection
                 var addresses = commandParameters["-ip"].Split('-');
