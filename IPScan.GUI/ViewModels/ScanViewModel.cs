@@ -74,13 +74,10 @@ namespace IPScan.GUI.ViewModels
             {
                 // check self errors
                 if(Errors.Values.Any(x => x != null))
-                {
                     return false;
-                }
                 // check count of address
                 if(AddressProviders.Count == 0)
-                    return false;
-        
+                    return false;     
                 // check validate of address providers
                 foreach(var provider in AddressProviders)
                     if (!provider.IsValid) return false;
@@ -200,9 +197,7 @@ namespace IPScan.GUI.ViewModels
             get => _removePortProviderCommand ??= new RelayCommand(p =>
             {
                 if (p is IPortProvider provider)
-                {
                     PortProviders.Remove(provider);
-                }
                 ScanCommand.Invalidate();
             }, n => !IsScan);
         }
@@ -314,10 +309,7 @@ namespace IPScan.GUI.ViewModels
 
             foreach (var address in addresses)
             {
-                if(IsStopScan)
-                {
-                    break;
-                }
+                if(IsStopScan) break;
 
                 ProgressDescription = $"Scanning {address}";
 
@@ -342,10 +334,7 @@ namespace IPScan.GUI.ViewModels
                 {                 
                     foreach (var port in ports)
                     {
-                        if (IsStopScan)
-                        {
-                            break;
-                        }
+                        if (IsStopScan) break;
 
                         ProgressDescription = $"Scanning {address}:{port}";           
 
@@ -395,13 +384,9 @@ namespace IPScan.GUI.ViewModels
         private void SetError(string message, [CallerMemberName] string propertyName = "")
         {
             if (Errors.ContainsKey(propertyName))
-            {
                 Errors[propertyName] = message;
-            }
             else
-            {
                 Errors.Add(propertyName, message);
-            }
         }
         #endregion
     }
