@@ -39,7 +39,6 @@ namespace IPScan.BLL
         public async Task<PortReply> GetPortReplyAsync(Action<PortReply> callbackAction = null)
         {
             var reply = new PortReply { Port = Parameters.Port };
-
             var tcpCLient = new TcpClient();
             var ar = tcpCLient.BeginConnect(Parameters.Address, Parameters.Port, null, null);
 
