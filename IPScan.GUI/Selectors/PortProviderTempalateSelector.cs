@@ -12,13 +12,9 @@ namespace IPScan.GUI.Selectors
             IPortProvider provider = item as IPortProvider;
 
             if(provider is SinglePortProvider)
-            {
                 return element.FindResource("SinglePortDataTemplate") as DataTemplate;
-            }
             else if(provider is RangePortProvider)
-            {
                 return element.FindResource("RangePortDataTemplate") as DataTemplate;
-            }
 
             return element.FindResource("SinglePortDataTemplate") as DataTemplate;
         }
