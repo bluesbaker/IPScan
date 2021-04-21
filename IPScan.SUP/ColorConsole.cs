@@ -163,9 +163,7 @@ namespace IPScan.SUP
 
                 // clear dots
                 if (dots >= dotCount)
-                {
                     dots = 0;
-                }
 
                 WriteBackspace(dynamicText.Length);
                 dynamicText = text;
