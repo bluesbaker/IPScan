@@ -22,9 +22,7 @@ namespace IPScan.SUP
 
             // add remaining spaces
             if (width >= text.Length)
-            {
                 commonText += new String(' ', width - text.Length);
-            }
 
             Write(commonText, colorSections);
         }
