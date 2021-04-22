@@ -18,11 +18,9 @@ namespace IPScan
             var roundtripTime = pingReply.RoundtripTime.ToString();
             var statusColor = pingReply.Status == IPStatus.Success ? ConsoleColor.Green : ConsoleColor.White;
 
+            // view headers
             if (hasHeaders)
-            {
-                // view headers
                 ColorConsole.FieldsLine(new[] { "Address", "Status", "Roundtrip time" }, 20, new ColorSection(ConsoleColor.DarkBlue));
-            }
 
             // view address, status and ping*
             ColorConsole.FieldsLine(new[] { address, status, roundtripTime }, 20, new ColorSection(foreground: statusColor, section: status));
@@ -31,12 +29,10 @@ namespace IPScan
         public static void PortAccessViewer(PortReply portReply, bool hasHeaders = false)
         {
             var statusColor = portReply.Status == PortStatus.Opened ? ConsoleColor.Green : ConsoleColor.Red;
-
+            
+// view headers
             if (hasHeaders)
-            {
-                // view headers
                 ColorConsole.FieldsLine(new[] { "Port", "Status" }, 20, new ColorSection(ConsoleColor.DarkGray));
-            }
 
             // view port and his status
             ColorConsole.FieldsLine(new[] { $"{portReply.Port}", portReply.Status.ToString() }, 20, new ColorSection(foreground: statusColor, section: portReply.Status.ToString()));
