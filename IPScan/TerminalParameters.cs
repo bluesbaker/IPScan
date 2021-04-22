@@ -23,7 +23,7 @@ namespace IPScan
             var arguments = from a in args
                             where a != String.Empty
                             select a;
-            string lastKey = defaultKey;
+            var lastKey = defaultKey;
 
             foreach (string arg in arguments)
             {
