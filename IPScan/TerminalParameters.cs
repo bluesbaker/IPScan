@@ -35,9 +35,7 @@ namespace IPScan
                 }
                 // or value
                 else if (lastKey != String.Empty)
-                {
                     parameters[lastKey] = arg;
-                }
             }
 
             return parameters;
