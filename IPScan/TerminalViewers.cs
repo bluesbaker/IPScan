@@ -16,7 +16,6 @@ namespace IPScan
             var address = pingReply.Address.ToString();
             var status = pingReply.Status.ToString();
             var roundtripTime = pingReply.RoundtripTime.ToString();
-
             var statusColor = pingReply.Status == IPStatus.Success ? ConsoleColor.Green : ConsoleColor.White;
 
             if (hasHeaders)
