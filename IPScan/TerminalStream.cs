@@ -87,7 +87,6 @@ namespace IPScan
 
                     // ping request
                     Task<PingReply> pingTask = scanner.GetPingReplyAsync();
-
                     Console.Title = "Scanning " + address;
                     ColorConsole.Loader("Scanning " + address, (() => !pingTask.IsCompleted));
                     pingTask.Wait();                  
