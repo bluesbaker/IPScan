@@ -22,7 +22,6 @@ namespace IPScan
             while (TryCommand(parameters))
             {
                 Console.Write("> ");
-
                 var commandLine = Console.ReadLine().Split(' ');
                 parameters = TerminalParameters.Parse(commandLine, "-ip");
             }
