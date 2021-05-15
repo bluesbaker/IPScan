@@ -30,7 +30,7 @@ namespace IPScan
         {
             var statusColor = portReply.Status == PortStatus.Opened ? ConsoleColor.Green : ConsoleColor.Red;
             
-// view headers
+            // view headers
             if (hasHeaders)
                 ColorConsole.FieldsLine(new[] { "Port", "Status" }, 20, new ColorSection(ConsoleColor.DarkGray));
 
