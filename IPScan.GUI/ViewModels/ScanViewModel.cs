@@ -350,7 +350,6 @@ namespace IPScan.GUI.ViewModels
 
             ProgressValue = 0.0f;
             ProgressDescription = "Scanning is completed";
-
             IsScan = false;
             IsStopScan = false;
 
