@@ -127,7 +127,6 @@ namespace IPScan.SUP
             {
                 Console.BackgroundColor = section.Background;
                 Console.ForegroundColor = section.Foreground;
-
                 Console.Write(section.Section);
             }
 
