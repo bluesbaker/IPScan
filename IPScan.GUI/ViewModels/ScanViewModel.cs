@@ -81,7 +81,6 @@ namespace IPScan.GUI.ViewModels
                 // check validate of address providers
                 foreach(var provider in AddressProviders)
                     if (!provider.IsValid) return false;
-
                 // check validate of port providers
                 foreach (var provider in PortProviders)
                     if (!provider.IsValid) return false;
