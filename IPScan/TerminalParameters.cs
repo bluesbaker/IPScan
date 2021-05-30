@@ -49,13 +49,9 @@ namespace IPScan
         public TerminalParameters Copy(IDictionary<string, string> dictionary = null)
         {
             var parametersClone = (TerminalParameters)this.Clone();
-
             if (dictionary != null)
-            {
                 foreach (var field in dictionary)
                     parametersClone[field.Key] = field.Value;
-            }
-
             return parametersClone;
         }
 
