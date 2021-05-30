@@ -374,9 +374,7 @@ namespace IPScan.GUI.ViewModels
 
         #region Implementation IDataErrorInfo
         public Dictionary<string, string> Errors = new Dictionary<string, string>();
-
         public string Error => string.Join(Environment.NewLine, Errors.Where(pair => pair.Value != null).Select(pair => $"{pair.Key}: \"{pair.Value}\""));
-
         public string this[string columnName] => Errors.TryGetValue(columnName, out string value) ? value : null;
 
         private void SetError(string message, [CallerMemberName] string propertyName = "")
